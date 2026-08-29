@@ -9,6 +9,7 @@ export const coaches: CoachSummary[] = [
     bio: 'Former academy player turned youth development coach, focused on technical fundamentals.',
     isIndependent: false,
     academyName: 'Elite Football Academy',
+    certifications: ['UEFA B License', 'Youth Development Cert.'],
   },
   {
     id: 'priya-nair',
@@ -18,6 +19,7 @@ export const coaches: CoachSummary[] = [
     bio: 'UEFA-licensed goalkeeping coach with 10+ years developing shot-stoppers.',
     isIndependent: false,
     academyName: 'Elite Football Academy',
+    certifications: ['UEFA Goalkeeping License'],
   },
   {
     id: 'arjun-mehta',
@@ -27,6 +29,7 @@ export const coaches: CoachSummary[] = [
     bio: 'Batting specialist, ex-state-level player, coaches technique across all levels.',
     isIndependent: false,
     academyName: 'Elite Cricket Academy',
+    certifications: ['Level 2 Cricket Coaching'],
   },
   {
     id: 'sofia-reyes',
@@ -36,6 +39,7 @@ export const coaches: CoachSummary[] = [
     bio: 'Strength & conditioning coach building athletic foundations before sport specialization.',
     isIndependent: false,
     academyName: 'Elite Multi-Sport Academy',
+    certifications: ['CSCS', 'Youth Athletic Development'],
   },
   {
     id: 'daniel-kim',
@@ -45,6 +49,7 @@ export const coaches: CoachSummary[] = [
     bio: 'Former competitive swimmer coaching stroke technique and race-pace training.',
     isIndependent: false,
     academyName: 'Elite Swimming Academy',
+    certifications: ['ASCA Level 3'],
   },
   {
     id: 'jordan-blake',
@@ -53,5 +58,6 @@ export const coaches: CoachSummary[] = [
     specialty: 'Football',
     bio: 'Independent coach running weekend clinics — not yet affiliated with an academy.',
     isIndependent: true,
+    certifications: ['FA Level 2'],
   },
 ]

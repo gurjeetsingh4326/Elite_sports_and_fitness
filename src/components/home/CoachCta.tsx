@@ -1,9 +1,10 @@
+import { Link } from 'react-router-dom'
 import { Tile } from '@/components/ui/Tile'
 import { ArrowRightIcon, ReelsIcon } from '@/components/icons'
 
 export function CoachCta() {
   return (
-    <section id="coaches" className="mx-auto max-w-6xl px-6 pb-24">
+    <section id="coach-cta" className="mx-auto max-w-6xl px-6 pb-24">
       <Tile className="flex flex-col items-start justify-between gap-6 bg-gradient-to-br from-brand-violet to-[oklch(50%_0.16_305)] p-10 text-white md:flex-row md:items-center">
         <div className="max-w-lg">
           <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-xl bg-white/15">
@@ -16,13 +17,13 @@ export function CoachCta() {
             lost when you join one.
           </p>
         </div>
-        <a
-          href="#"
+        <Link
+          to="/register-coach"
           className="flex shrink-0 items-center gap-2 rounded-full bg-white px-6 py-3.5 text-sm font-semibold text-navy"
         >
           Register as a coach
           <ArrowRightIcon size={16} />
-        </a>
+        </Link>
       </Tile>
     </section>
   )

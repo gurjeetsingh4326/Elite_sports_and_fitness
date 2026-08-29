@@ -8,4 +8,5 @@ export interface CoachSummary {
   bio: string
   isIndependent: boolean
   academyName?: string
+  certifications: string[]
 }

@@ -2,6 +2,8 @@ import { Routes, Route } from 'react-router-dom'
 import HomePage from '@/pages/HomePage'
 import ProgramsPage from '@/pages/ProgramsPage'
 import ProgramDetailsPage from '@/pages/ProgramDetailsPage'
+import CoachesDirectoryPage from '@/pages/CoachesDirectoryPage'
+import CoachProfilePage from '@/pages/CoachProfilePage'
 import LoginPage from '@/pages/LoginPage'
 import RegisterPage from '@/pages/RegisterPage'
 import RegisterCoachPage from '@/pages/RegisterCoachPage'
@@ -13,6 +15,8 @@ export default function App() {
       <Route path="/" element={<HomePage />} />
       <Route path="/programs" element={<ProgramsPage />} />
       <Route path="/programs/:programId" element={<ProgramDetailsPage />} />
+      <Route path="/coaches" element={<CoachesDirectoryPage />} />
+      <Route path="/coaches/:coachId" element={<CoachProfilePage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
       <Route path="/register-coach" element={<RegisterCoachPage />} />

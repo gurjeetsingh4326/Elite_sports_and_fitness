@@ -24,9 +24,9 @@ export function Hero() {
             Explore Programs
             <ArrowRightIcon size={16} />
           </Link>
-          <a href="#coaches" className="text-sm font-semibold text-navy underline underline-offset-4">
+          <Link to="/coaches" className="text-sm font-semibold text-navy underline underline-offset-4">
             Browse Coaches
-          </a>
+          </Link>
         </div>
       </div>
     </section>
