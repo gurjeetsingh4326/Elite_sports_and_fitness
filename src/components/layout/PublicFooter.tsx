@@ -14,7 +14,7 @@ const COLUMNS = [
   {
     title: 'Community',
     links: [
-      { label: 'Reels', to: '#' },
+      { label: 'Reels', to: '/reels' },
       { label: 'Tournaments', to: '#' },
       { label: 'Achievements', to: '#' },
     ],

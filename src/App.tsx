@@ -17,6 +17,10 @@ import AthleteProfilePage from '@/pages/AthleteProfilePage'
 import AttendancePage from '@/pages/AttendancePage'
 import PerformancePage from '@/pages/PerformancePage'
 import PracticeLevelsPage from '@/pages/PracticeLevelsPage'
+import ReelsDiscoverPage from '@/pages/ReelsDiscoverPage'
+import ReelDetailPage from '@/pages/ReelDetailPage'
+import ReelsStudioPage from '@/pages/ReelsStudioPage'
+import ModerationQueuePage from '@/pages/ModerationQueuePage'
 
 export default function App() {
   return (
@@ -28,6 +32,8 @@ export default function App() {
       <Route path="/coaches/:coachId" element={<CoachProfilePage />} />
       <Route path="/facilities" element={<FacilitiesPage />} />
       <Route path="/memberships" element={<MembershipsPage />} />
+      <Route path="/reels" element={<ReelsDiscoverPage />} />
+      <Route path="/reels/:reelId" element={<ReelDetailPage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
       <Route path="/register-coach" element={<RegisterCoachPage />} />
@@ -39,6 +45,8 @@ export default function App() {
       <Route path="/dashboard/attendance" element={<AttendancePage />} />
       <Route path="/dashboard/performance" element={<PerformancePage />} />
       <Route path="/dashboard/practice-levels" element={<PracticeLevelsPage />} />
+      <Route path="/dashboard/reels-studio" element={<ReelsStudioPage />} />
+      <Route path="/dashboard/moderation" element={<ModerationQueuePage />} />
     </Routes>
   )
 }

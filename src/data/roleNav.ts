@@ -13,6 +13,7 @@ import {
   MedicalIcon,
   NutritionIcon,
   TrophyIcon,
+  FlagIcon,
 } from '@/components/icons'
 import type { Role } from '@/types/role'
 
@@ -34,6 +35,7 @@ const PAYMENTS: NavItemDef = { key: 'payments', label: 'Payments', Icon: Payment
 const MEDICAL: NavItemDef = { key: 'medical', label: 'Physician Sessions', Icon: MedicalIcon }
 const NUTRITION: NavItemDef = { key: 'nutrition', label: 'Nutrition Plans', Icon: NutritionIcon }
 const ACHIEVEMENTS: NavItemDef = { key: 'achievements', label: 'Achievements', Icon: TrophyIcon }
+const MODERATION: NavItemDef = { key: 'moderation', label: 'Moderation Queue', Icon: FlagIcon }
 
 export const ROLE_NAV: Record<Role, NavItemDef[]> = {
   'Super Admin/Owner': [
@@ -46,8 +48,9 @@ export const ROLE_NAV: Record<Role, NavItemDef[]> = {
     REELS,
     TRANSFERS,
     PAYMENTS,
+    MODERATION,
   ],
-  'Academy Manager': [DASHBOARD, ATHLETES, ATTENDANCE, PERFORMANCE, PRACTICE_LEVELS, TRANSFERS, PAYMENTS],
+  'Academy Manager': [DASHBOARD, ATHLETES, ATTENDANCE, PERFORMANCE, PRACTICE_LEVELS, TRANSFERS, PAYMENTS, MODERATION],
   'Coach/Trainer': [DASHBOARD, ATTENDANCE, PERFORMANCE, PRACTICE_LEVELS, REELS],
   Physician: [DASHBOARD, ATHLETES, MEDICAL, REELS],
   Nutritionist: [DASHBOARD, ATHLETES, NUTRITION],

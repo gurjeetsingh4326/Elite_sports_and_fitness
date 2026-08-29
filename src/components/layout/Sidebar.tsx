@@ -17,6 +17,8 @@ const NAV_ROUTES: Record<string, string> = {
   attendance: '/dashboard/attendance',
   performance: '/dashboard/performance',
   'practice-levels': '/dashboard/practice-levels',
+  reels: '/dashboard/reels-studio',
+  moderation: '/dashboard/moderation',
 }
 
 function chunk<T>(items: T[], size: number): T[][] {

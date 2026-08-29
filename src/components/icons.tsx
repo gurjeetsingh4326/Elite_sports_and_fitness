@@ -153,6 +153,15 @@ export function LogoutIcon(props: IconProps) {
   )
 }
 
+export function FlagIcon(props: IconProps) {
+  return (
+    <svg {...base(props)}>
+      <path d="M5 17V3.5" />
+      <path d="M5 4.5h9.5l-2.5 3 2.5 3H5" />
+    </svg>
+  )
+}
+
 export function CheckIcon(props: IconProps) {
   return (
     <svg {...base(props)}>
