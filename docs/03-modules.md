@@ -18,6 +18,8 @@
 | Notifications | Alerts to athletes/coaches/guardians |
 | Reports | Cross-cutting reporting for admins/coaches |
 | Roles & Permissions | Role-based access control across the platform |
+| [Reels / Content](flows/reels-flow.md) | Short-video posting, feeds, and engagement (likes/comments) for coaches, athletes, and physicians |
+| [Coach Profiles & Independent Access](flows/independent-coach-flow.md) | Public coach profiles; independent coach registration; invite/apply flow into an academy |
 
 See [Athlete Lifecycle](flows/athlete-lifecycle.md) for how these modules connect across a
 single athlete's journey.

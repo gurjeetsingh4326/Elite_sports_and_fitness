@@ -31,5 +31,33 @@ per-sport progression. Practice-level changes are **permanent records** (see
 [Product Rules](08-product-rules.md)): once promoted, the change and its history are kept, not
 overwritten.
 
+## Coach Profile Sections
+
+Every coach — academy-affiliated or [independent](flows/independent-coach-flow.md) — has a
+public Coach Profile:
+
+| Section | Contents |
+|---------|----------|
+| Overview | Name, photo, bio, sport specialties |
+| Affiliation | Academy/academies they belong to — empty for independent coaches |
+| Certifications | Coaching certifications/qualifications |
+| Reels | Their posted video content |
+| Batches (if affiliated) | Batches they currently coach — only present once they hold an Org Membership |
+
+## Reel
+
+| Field | Notes |
+|-------|-------|
+| Author | The Platform Account that posted it (Coach, Athlete, or Physician) |
+| Video / Thumbnail | Media assets |
+| Caption | Free text |
+| Tags | Sport/hashtag tags for discovery |
+| Academy tag | Optional — links the Reel to an academy's public feed |
+| Visibility | Public or Academy-only |
+| Status | Published / In Review / Removed |
+| Engagement | Like count, comment count, view count |
+
+See [Reels Flow](flows/reels-flow.md) for how these are created, fed out, and moderated.
+
 ---
 [← Flows](flows/academy-transfer-flow.md) · [Next: Product Pages →](06-product-pages.md)

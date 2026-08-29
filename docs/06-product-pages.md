@@ -7,10 +7,12 @@
 | Organization | Academies, athletes, attendance, programs, revenue, transfers |
 | Coach | Batches, sessions, attendance, assessments |
 | Athlete | Schedule, attendance, level, performance, plans and achievements |
+| Independent Coach | Own Reels & engagement stats, public profile, academy invites/applications |
 
 ## Recommended Pages
 
-**Public:** Home, Programs, Program Details, Coaches, Facilities, Memberships, Registration, Login
+**Public:** Home, Programs, Program Details, Coaches, Facilities, Memberships, Registration, Login,
+Reels / Discover, Coach Directory, Coach Public Profile, Register as Independent Coach
 
 The Programs page and Academy Directory should be filterable by
 [academy category](02-architecture.md#academy-category) (Football, Cricket, Multi-Sport, etc.)
@@ -30,6 +32,8 @@ so visitors can browse straight to the sport they're interested in.
 - Tournaments
 - Payments
 - Reports
+- Reels Studio (create/manage own Reels, view engagement)
+- Moderation Queue (Academy Manager / Super Admin)
 
 ---
 [← Data Model](05-data-model.md) · [Next: Roadmap →](07-roadmap.md)

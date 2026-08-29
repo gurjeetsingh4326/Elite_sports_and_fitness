@@ -16,6 +16,16 @@ These rules are non-negotiable constraints that should hold across every module 
   granted access) can view medical records.
 - **Important actions should have audit trails.** Transfers, level promotions, clearance
   changes, and payments should be traceable to who performed them and when.
+- **Platform identity is independent of org membership.** A Platform Account (and its content,
+  e.g. Reels) is never duplicated or lost when a user joins, leaves, or switches organizations —
+  this generalizes the transfer rule above to all accounts, not just athletes (see
+  [Identity & Membership Model](02-architecture.md#identity--membership-model)).
+- **Reels must not expose role-restricted data.** A Reel can never reveal an identifiable
+  athlete's medical or performance record without that athlete's (or guardian's) consent — this
+  applies with extra force to Physicians (see [Reels Flow](flows/reels-flow.md)).
+- **Independent users are scope-limited.** Anyone without an Org Membership (e.g. an
+  [independent coach](flows/independent-coach-flow.md)) gets community features only — no
+  academy operational data — until they hold one.
 
 ---
-[← Roadmap](07-roadmap.md) · [Back to index](README.md)
+[← Roadmap](07-roadmap.md) · [Next: Architecture Review →](09-architecture-review.md)

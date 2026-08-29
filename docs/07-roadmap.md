@@ -42,6 +42,8 @@ Deferred to after MVP:
 - Advanced analytics
 - Notifications
 - Certificates
+- Reels / content sharing (coaches, athletes, physicians) — see [Reels Flow](flows/reels-flow.md)
+- Independent coach registration & public profiles — see [Independent Coach Flow](flows/independent-coach-flow.md)
 
 ---
 [← Product Pages](06-product-pages.md) · [Next: Product Rules →](08-product-rules.md)

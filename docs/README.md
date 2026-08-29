@@ -23,6 +23,7 @@ and organized for reference during design and development.
 | 6 | [Product Pages](06-product-pages.md) | Dashboards, recommended pages |
 | 7 | [Roadmap](07-roadmap.md) | MVP development order, Phase 2 |
 | 8 | [Product Rules](08-product-rules.md) | Non-negotiable business rules |
+| 9 | [Architecture Review](09-architecture-review.md) | Issues found, fine-tuning applied, suggested future features |
 
 ## Flows index
 
@@ -33,11 +34,15 @@ and organized for reference during design and development.
 | Performance | [flows/performance-flow.md](flows/performance-flow.md) |
 | Physician Session | [flows/physician-session-flow.md](flows/physician-session-flow.md) |
 | Academy Transfer | [flows/academy-transfer-flow.md](flows/academy-transfer-flow.md) |
+| Reels | [flows/reels-flow.md](flows/reels-flow.md) |
+| Independent Coach | [flows/independent-coach-flow.md](flows/independent-coach-flow.md) |
 
 ## Reading order
 
 If you're new to the project, read in this order: [Overview](01-overview.md) →
 [Architecture](02-architecture.md) → [Modules](03-modules.md) →
-[Athlete Lifecycle](flows/athlete-lifecycle.md) → the remaining flow docs →
+[Athlete Lifecycle](flows/athlete-lifecycle.md) → the remaining flow docs (including
+[Reels](flows/reels-flow.md) and [Independent Coach](flows/independent-coach-flow.md)) →
 [Data Model](05-data-model.md) → [Product Pages](06-product-pages.md) →
-[Roadmap](07-roadmap.md) → [Product Rules](08-product-rules.md).
+[Roadmap](07-roadmap.md) → [Product Rules](08-product-rules.md) →
+[Architecture Review](09-architecture-review.md).

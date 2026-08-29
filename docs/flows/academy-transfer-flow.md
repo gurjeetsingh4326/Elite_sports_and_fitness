@@ -15,4 +15,4 @@ record — visible via the profile's Transfer History section (see
 [Data Model](../05-data-model.md)).
 
 ---
-[← Physician Session Flow](physician-session-flow.md) · [Back to index](../README.md)
+[← Physician Session Flow](physician-session-flow.md) · [Next: Reels Flow →](reels-flow.md)
