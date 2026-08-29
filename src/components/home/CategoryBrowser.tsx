@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import { Tile } from '@/components/ui/Tile'
 import { AcademiesIcon, AthletesIcon, AttendanceIcon, ReelsIcon } from '@/components/icons'
 import { academyRows } from '@/data/mockDashboard'
@@ -13,11 +14,16 @@ const CATEGORY_TILES: { category: AcademyCategory; icon: typeof AcademiesIcon; t
 export function CategoryBrowser() {
   return (
     <section id="programs" className="mx-auto max-w-6xl px-6 pb-20">
-      <div className="mb-8">
-        <h2 className="text-2xl font-bold text-navy">Browse by sport</h2>
-        <p className="mt-1.5 text-sm text-muted">
-          Every academy carries a category, so you can go straight to the sport you're after.
-        </p>
+      <div className="mb-8 flex items-end justify-between">
+        <div>
+          <h2 className="text-2xl font-bold text-navy">Browse by sport</h2>
+          <p className="mt-1.5 text-sm text-muted">
+            Every academy carries a category, so you can go straight to the sport you're after.
+          </p>
+        </div>
+        <Link to="/programs" className="text-sm font-semibold text-navy underline underline-offset-4">
+          View all programs
+        </Link>
       </div>
       <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
         {CATEGORY_TILES.map(({ category, icon: Icon, tone }) => {

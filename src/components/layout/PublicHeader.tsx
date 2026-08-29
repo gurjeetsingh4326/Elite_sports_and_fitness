@@ -2,10 +2,10 @@ import { Link } from 'react-router-dom'
 import { TrophyIcon } from '@/components/icons'
 
 const NAV_LINKS = [
-  { label: 'Programs', href: '#programs' },
-  { label: 'Coaches', href: '#coaches' },
-  { label: 'Reels', href: '#reels' },
-  { label: 'Memberships', href: '#memberships' },
+  { label: 'Programs', to: '/programs' },
+  { label: 'Coaches', to: '/#coaches' },
+  { label: 'Reels', to: '/#reels' },
+  { label: 'Memberships', to: '/#memberships' },
 ]
 
 export function PublicHeader() {
@@ -20,9 +20,9 @@ export function PublicHeader() {
 
       <nav className="hidden items-center gap-8 md:flex">
         {NAV_LINKS.map((link) => (
-          <a key={link.label} href={link.href} className="text-sm font-medium text-muted hover:text-navy">
+          <Link key={link.label} to={link.to} className="text-sm font-medium text-muted hover:text-navy">
             {link.label}
-          </a>
+          </Link>
         ))}
       </nav>
 

@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import { ArrowRightIcon } from '@/components/icons'
 
 export function Hero() {
@@ -16,13 +17,13 @@ export function Hero() {
           athletes move between academies.
         </p>
         <div className="mt-8 flex items-center gap-4">
-          <a
-            href="#programs"
+          <Link
+            to="/programs"
             className="flex items-center gap-2 rounded-full bg-navy px-6 py-3.5 text-sm font-semibold text-white hover:bg-navy-light"
           >
             Explore Programs
             <ArrowRightIcon size={16} />
-          </a>
+          </Link>
           <a href="#coaches" className="text-sm font-semibold text-navy underline underline-offset-4">
             Browse Coaches
           </a>
