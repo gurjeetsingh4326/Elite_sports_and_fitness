@@ -4,6 +4,8 @@ import ProgramsPage from '@/pages/ProgramsPage'
 import ProgramDetailsPage from '@/pages/ProgramDetailsPage'
 import CoachesDirectoryPage from '@/pages/CoachesDirectoryPage'
 import CoachProfilePage from '@/pages/CoachProfilePage'
+import FacilitiesPage from '@/pages/FacilitiesPage'
+import MembershipsPage from '@/pages/MembershipsPage'
 import LoginPage from '@/pages/LoginPage'
 import RegisterPage from '@/pages/RegisterPage'
 import RegisterCoachPage from '@/pages/RegisterCoachPage'
@@ -17,6 +19,8 @@ export default function App() {
       <Route path="/programs/:programId" element={<ProgramDetailsPage />} />
       <Route path="/coaches" element={<CoachesDirectoryPage />} />
       <Route path="/coaches/:coachId" element={<CoachProfilePage />} />
+      <Route path="/facilities" element={<FacilitiesPage />} />
+      <Route path="/memberships" element={<MembershipsPage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
       <Route path="/register-coach" element={<RegisterCoachPage />} />

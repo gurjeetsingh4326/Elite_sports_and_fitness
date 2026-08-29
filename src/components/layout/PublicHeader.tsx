@@ -4,8 +4,8 @@ import { TrophyIcon } from '@/components/icons'
 const NAV_LINKS = [
   { label: 'Programs', to: '/programs' },
   { label: 'Coaches', to: '/coaches' },
-  { label: 'Reels', to: '/#reels' },
-  { label: 'Memberships', to: '/#memberships' },
+  { label: 'Facilities', to: '/facilities' },
+  { label: 'Memberships', to: '/memberships' },
 ]
 
 export function PublicHeader() {

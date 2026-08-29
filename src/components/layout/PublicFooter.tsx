@@ -1,9 +1,32 @@
+import { Link } from 'react-router-dom'
 import { TrophyIcon } from '@/components/icons'
 
 const COLUMNS = [
-  { title: 'Platform', links: ['Programs', 'Coaches', 'Facilities', 'Memberships'] },
-  { title: 'Community', links: ['Reels', 'Tournaments', 'Achievements'] },
-  { title: 'Company', links: ['About', 'Registration', 'Log in'] },
+  {
+    title: 'Platform',
+    links: [
+      { label: 'Programs', to: '/programs' },
+      { label: 'Coaches', to: '/coaches' },
+      { label: 'Facilities', to: '/facilities' },
+      { label: 'Memberships', to: '/memberships' },
+    ],
+  },
+  {
+    title: 'Community',
+    links: [
+      { label: 'Reels', to: '#' },
+      { label: 'Tournaments', to: '#' },
+      { label: 'Achievements', to: '#' },
+    ],
+  },
+  {
+    title: 'Company',
+    links: [
+      { label: 'About', to: '#' },
+      { label: 'Registration', to: '/register' },
+      { label: 'Log in', to: '/login' },
+    ],
+  },
 ]
 
 export function PublicFooter() {
@@ -27,10 +50,10 @@ export function PublicFooter() {
               <div className="text-xs font-bold uppercase tracking-wide text-muted">{col.title}</div>
               <ul className="mt-3 flex flex-col gap-2.5">
                 {col.links.map((link) => (
-                  <li key={link}>
-                    <a href="#" className="text-sm text-navy/80 hover:text-navy">
-                      {link}
-                    </a>
+                  <li key={link.label}>
+                    <Link to={link.to} className="text-sm text-navy/80 hover:text-navy">
+                      {link.label}
+                    </Link>
                   </li>
                 ))}
               </ul>

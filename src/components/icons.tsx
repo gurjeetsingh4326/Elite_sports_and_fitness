@@ -127,6 +127,14 @@ export function ArrowRightIcon(props: IconProps) {
   )
 }
 
+export function CheckIcon(props: IconProps) {
+  return (
+    <svg {...base(props)}>
+      <path d="M4 10.5 8 14.5 16 6" />
+    </svg>
+  )
+}
+
 export function TrophyIcon(props: IconProps) {
   return (
     <svg {...base(props)}>
