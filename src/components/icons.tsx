@@ -119,6 +119,14 @@ export function BellIcon(props: IconProps) {
   )
 }
 
+export function ArrowRightIcon(props: IconProps) {
+  return (
+    <svg {...base(props)}>
+      <path d="M4 10h12M11 5l5 5-5 5" />
+    </svg>
+  )
+}
+
 export function TrophyIcon(props: IconProps) {
   return (
     <svg {...base(props)}>
