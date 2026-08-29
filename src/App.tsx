@@ -15,6 +15,8 @@ import AcademyDashboardPage from '@/pages/AcademyDashboardPage'
 import AthleteDirectoryPage from '@/pages/AthleteDirectoryPage'
 import AthleteProfilePage from '@/pages/AthleteProfilePage'
 import AttendancePage from '@/pages/AttendancePage'
+import PerformancePage from '@/pages/PerformancePage'
+import PracticeLevelsPage from '@/pages/PracticeLevelsPage'
 
 export default function App() {
   return (
@@ -35,6 +37,8 @@ export default function App() {
       <Route path="/dashboard/athletes" element={<AthleteDirectoryPage />} />
       <Route path="/dashboard/athletes/:athleteId" element={<AthleteProfilePage />} />
       <Route path="/dashboard/attendance" element={<AttendancePage />} />
+      <Route path="/dashboard/performance" element={<PerformancePage />} />
+      <Route path="/dashboard/practice-levels" element={<PracticeLevelsPage />} />
     </Routes>
   )
 }
