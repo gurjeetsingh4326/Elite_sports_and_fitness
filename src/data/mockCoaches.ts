@@ -1,0 +1,57 @@
+import type { CoachSummary } from '@/types/coach'
+
+export const coaches: CoachSummary[] = [
+  {
+    id: 'marcus-webb',
+    name: 'Marcus Webb',
+    initials: 'MW',
+    specialty: 'Football',
+    bio: 'Former academy player turned youth development coach, focused on technical fundamentals.',
+    isIndependent: false,
+    academyName: 'Elite Football Academy',
+  },
+  {
+    id: 'priya-nair',
+    name: 'Priya Nair',
+    initials: 'PN',
+    specialty: 'Football',
+    bio: 'UEFA-licensed goalkeeping coach with 10+ years developing shot-stoppers.',
+    isIndependent: false,
+    academyName: 'Elite Football Academy',
+  },
+  {
+    id: 'arjun-mehta',
+    name: 'Arjun Mehta',
+    initials: 'AM',
+    specialty: 'Cricket',
+    bio: 'Batting specialist, ex-state-level player, coaches technique across all levels.',
+    isIndependent: false,
+    academyName: 'Elite Cricket Academy',
+  },
+  {
+    id: 'sofia-reyes',
+    name: 'Sofia Reyes',
+    initials: 'SR',
+    specialty: 'Multi-Sport',
+    bio: 'Strength & conditioning coach building athletic foundations before sport specialization.',
+    isIndependent: false,
+    academyName: 'Elite Multi-Sport Academy',
+  },
+  {
+    id: 'daniel-kim',
+    name: 'Daniel Kim',
+    initials: 'DK',
+    specialty: 'Swimming',
+    bio: 'Former competitive swimmer coaching stroke technique and race-pace training.',
+    isIndependent: false,
+    academyName: 'Elite Swimming Academy',
+  },
+  {
+    id: 'jordan-blake',
+    name: 'Jordan Blake',
+    initials: 'JB',
+    specialty: 'Football',
+    bio: 'Independent coach running weekend clinics — not yet affiliated with an academy.',
+    isIndependent: true,
+  },
+]
