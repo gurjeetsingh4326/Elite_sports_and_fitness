@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { Tile } from '@/components/ui/Tile'
 import { NavRow } from '@/components/layout/NavRow'
 import { DropdownPanel } from '@/components/ui/DropdownPanel'
@@ -9,6 +9,12 @@ import { notifications } from '@/data/mockNotifications'
 import { ROLES, type Role } from '@/types/role'
 
 const CURRENT_USER = { initials: 'RS', name: 'Ravi Shastri' }
+
+const NAV_ROUTES: Record<string, string> = {
+  dashboard: '/dashboard',
+  academies: '/dashboard/academies',
+  athletes: '/dashboard/athletes',
+}
 
 function chunk<T>(items: T[], size: number): T[][] {
   const groups: T[][] = []
@@ -20,9 +26,17 @@ export function Sidebar() {
   const [role, setRole] = useState<Role>('Super Admin/Owner')
   const [profileOpen, setProfileOpen] = useState(false)
   const [notificationsOpen, setNotificationsOpen] = useState(false)
+  const location = useLocation()
 
   const navGroups = chunk(ROLE_NAV[role], 4)
   const unreadCount = notifications.filter((n) => !n.read).length
+
+  const isActive = (key: string) => {
+    const route = NAV_ROUTES[key]
+    if (!route) return false
+    if (route === '/dashboard') return location.pathname === '/dashboard'
+    return location.pathname.startsWith(route)
+  }
 
   return (
     <div className="flex h-full w-56 min-w-[224px] flex-col gap-3.5">
@@ -128,9 +142,17 @@ export function Sidebar() {
 
       {navGroups.map((group, i) => (
         <Tile key={i} className="flex flex-col gap-0.5 bg-white p-2.5">
-          {group.map((item) => (
-            <NavRow key={item.key} icon={<item.Icon size={17} />} label={item.label} active={item.key === 'dashboard'} />
-          ))}
+          {group.map((item) => {
+            const row = <NavRow icon={<item.Icon size={17} />} label={item.label} active={isActive(item.key)} />
+            const route = NAV_ROUTES[item.key]
+            return route ? (
+              <Link key={item.key} to={route}>
+                {row}
+              </Link>
+            ) : (
+              <div key={item.key}>{row}</div>
+            )
+          })}
         </Tile>
       ))}
 

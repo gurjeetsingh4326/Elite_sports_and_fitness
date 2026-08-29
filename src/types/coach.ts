@@ -7,6 +7,7 @@ export interface CoachSummary {
   specialty: AcademyCategory
   bio: string
   isIndependent: boolean
+  academyId?: string
   academyName?: string
   certifications: string[]
 }

@@ -1,11 +1,14 @@
 export type AcademyCategory = 'Football' | 'Cricket' | 'Multi-Sport' | 'Swimming'
 
 export interface AcademyRow {
+  id: string
   name: string
   branch: string
   category: AcademyCategory
   athletes: number
   attendancePct: number
+  coaches: number
+  batches: number
 }
 
 export interface OrgDashboardStats {

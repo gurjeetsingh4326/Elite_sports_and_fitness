@@ -2,6 +2,7 @@ import type { AcademyCategory } from '@/types/dashboard'
 
 export interface ProgramSummary {
   id: string
+  academyId: string
   academyName: string
   branch: string
   category: AcademyCategory
@@ -14,6 +15,7 @@ export interface ProgramSummary {
 export const programs: ProgramSummary[] = [
   {
     id: 'football-youth-development',
+    academyId: 'elite-football-downtown',
     academyName: 'Elite Football Academy',
     branch: 'Downtown',
     category: 'Football',
@@ -24,6 +26,7 @@ export const programs: ProgramSummary[] = [
   },
   {
     id: 'football-goalkeeping',
+    academyId: 'elite-football-downtown',
     academyName: 'Elite Football Academy',
     branch: 'Downtown',
     category: 'Football',
@@ -34,6 +37,7 @@ export const programs: ProgramSummary[] = [
   },
   {
     id: 'cricket-pathway',
+    academyId: 'elite-cricket-riverside',
     academyName: 'Elite Cricket Academy',
     branch: 'Riverside',
     category: 'Cricket',
@@ -44,6 +48,7 @@ export const programs: ProgramSummary[] = [
   },
   {
     id: 'multi-sport-junior',
+    academyId: 'elite-multi-sport-north',
     academyName: 'Elite Multi-Sport Academy',
     branch: 'North Campus',
     category: 'Multi-Sport',
@@ -54,6 +59,7 @@ export const programs: ProgramSummary[] = [
   },
   {
     id: 'multi-sport-fitness',
+    academyId: 'elite-multi-sport-north',
     academyName: 'Elite Multi-Sport Academy',
     branch: 'North Campus',
     category: 'Multi-Sport',
@@ -64,6 +70,7 @@ export const programs: ProgramSummary[] = [
   },
   {
     id: 'swimming-competitive',
+    academyId: 'elite-swimming-bayview',
     academyName: 'Elite Swimming Academy',
     branch: 'Bayview',
     category: 'Swimming',

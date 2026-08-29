@@ -15,10 +15,46 @@ export const orgDashboardStats: OrgDashboardStats = {
 }
 
 export const academyRows: AcademyRow[] = [
-  { name: 'Elite Football Academy', branch: 'Downtown', category: 'Football', athletes: 612, attendancePct: 94 },
-  { name: 'Elite Cricket Academy', branch: 'Riverside', category: 'Cricket', athletes: 448, attendancePct: 89 },
-  { name: 'Elite Multi-Sport Academy', branch: 'North Campus', category: 'Multi-Sport', athletes: 890, attendancePct: 92 },
-  { name: 'Elite Swimming Academy', branch: 'Bayview', category: 'Swimming', athletes: 305, attendancePct: 88 },
+  {
+    id: 'elite-football-downtown',
+    name: 'Elite Football Academy',
+    branch: 'Downtown',
+    category: 'Football',
+    athletes: 612,
+    attendancePct: 94,
+    coaches: 18,
+    batches: 18,
+  },
+  {
+    id: 'elite-cricket-riverside',
+    name: 'Elite Cricket Academy',
+    branch: 'Riverside',
+    category: 'Cricket',
+    athletes: 448,
+    attendancePct: 89,
+    coaches: 12,
+    batches: 11,
+  },
+  {
+    id: 'elite-multi-sport-north',
+    name: 'Elite Multi-Sport Academy',
+    branch: 'North Campus',
+    category: 'Multi-Sport',
+    athletes: 890,
+    attendancePct: 92,
+    coaches: 24,
+    batches: 27,
+  },
+  {
+    id: 'elite-swimming-bayview',
+    name: 'Elite Swimming Academy',
+    branch: 'Bayview',
+    category: 'Swimming',
+    athletes: 305,
+    attendancePct: 88,
+    coaches: 9,
+    batches: 6,
+  },
 ]
 
 export const weekAttendance: WeekdayAttendance[] = [
