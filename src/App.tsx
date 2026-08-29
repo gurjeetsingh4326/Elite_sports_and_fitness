@@ -23,6 +23,9 @@ import ReelsStudioPage from '@/pages/ReelsStudioPage'
 import ModerationQueuePage from '@/pages/ModerationQueuePage'
 import PhysicianPortalPage from '@/pages/PhysicianPortalPage'
 import TransfersPage from '@/pages/TransfersPage'
+import TournamentsPage from '@/pages/TournamentsPage'
+import PaymentsPage from '@/pages/PaymentsPage'
+import ReportsPage from '@/pages/ReportsPage'
 
 export default function App() {
   return (
@@ -51,6 +54,9 @@ export default function App() {
       <Route path="/dashboard/moderation" element={<ModerationQueuePage />} />
       <Route path="/dashboard/physician" element={<PhysicianPortalPage />} />
       <Route path="/dashboard/transfers" element={<TransfersPage />} />
+      <Route path="/dashboard/tournaments" element={<TournamentsPage />} />
+      <Route path="/dashboard/payments" element={<PaymentsPage />} />
+      <Route path="/dashboard/reports" element={<ReportsPage />} />
     </Routes>
   )
 }

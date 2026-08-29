@@ -162,6 +162,15 @@ export function FlagIcon(props: IconProps) {
   )
 }
 
+export function BarChartIcon(props: IconProps) {
+  return (
+    <svg {...base(props)}>
+      <path d="M4 16V9M9 16V4M14 16v-7" />
+      <path d="M3 16h14" />
+    </svg>
+  )
+}
+
 export function CheckIcon(props: IconProps) {
   return (
     <svg {...base(props)}>
