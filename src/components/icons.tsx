@@ -1,6 +1,6 @@
 import type { SVGProps } from 'react'
 
-type IconProps = SVGProps<SVGSVGElement> & { size?: number }
+export type IconProps = SVGProps<SVGSVGElement> & { size?: number }
 
 function base({ size = 18, ...props }: IconProps) {
   return {
@@ -123,6 +123,32 @@ export function ArrowRightIcon(props: IconProps) {
   return (
     <svg {...base(props)}>
       <path d="M4 10h12M11 5l5 5-5 5" />
+    </svg>
+  )
+}
+
+export function MedicalIcon(props: IconProps) {
+  return (
+    <svg {...base(props)}>
+      <rect x="3" y="3" width="14" height="14" rx="3" />
+      <path d="M10 6.5v7M6.5 10h7" />
+    </svg>
+  )
+}
+
+export function NutritionIcon(props: IconProps) {
+  return (
+    <svg {...base(props)}>
+      <path d="M10 5.5c-2.5-3-7-1.5-7 2.5 0 4 4.5 7 7 8.5 2.5-1.5 7-4.5 7-8.5 0-4-4.5-5.5-7-2.5z" />
+    </svg>
+  )
+}
+
+export function LogoutIcon(props: IconProps) {
+  return (
+    <svg {...base(props)}>
+      <path d="M8 3.5H4.5a1 1 0 0 0-1 1v11a1 1 0 0 0 1 1H8" />
+      <path d="M13 13.5 17 10l-4-3.5M17 10H7.5" />
     </svg>
   )
 }
