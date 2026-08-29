@@ -2,7 +2,7 @@
 
 | Module | Purpose |
 |--------|---------|
-| Organization & Academy Management | Manage the org and its academies/branches |
+| Organization & Academy Management | Manage the org and its academies/branches, including each academy's [category](02-architecture.md#academy-category) (Football, Cricket, Multi-Sport, etc.) |
 | Athlete Management | Athlete records and profiles |
 | Sports, Gym & Fitness Programs | Define sports/departments and programs offered |
 | Batches & Scheduling | Group athletes into batches with schedules |
