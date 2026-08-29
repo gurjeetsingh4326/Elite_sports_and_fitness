@@ -24,6 +24,8 @@ and organized for reference during design and development.
 | 7 | [Roadmap](07-roadmap.md) | MVP development order, Phase 2 |
 | 8 | [Product Rules](08-product-rules.md) | Non-negotiable business rules |
 | 9 | [Architecture Review](09-architecture-review.md) | Issues found, fine-tuning applied, suggested future features |
+| 10 | [Milestones](10-milestones.md) | UI-first project milestones, then backend |
+| 11 | [Database Schema](11-database-schema.md) | Reference ER model for the backend milestones |
 
 ## Flows index
 
@@ -45,4 +47,5 @@ If you're new to the project, read in this order: [Overview](01-overview.md) →
 [Reels](flows/reels-flow.md) and [Independent Coach](flows/independent-coach-flow.md)) →
 [Data Model](05-data-model.md) → [Product Pages](06-product-pages.md) →
 [Roadmap](07-roadmap.md) → [Product Rules](08-product-rules.md) →
-[Architecture Review](09-architecture-review.md).
+[Architecture Review](09-architecture-review.md) → [Milestones](10-milestones.md) →
+[Database Schema](11-database-schema.md).

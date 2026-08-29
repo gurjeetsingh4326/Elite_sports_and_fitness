@@ -71,4 +71,4 @@ weigh in on:
   architecture change.
 
 ---
-[← Product Rules](08-product-rules.md) · [Back to index](README.md)
+[← Product Rules](08-product-rules.md) · [Next: Milestones →](10-milestones.md)
