@@ -101,6 +101,23 @@ export const reels: Reel[] = [
     theme: 'amber',
     reported: true,
   },
+  {
+    id: 'reel-7',
+    authorName: 'Jordan Blake',
+    authorInitials: 'JB',
+    authorRole: 'Coach',
+    authorId: 'jordan-blake',
+    caption: '1-on-1 session highlights from this week — DM me for open slots.',
+    tags: ['Football', 'Private Coaching'],
+    visibility: 'Public',
+    status: 'Published',
+    likeCount: 34,
+    commentCount: 2,
+    viewCount: 540,
+    createdDate: '2026-08-28',
+    theme: 'violet',
+    reported: true,
+  },
 ]
 
 export const reelComments: ReelComment[] = [
