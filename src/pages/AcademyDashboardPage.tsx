@@ -78,18 +78,20 @@ export default function AcademyDashboardPage() {
             </div>
             <div className="flex flex-col gap-2.5">
               {academyAthletes.map((athlete) => (
-                <Tile key={athlete.id} className="flex items-center justify-between bg-white p-4">
-                  <div className="flex items-center gap-3">
-                    <div className="flex h-9 w-9 items-center justify-center rounded-full bg-navy text-xs font-bold text-brand-amber">
-                      {athlete.initials}
+                <Link key={athlete.id} to={`/dashboard/athletes/${athlete.id}`}>
+                  <Tile className="flex items-center justify-between bg-white p-4 hover:shadow-[0_8px_24px_-8px_oklch(50%_0.05_40_/_15%)]">
+                    <div className="flex items-center gap-3">
+                      <div className="flex h-9 w-9 items-center justify-center rounded-full bg-navy text-xs font-bold text-brand-amber">
+                        {athlete.initials}
+                      </div>
+                      <div>
+                        <div className="text-sm font-bold text-navy">{athlete.name}</div>
+                        <div className="text-xs text-muted">{athlete.batch}</div>
+                      </div>
                     </div>
-                    <div>
-                      <div className="text-sm font-bold text-navy">{athlete.name}</div>
-                      <div className="text-xs text-muted">{athlete.batch}</div>
-                    </div>
-                  </div>
-                  <span className="text-xs font-semibold text-muted">{athlete.practiceLevel}</span>
-                </Tile>
+                    <span className="text-xs font-semibold text-muted">{athlete.practiceLevel}</span>
+                  </Tile>
+                </Link>
               ))}
             </div>
           </div>

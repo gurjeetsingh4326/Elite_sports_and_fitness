@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 import { AppShell } from '@/components/layout/AppShell'
 import { Tile } from '@/components/ui/Tile'
 import { CategoryFilterBar } from '@/components/programs/CategoryFilterBar'
@@ -29,8 +30,9 @@ export default function AthleteDirectoryPage() {
           </div>
           <div className="flex flex-col">
             {visible.map((athlete) => (
-              <div
+              <Link
                 key={athlete.id}
+                to={`/dashboard/athletes/${athlete.id}`}
                 className="grid grid-cols-[2fr_1.4fr_1.6fr_1.4fr_0.8fr] items-center gap-3 rounded-xl px-4 py-3 hover:bg-hover"
               >
                 <div className="flex items-center gap-2.5">
@@ -49,7 +51,7 @@ export default function AthleteDirectoryPage() {
                 >
                   {athlete.attendancePct}%
                 </span>
-              </div>
+              </Link>
             ))}
           </div>
           {visible.length === 0 && <p className="py-10 text-center text-sm text-muted">No athletes in this category yet.</p>}
