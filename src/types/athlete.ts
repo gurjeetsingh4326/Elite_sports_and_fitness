@@ -17,6 +17,7 @@ export interface AthleteRow {
   academyId: string
   academyName: string
   category: AcademyCategory
+  programId: string
   batch: string
   coachName: string
   practiceLevel: PracticeLevel
