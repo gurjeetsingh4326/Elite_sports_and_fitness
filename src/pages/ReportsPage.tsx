@@ -21,7 +21,7 @@ export default function ReportsPage() {
           <p className="mt-1 text-sm text-muted">Organization-wide metrics at a glance.</p>
         </div>
 
-        <div className="grid grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
           <Tile className="bg-white p-5">
             <div className="text-2xl font-bold text-navy">{orgDashboardStats.academies}</div>
             <div className="mt-1 text-xs font-semibold text-muted">Academies</div>
@@ -40,10 +40,10 @@ export default function ReportsPage() {
           </Tile>
         </div>
 
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-4">
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
           <TrendChartTile data={weekAttendance} peakLabel={peakDayLabel} />
 
-          <Tile className="col-span-2 bg-white p-5">
+          <Tile className="bg-white p-5 sm:col-span-2 lg:col-span-2">
             <div className="mb-4 text-sm font-bold text-navy">Practice Level Distribution</div>
             <div className="flex flex-col gap-3">
               {levelCounts.map(({ level, count }) => (
@@ -65,24 +65,28 @@ export default function ReportsPage() {
         </div>
 
         <Tile className="bg-white p-2">
-          <div className="grid grid-cols-[1.8fr_1fr_0.8fr_0.8fr_0.8fr_0.9fr] gap-3 px-4 py-3 text-[10.5px] font-bold uppercase tracking-wide text-muted">
-            <span>Academy</span>
-            <span>Category</span>
-            <span>Athletes</span>
-            <span>Coaches</span>
-            <span>Batches</span>
-            <span>Attendance</span>
-          </div>
-          {academyRows.map((a) => (
-            <div key={a.id} className="grid grid-cols-[1.8fr_1fr_0.8fr_0.8fr_0.8fr_0.9fr] items-center gap-3 rounded-xl px-4 py-2.5">
-              <span className="text-sm font-semibold text-navy">{a.name}</span>
-              <CategoryBadge category={a.category} />
-              <span className="text-xs text-muted">{a.athletes}</span>
-              <span className="text-xs text-muted">{a.coaches}</span>
-              <span className="text-xs text-muted">{a.batches}</span>
-              <span className="text-xs font-bold text-[oklch(45%_0.13_145)]">{a.attendancePct}%</span>
+          <div className="overflow-x-auto">
+            <div className="min-w-[600px]">
+              <div className="grid grid-cols-[1.8fr_1fr_0.8fr_0.8fr_0.8fr_0.9fr] gap-3 px-4 py-3 text-[10.5px] font-bold uppercase tracking-wide text-muted">
+                <span>Academy</span>
+                <span>Category</span>
+                <span>Athletes</span>
+                <span>Coaches</span>
+                <span>Batches</span>
+                <span>Attendance</span>
+              </div>
+              {academyRows.map((a) => (
+                <div key={a.id} className="grid grid-cols-[1.8fr_1fr_0.8fr_0.8fr_0.8fr_0.9fr] items-center gap-3 rounded-xl px-4 py-2.5">
+                  <span className="text-sm font-semibold text-navy">{a.name}</span>
+                  <CategoryBadge category={a.category} />
+                  <span className="text-xs text-muted">{a.athletes}</span>
+                  <span className="text-xs text-muted">{a.coaches}</span>
+                  <span className="text-xs text-muted">{a.batches}</span>
+                  <span className="text-xs font-bold text-[oklch(45%_0.13_145)]">{a.attendancePct}%</span>
+                </div>
+              ))}
             </div>
-          ))}
+          </div>
         </Tile>
       </div>
     </AppShell>

@@ -7,6 +7,7 @@ import { SearchIcon, BellIcon, TrophyIcon, CheckIcon, LogoutIcon } from '@/compo
 import { ROLE_NAV } from '@/data/roleNav'
 import { notifications } from '@/data/mockNotifications'
 import { ROLES, type Role } from '@/types/role'
+import { clsx } from '@/lib/clsx'
 
 const CURRENT_USER = { initials: 'RS', name: 'Ravi Shastri' }
 
@@ -32,7 +33,12 @@ function chunk<T>(items: T[], size: number): T[][] {
   return groups
 }
 
-export function Sidebar() {
+interface SidebarProps {
+  mobileOpen: boolean
+  onCloseMobile: () => void
+}
+
+export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
   const [role, setRole] = useState<Role>('Super Admin/Owner')
   const [profileOpen, setProfileOpen] = useState(false)
   const [notificationsOpen, setNotificationsOpen] = useState(false)
@@ -49,7 +55,23 @@ export function Sidebar() {
   }
 
   return (
-    <div className="flex h-full w-56 min-w-[224px] flex-col gap-3.5">
+    <>
+      {mobileOpen && (
+        <button
+          type="button"
+          aria-label="Close menu"
+          onClick={onCloseMobile}
+          className="fixed inset-0 z-40 bg-black/30 md:hidden"
+        />
+      )}
+      <div
+        className={clsx(
+          'flex w-56 min-w-[224px] flex-col gap-3.5 overflow-y-auto',
+          'fixed inset-y-0 left-0 z-50 bg-surface p-4 transition-transform duration-200 ease-out',
+          'md:static md:z-auto md:h-full md:bg-transparent md:p-0 md:transition-none',
+          mobileOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0',
+        )}
+      >
       <Tile className="bg-navy p-[18px] text-white">
         <div className="mb-5 flex items-center justify-between">
           <div className="flex h-[34px] w-[34px] items-center justify-center rounded-[10px] bg-brand-amber">
@@ -156,7 +178,7 @@ export function Sidebar() {
             const row = <NavRow icon={<item.Icon size={17} />} label={item.label} active={isActive(item.key)} />
             const route = NAV_ROUTES[item.key]
             return route ? (
-              <Link key={item.key} to={route}>
+              <Link key={item.key} to={route} onClick={onCloseMobile}>
                 {row}
               </Link>
             ) : (
@@ -172,6 +194,7 @@ export function Sidebar() {
         </div>
         <div className="text-2xl font-bold text-brand-amber-ink">12 days</div>
       </Tile>
-    </div>
+      </div>
+    </>
   )
 }

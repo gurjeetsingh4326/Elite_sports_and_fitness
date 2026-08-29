@@ -62,6 +62,8 @@ export default function ReelDetailPage() {
             <div className="flex items-center gap-5 border-y border-[oklch(93%_0.005_90)] py-3">
               <button
                 type="button"
+                aria-pressed={liked}
+                aria-label={liked ? 'Unlike this Reel' : 'Like this Reel'}
                 onClick={() => setLiked((v) => !v)}
                 className={`text-sm font-semibold ${liked ? 'text-[oklch(55%_0.19_25)]' : 'text-navy'}`}
               >
@@ -84,6 +86,7 @@ export default function ReelDetailPage() {
 
             <Tile className="flex items-center gap-3 bg-surface p-3">
               <input
+                aria-label="Add a comment"
                 value={draft}
                 onChange={(e) => setDraft(e.target.value)}
                 onKeyDown={(e) => e.key === 'Enter' && postComment()}

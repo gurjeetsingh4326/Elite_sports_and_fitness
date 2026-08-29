@@ -29,7 +29,7 @@ export default function AcademyManagementPage() {
                   </div>
                   <CategoryBadge category={academy.category} />
                 </div>
-                <div className="grid grid-cols-4 gap-3 border-t border-[oklch(93%_0.005_90)] pt-4">
+                <div className="grid grid-cols-2 gap-3 border-t border-[oklch(93%_0.005_90)] pt-4 sm:grid-cols-4">
                   <div>
                     <div className="text-lg font-bold text-navy">{academy.athletes}</div>
                     <div className="text-[11px] font-semibold text-muted">Athletes</div>

@@ -62,7 +62,7 @@ export default function CoachProfilePage() {
               {coachReels.length === 0 ? (
                 <p className="text-sm text-muted">This coach hasn&apos;t posted any Reels yet.</p>
               ) : (
-                <div className="grid grid-cols-3 gap-3">
+                <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
                   {coachReels.map((reel) => (
                     <Link key={reel.id} to={`/reels/${reel.id}`}>
                       <ReelThumb reel={reel} />

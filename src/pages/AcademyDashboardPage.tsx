@@ -45,7 +45,7 @@ export default function AcademyDashboardPage() {
           <p className="mt-1 text-sm text-muted">{academy.branch}</p>
         </div>
 
-        <div className="grid grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
           <Tile className="bg-white p-5">
             <div className="text-2xl font-bold text-navy">{academy.athletes}</div>
             <div className="mt-1 text-xs font-semibold text-muted">Athletes</div>
@@ -120,6 +120,7 @@ export default function AcademyDashboardPage() {
             {showInvite && (
               <Tile className="mb-3 flex flex-col gap-2.5 bg-white p-4">
                 <select
+                  aria-label="Select an independent coach to invite"
                   value={selectedCoach}
                   onChange={(e) => setSelectedCoach(e.target.value)}
                   className="rounded-xl border border-[oklch(90%_0.005_90)] bg-white px-3 py-2 text-xs text-navy outline-none focus:border-brand-blue"

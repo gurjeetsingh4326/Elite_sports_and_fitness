@@ -10,8 +10,8 @@ import { orgDashboardStats, academyRows, weekAttendance, peakDayLabel } from '@/
 export default function DashboardPage() {
   return (
     <AppShell>
-      <div className="grid h-full grid-cols-4 grid-rows-[190px_1fr_190px] gap-4">
-        <div className="col-span-2">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:h-full lg:grid-cols-4 lg:grid-rows-[190px_1fr_190px]">
+        <div className="sm:col-span-2 lg:col-span-2">
           <HeroTile stats={orgDashboardStats} />
         </div>
 

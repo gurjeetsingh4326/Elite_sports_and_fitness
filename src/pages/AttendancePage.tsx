@@ -136,39 +136,43 @@ export default function AttendancePage() {
         {ready && (
           <>
             <Tile className="bg-white p-2">
-              <div className="grid grid-cols-[2fr_2fr] gap-3 px-4 py-3 text-[10.5px] font-bold uppercase tracking-wide text-muted">
-                <span>Athlete</span>
-                <span>Status</span>
-              </div>
-              {roster.length === 0 && <p className="px-4 py-6 text-sm text-muted">No athletes in this batch yet.</p>}
-              {roster.map((athlete) => {
-                const current = statuses[athlete.id] ?? 'Present'
-                return (
-                  <div key={athlete.id} className="grid grid-cols-[2fr_2fr] items-center gap-3 rounded-xl px-4 py-3">
-                    <div className="flex items-center gap-2.5">
-                      <div className="flex h-8 w-8 items-center justify-center rounded-full bg-navy text-[11px] font-bold text-brand-amber">
-                        {athlete.initials}
-                      </div>
-                      <span className="text-sm font-semibold text-navy">{athlete.name}</span>
-                    </div>
-                    <div className="flex gap-1.5">
-                      {STATUSES.map((status) => (
-                        <button
-                          key={status}
-                          type="button"
-                          onClick={() => markStatus(athlete.id, status)}
-                          className={clsx(
-                            'rounded-full px-3 py-1.5 text-xs font-semibold transition-opacity',
-                            current === status ? STATUS_CLASSES[status] : 'bg-surface text-muted opacity-60 hover:opacity-100',
-                          )}
-                        >
-                          {status}
-                        </button>
-                      ))}
-                    </div>
+              <div className="overflow-x-auto">
+                <div className="min-w-[480px]">
+                  <div className="grid grid-cols-[2fr_2fr] gap-3 px-4 py-3 text-[10.5px] font-bold uppercase tracking-wide text-muted">
+                    <span>Athlete</span>
+                    <span>Status</span>
                   </div>
-                )
-              })}
+                  {roster.length === 0 && <p className="px-4 py-6 text-sm text-muted">No athletes in this batch yet.</p>}
+                  {roster.map((athlete) => {
+                    const current = statuses[athlete.id] ?? 'Present'
+                    return (
+                      <div key={athlete.id} className="grid grid-cols-[2fr_2fr] items-center gap-3 rounded-xl px-4 py-3">
+                        <div className="flex items-center gap-2.5">
+                          <div className="flex h-8 w-8 items-center justify-center rounded-full bg-navy text-[11px] font-bold text-brand-amber">
+                            {athlete.initials}
+                          </div>
+                          <span className="text-sm font-semibold text-navy">{athlete.name}</span>
+                        </div>
+                        <div className="flex gap-1.5">
+                          {STATUSES.map((status) => (
+                            <button
+                              key={status}
+                              type="button"
+                              onClick={() => markStatus(athlete.id, status)}
+                              className={clsx(
+                                'rounded-full px-3 py-1.5 text-xs font-semibold transition-opacity',
+                                current === status ? STATUS_CLASSES[status] : 'bg-surface text-muted opacity-60 hover:opacity-100',
+                              )}
+                            >
+                              {status}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                    )
+                  })}
+                </div>
+              </div>
             </Tile>
 
             {roster.length > 0 && (

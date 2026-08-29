@@ -124,37 +124,41 @@ export default function TransfersPage() {
         )}
 
         <Tile className="bg-white p-2">
-          <div className="grid grid-cols-[1.4fr_1.6fr_1.6fr_1fr_0.9fr_0.9fr] gap-3 px-4 py-3 text-[10.5px] font-bold uppercase tracking-wide text-muted">
-            <span>Athlete</span>
-            <span>From</span>
-            <span>To</span>
-            <span>Date</span>
-            <span>Status</span>
-            <span></span>
-          </div>
-          {transfers.map((t) => (
-            <div key={t.id} className="grid grid-cols-[1.4fr_1.6fr_1.6fr_1fr_0.9fr_0.9fr] items-center gap-3 rounded-xl px-4 py-3 hover:bg-hover">
-              <span className="text-sm font-semibold text-navy">{t.athleteName}</span>
-              <span className="truncate text-xs text-muted">{t.fromAcademy}</span>
-              <span className="truncate text-xs text-muted">{t.toAcademy}</span>
-              <span className="text-xs text-muted">{t.date}</span>
-              <span
-                className={clsx(
-                  'w-fit rounded-full px-2.5 py-0.5 text-[11px] font-bold',
-                  t.status === 'Approved' ? 'bg-[oklch(90%_0.06_145)] text-[oklch(38%_0.1_145)]' : 'bg-[oklch(92%_0.06_70)] text-[oklch(45%_0.13_70)]',
-                )}
-              >
-                {t.status}
-              </span>
-              {t.status === 'Pending' ? (
-                <button type="button" onClick={() => approve(t.id)} className="text-xs font-bold text-brand-blue">
-                  Approve
-                </button>
-              ) : (
-                <span />
-              )}
+          <div className="overflow-x-auto">
+            <div className="min-w-[760px]">
+              <div className="grid grid-cols-[1.4fr_1.6fr_1.6fr_1fr_0.9fr_0.9fr] gap-3 px-4 py-3 text-[10.5px] font-bold uppercase tracking-wide text-muted">
+                <span>Athlete</span>
+                <span>From</span>
+                <span>To</span>
+                <span>Date</span>
+                <span>Status</span>
+                <span></span>
+              </div>
+              {transfers.map((t) => (
+                <div key={t.id} className="grid grid-cols-[1.4fr_1.6fr_1.6fr_1fr_0.9fr_0.9fr] items-center gap-3 rounded-xl px-4 py-3 hover:bg-hover">
+                  <span className="text-sm font-semibold text-navy">{t.athleteName}</span>
+                  <span className="truncate text-xs text-muted">{t.fromAcademy}</span>
+                  <span className="truncate text-xs text-muted">{t.toAcademy}</span>
+                  <span className="text-xs text-muted">{t.date}</span>
+                  <span
+                    className={clsx(
+                      'w-fit rounded-full px-2.5 py-0.5 text-[11px] font-bold',
+                      t.status === 'Approved' ? 'bg-[oklch(90%_0.06_145)] text-[oklch(38%_0.1_145)]' : 'bg-[oklch(92%_0.06_70)] text-[oklch(45%_0.13_70)]',
+                    )}
+                  >
+                    {t.status}
+                  </span>
+                  {t.status === 'Pending' ? (
+                    <button type="button" onClick={() => approve(t.id)} className="text-xs font-bold text-brand-blue">
+                      Approve
+                    </button>
+                  ) : (
+                    <span />
+                  )}
+                </div>
+              ))}
             </div>
-          ))}
+          </div>
         </Tile>
       </div>
     </AppShell>

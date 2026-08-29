@@ -10,7 +10,7 @@ export function TrendChartTile({ data, peakLabel }: { data: WeekdayAttendance[];
   const peakDay = data.reduce((max, d) => (d.pct > max.pct ? d : max), data[0])
 
   return (
-    <Tile className="col-span-2 flex flex-col bg-navy p-5 text-white">
+    <Tile className="flex flex-col bg-navy p-5 text-white sm:col-span-2 lg:col-span-2">
       <div className="mb-2.5 flex items-center justify-between">
         <span className="text-[13px] font-bold">Attendance — 7 Days</span>
         <span className="text-[11.5px] font-bold text-brand-amber">{peakLabel}</span>
