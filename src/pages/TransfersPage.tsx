@@ -1,15 +1,22 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { AppShell } from '@/components/layout/AppShell'
 import { Tile } from '@/components/ui/Tile'
 import { Select } from '@/components/ui/Select'
 import { clsx } from '@/lib/clsx'
-import { athletes } from '@/data/mockAthletes'
-import { academyRows } from '@/data/mockDashboard'
-import { transfers as initialTransfers } from '@/data/mockTransfers'
+import { academiesForOrg, athletesForOrg, transfersForOrg } from '@/lib/orgScope'
+import { useOrg } from '@/context/OrgContext'
 import type { TransferRecord } from '@/types/transfer'
 
 export default function TransfersPage() {
-  const [transfers, setTransfers] = useState(initialTransfers)
+  const { currentOrg } = useOrg()
+  const athletes = athletesForOrg(currentOrg.id)
+  const academyRows = academiesForOrg(currentOrg.id)
+  const [transfers, setTransfers] = useState(() => transfersForOrg(currentOrg.id))
+
+  useEffect(() => {
+    setTransfers(transfersForOrg(currentOrg.id))
+  }, [currentOrg.id])
+
   const [showForm, setShowForm] = useState(false)
   const [athleteId, setAthleteId] = useState('')
   const [destinationId, setDestinationId] = useState('')

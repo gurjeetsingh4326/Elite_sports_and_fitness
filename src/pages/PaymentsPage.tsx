@@ -3,6 +3,8 @@ import { AppShell } from '@/components/layout/AppShell'
 import { Tile } from '@/components/ui/Tile'
 import { clsx } from '@/lib/clsx'
 import { athleteProfiles } from '@/data/mockAthleteProfiles'
+import { athletesForOrg } from '@/lib/orgScope'
+import { useOrg } from '@/context/OrgContext'
 
 const STATUS_CLASSES: Record<string, string> = {
   Paid: 'text-[oklch(45%_0.13_145)]',
@@ -11,14 +13,18 @@ const STATUS_CLASSES: Record<string, string> = {
 }
 
 export default function PaymentsPage() {
-  const rows = Object.values(athleteProfiles).flatMap((profile) =>
-    profile.payments.map((payment) => ({
-      ...payment,
-      athleteId: profile.id,
-      athleteName: profile.name,
-      planName: profile.membership.planName,
-    })),
-  )
+  const { currentOrg } = useOrg()
+  const orgAthleteIds = new Set(athletesForOrg(currentOrg.id).map((a) => a.id))
+  const rows = Object.values(athleteProfiles)
+    .filter((profile) => orgAthleteIds.has(profile.id))
+    .flatMap((profile) =>
+      profile.payments.map((payment) => ({
+        ...payment,
+        athleteId: profile.id,
+        athleteName: profile.name,
+        planName: profile.membership.planName,
+      })),
+    )
 
   const paidTotal = rows
     .filter((r) => r.status === 'Paid')
@@ -30,7 +36,7 @@ export default function PaymentsPage() {
       <div className="flex flex-col gap-6">
         <div>
           <h1 className="text-xl font-bold text-navy">Payments</h1>
-          <p className="mt-1 text-sm text-muted">Membership billing across all athletes.</p>
+          <p className="mt-1 text-sm text-muted">Membership billing across all athletes at {currentOrg.name}.</p>
         </div>
 
         <div className="grid max-w-xl grid-cols-1 gap-4 sm:grid-cols-3">

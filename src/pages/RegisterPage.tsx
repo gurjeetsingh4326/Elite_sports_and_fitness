@@ -29,12 +29,21 @@ export default function RegisterPage() {
         </button>
       </form>
 
-      <div className="mt-6 rounded-xl bg-surface px-4 py-3.5 text-xs text-muted">
-        Coaching independently, without an academy yet?{' '}
-        <Link to="/register-coach" className="font-semibold text-navy underline underline-offset-4">
-          Register as a coach
-        </Link>
-        {' '}instead.
+      <div className="mt-6 flex flex-col gap-2.5 rounded-xl bg-surface px-4 py-3.5 text-xs text-muted">
+        <div>
+          Coaching independently, without an academy yet?{' '}
+          <Link to="/register-coach" className="font-semibold text-navy underline underline-offset-4">
+            Register as a coach
+          </Link>
+          {' '}instead.
+        </div>
+        <div>
+          Running a sports business with your own academies?{' '}
+          <Link to="/register-organization" className="font-semibold text-navy underline underline-offset-4">
+            Register your organization
+          </Link>
+          {' '}instead.
+        </div>
       </div>
     </AuthLayout>
   )

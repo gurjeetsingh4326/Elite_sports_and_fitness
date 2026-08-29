@@ -8,6 +8,7 @@ import { ROLE_NAV } from '@/data/roleNav'
 import { notifications } from '@/data/mockNotifications'
 import { ROLES, type Role } from '@/types/role'
 import { clsx } from '@/lib/clsx'
+import { useOrg } from '@/context/OrgContext'
 
 const CURRENT_USER = { initials: 'RS', name: 'Ravi Shastri' }
 
@@ -43,6 +44,7 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
   const [profileOpen, setProfileOpen] = useState(false)
   const [notificationsOpen, setNotificationsOpen] = useState(false)
   const location = useLocation()
+  const { currentOrg, organizations, setCurrentOrgId } = useOrg()
 
   const navGroups = chunk(ROLE_NAV[role], 4)
   const unreadCount = notifications.filter((n) => !n.read).length
@@ -118,10 +120,8 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
             </div>
           </div>
         </div>
-        <div className="mb-3.5 text-sm font-bold leading-tight">
-          Elite Sports
-          <br />
-          &amp; Fitness
+        <div className="mb-3.5 truncate text-sm font-bold leading-tight" title={currentOrg.name}>
+          {currentOrg.name}
         </div>
 
         <div className="relative border-t border-white/10 pt-3">
@@ -133,7 +133,7 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
             <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-brand-amber text-[11px] font-bold text-navy">
               {CURRENT_USER.initials}
             </div>
-            <div className="leading-tight">
+            <div className="min-w-0 leading-tight">
               <div className="text-xs font-semibold text-white/95">{CURRENT_USER.name}</div>
               <div className="text-[10.5px] text-white/60">{role}</div>
             </div>
@@ -159,6 +159,33 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
                 </button>
               ))}
             </div>
+            <div className="my-1.5 h-px bg-[oklch(93%_0.005_90)]" />
+            <div className="px-2 py-1.5 text-[10.5px] font-bold uppercase tracking-wide text-muted">
+              Organization (demo preview)
+            </div>
+            <div className="flex flex-col gap-0.5">
+              {organizations.map((org) => (
+                <button
+                  key={org.id}
+                  type="button"
+                  onClick={() => {
+                    setCurrentOrgId(org.id)
+                    setProfileOpen(false)
+                  }}
+                  className="flex items-center justify-between rounded-lg px-2 py-1.5 text-left text-xs font-medium text-navy hover:bg-hover"
+                >
+                  <span className="truncate">{org.name}</span>
+                  {org.id === currentOrg.id && <CheckIcon size={14} className="shrink-0 text-brand-blue" />}
+                </button>
+              ))}
+            </div>
+            <Link
+              to="/register-organization"
+              onClick={() => setProfileOpen(false)}
+              className="flex items-center rounded-lg px-2 py-1.5 text-xs font-semibold text-brand-blue hover:bg-hover"
+            >
+              + Register new organization
+            </Link>
             <div className="my-1.5 h-px bg-[oklch(93%_0.005_90)]" />
             <Link
               to="/"

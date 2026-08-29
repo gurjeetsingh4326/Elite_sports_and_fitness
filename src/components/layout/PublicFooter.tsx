@@ -24,6 +24,7 @@ const COLUMNS = [
     links: [
       { label: 'About', to: '#' },
       { label: 'Registration', to: '/register' },
+      { label: 'For Organizations', to: '/register-organization' },
       { label: 'Log in', to: '/login' },
     ],
   },

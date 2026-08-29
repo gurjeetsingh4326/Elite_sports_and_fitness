@@ -1,22 +1,38 @@
 import type { AcademyRow, OrgDashboardStats, WeekdayAttendance } from '@/types/dashboard'
 
-export const orgDashboardStats: OrgDashboardStats = {
-  academies: 12,
-  academiesDeltaLabel: '+2 this quarter',
-  totalAthletes: 3482,
-  athletesDeltaLabel: '+4.2% MoM',
-  attendanceTodayPct: 91,
-  attendanceMarked: 3169,
-  attendanceTotal: 3482,
-  monthlyRevenueLabel: '$184.2k',
-  revenueDeltaLabel: '+8.1% MoM',
-  transfersPending: 4,
-  programsRunning: 37,
+export const orgDashboardStatsByOrg: Record<string, OrgDashboardStats> = {
+  'elite-sports-fitness': {
+    academies: 12,
+    academiesDeltaLabel: '+2 this quarter',
+    totalAthletes: 3482,
+    athletesDeltaLabel: '+4.2% MoM',
+    attendanceTodayPct: 91,
+    attendanceMarked: 3169,
+    attendanceTotal: 3482,
+    monthlyRevenueLabel: '$184.2k',
+    revenueDeltaLabel: '+8.1% MoM',
+    transfersPending: 4,
+    programsRunning: 37,
+  },
+  'apex-youth-sports': {
+    academies: 1,
+    academiesDeltaLabel: 'New this year',
+    totalAthletes: 214,
+    athletesDeltaLabel: '+12% MoM',
+    attendanceTodayPct: 90,
+    attendanceMarked: 193,
+    attendanceTotal: 214,
+    monthlyRevenueLabel: '$18.9k',
+    revenueDeltaLabel: '+15% MoM',
+    transfersPending: 0,
+    programsRunning: 3,
+  },
 }
 
 export const academyRows: AcademyRow[] = [
   {
     id: 'elite-football-downtown',
+    organizationId: 'elite-sports-fitness',
     name: 'Elite Football Academy',
     branch: 'Downtown',
     category: 'Football',
@@ -27,6 +43,7 @@ export const academyRows: AcademyRow[] = [
   },
   {
     id: 'elite-cricket-riverside',
+    organizationId: 'elite-sports-fitness',
     name: 'Elite Cricket Academy',
     branch: 'Riverside',
     category: 'Cricket',
@@ -37,6 +54,7 @@ export const academyRows: AcademyRow[] = [
   },
   {
     id: 'elite-multi-sport-north',
+    organizationId: 'elite-sports-fitness',
     name: 'Elite Multi-Sport Academy',
     branch: 'North Campus',
     category: 'Multi-Sport',
@@ -47,6 +65,7 @@ export const academyRows: AcademyRow[] = [
   },
   {
     id: 'elite-swimming-bayview',
+    organizationId: 'elite-sports-fitness',
     name: 'Elite Swimming Academy',
     branch: 'Bayview',
     category: 'Swimming',
@@ -54,6 +73,17 @@ export const academyRows: AcademyRow[] = [
     attendancePct: 88,
     coaches: 9,
     batches: 6,
+  },
+  {
+    id: 'apex-football-central',
+    organizationId: 'apex-youth-sports',
+    name: 'Apex Football Academy',
+    branch: 'Central',
+    category: 'Football',
+    athletes: 214,
+    attendancePct: 90,
+    coaches: 6,
+    batches: 8,
   },
 ]
 

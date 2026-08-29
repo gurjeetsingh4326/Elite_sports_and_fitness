@@ -79,4 +79,15 @@ export const programs: ProgramSummary[] = [
     levels: 'Intermediate – Elite',
     batches: 6,
   },
+  {
+    id: 'apex-football-development',
+    academyId: 'apex-football-central',
+    academyName: 'Apex Football Academy',
+    branch: 'Central',
+    category: 'Football',
+    programName: 'Apex Football Development',
+    description: 'Foundational technical training and match play for young footballers.',
+    levels: 'Beginner – Intermediate',
+    batches: 8,
+  },
 ]

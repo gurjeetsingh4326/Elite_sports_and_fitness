@@ -2,21 +2,31 @@ import { Link } from 'react-router-dom'
 import { AppShell } from '@/components/layout/AppShell'
 import { Tile } from '@/components/ui/Tile'
 import { CategoryBadge } from '@/components/ui/Badge'
-import { academyRows } from '@/data/mockDashboard'
+import { academiesForOrg } from '@/lib/orgScope'
+import { useOrg } from '@/context/OrgContext'
 
 export default function AcademyManagementPage() {
+  const { currentOrg } = useOrg()
+  const academyRows = academiesForOrg(currentOrg.id)
+
   return (
     <AppShell>
       <div className="flex flex-col gap-5">
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-xl font-bold text-navy">Academies</h1>
-            <p className="mt-1 text-sm text-muted">{academyRows.length} academies across the organization</p>
+            <p className="mt-1 text-sm text-muted">
+              {academyRows.length} {academyRows.length === 1 ? 'academy' : 'academies'} at {currentOrg.name}
+            </p>
           </div>
           <button type="button" className="rounded-full bg-navy px-5 py-2.5 text-sm font-semibold text-white hover:bg-navy-light">
             + Add academy
           </button>
         </div>
+
+        {academyRows.length === 0 && (
+          <Tile className="bg-white p-8 text-center text-sm text-muted">No academies yet — add your first one.</Tile>
+        )}
 
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
           {academyRows.map((academy) => (

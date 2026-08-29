@@ -3,11 +3,14 @@ import { Link } from 'react-router-dom'
 import { AppShell } from '@/components/layout/AppShell'
 import { Tile } from '@/components/ui/Tile'
 import { CategoryFilterBar } from '@/components/programs/CategoryFilterBar'
-import { athletes } from '@/data/mockAthletes'
 import { PRACTICE_LEVELS } from '@/types/athlete'
 import type { AcademyCategory } from '@/types/dashboard'
+import { athletesForOrg } from '@/lib/orgScope'
+import { useOrg } from '@/context/OrgContext'
 
 export default function PracticeLevelsPage() {
+  const { currentOrg } = useOrg()
+  const athletes = athletesForOrg(currentOrg.id)
   const [category, setCategory] = useState<AcademyCategory | 'All'>('All')
   const visible = category === 'All' ? athletes : athletes.filter((a) => a.category === category)
 

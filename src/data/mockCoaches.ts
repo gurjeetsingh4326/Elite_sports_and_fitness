@@ -65,4 +65,15 @@ export const coaches: CoachSummary[] = [
     isIndependent: true,
     certifications: ['FA Level 2'],
   },
+  {
+    id: 'connor-hayes',
+    name: 'Connor Hayes',
+    initials: 'CH',
+    specialty: 'Football',
+    bio: 'Head coach building out Apex Football Academy’s youth development pathway.',
+    isIndependent: false,
+    academyId: 'apex-football-central',
+    academyName: 'Apex Football Academy',
+    certifications: ['FA Level 3'],
+  },
 ]

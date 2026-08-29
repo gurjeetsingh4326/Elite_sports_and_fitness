@@ -3,9 +3,10 @@ import { AppShell } from '@/components/layout/AppShell'
 import { Tile } from '@/components/ui/Tile'
 import { Select } from '@/components/ui/Select'
 import { CheckIcon } from '@/components/icons'
-import { athletes } from '@/data/mockAthletes'
 import { athleteProfiles } from '@/data/mockAthleteProfiles'
 import { PRACTICE_LEVELS, type PracticeLevel } from '@/types/athlete'
+import { athletesForOrg } from '@/lib/orgScope'
+import { useOrg } from '@/context/OrgContext'
 
 interface DraftMetrics {
   technical: number
@@ -20,6 +21,8 @@ const METRIC_LABELS: Record<keyof DraftMetrics, string> = {
 }
 
 export default function PerformancePage() {
+  const { currentOrg } = useOrg()
+  const athletes = athletesForOrg(currentOrg.id)
   const [athleteId, setAthleteId] = useState('')
   const [metrics, setMetrics] = useState<DraftMetrics>({ technical: 6, tactical: 6, fitness: 6 })
   const [feedback, setFeedback] = useState('')

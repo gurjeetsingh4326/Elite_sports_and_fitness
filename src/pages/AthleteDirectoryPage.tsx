@@ -3,11 +3,14 @@ import { Link } from 'react-router-dom'
 import { AppShell } from '@/components/layout/AppShell'
 import { Tile } from '@/components/ui/Tile'
 import { CategoryFilterBar } from '@/components/programs/CategoryFilterBar'
-import { athletes } from '@/data/mockAthletes'
+import { athletesForOrg } from '@/lib/orgScope'
+import { useOrg } from '@/context/OrgContext'
 import type { AcademyCategory } from '@/types/dashboard'
 
 export default function AthleteDirectoryPage() {
+  const { currentOrg } = useOrg()
   const [category, setCategory] = useState<AcademyCategory | 'All'>('All')
+  const athletes = athletesForOrg(currentOrg.id)
   const visible = category === 'All' ? athletes : athletes.filter((a) => a.category === category)
 
   return (

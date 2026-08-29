@@ -9,6 +9,7 @@ import MembershipsPage from '@/pages/MembershipsPage'
 import LoginPage from '@/pages/LoginPage'
 import RegisterPage from '@/pages/RegisterPage'
 import RegisterCoachPage from '@/pages/RegisterCoachPage'
+import RegisterOrganizationPage from '@/pages/RegisterOrganizationPage'
 import DashboardPage from '@/pages/DashboardPage'
 import AcademyManagementPage from '@/pages/AcademyManagementPage'
 import AcademyDashboardPage from '@/pages/AcademyDashboardPage'
@@ -42,6 +43,7 @@ export default function App() {
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
       <Route path="/register-coach" element={<RegisterCoachPage />} />
+      <Route path="/register-organization" element={<RegisterOrganizationPage />} />
       <Route path="/dashboard" element={<DashboardPage />} />
       <Route path="/dashboard/academies" element={<AcademyManagementPage />} />
       <Route path="/dashboard/academies/:academyId" element={<AcademyDashboardPage />} />

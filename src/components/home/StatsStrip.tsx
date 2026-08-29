@@ -1,4 +1,8 @@
-import { orgDashboardStats } from '@/data/mockDashboard'
+import { orgDashboardStatsByOrg } from '@/data/mockDashboard'
+
+// The public home page is marketing content shown to logged-out visitors, so it
+// always shows the flagship org's numbers rather than reacting to the (authenticated) org switcher.
+const orgDashboardStats = orgDashboardStatsByOrg['elite-sports-fitness']
 
 const STATS = [
   { value: String(orgDashboardStats.academies), label: 'Academies' },

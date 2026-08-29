@@ -2,6 +2,7 @@ export type AcademyCategory = 'Football' | 'Cricket' | 'Multi-Sport' | 'Swimming
 
 export interface AcademyRow {
   id: string
+  organizationId: string
   name: string
   branch: string
   category: AcademyCategory

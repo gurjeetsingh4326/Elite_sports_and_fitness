@@ -1,18 +1,20 @@
 import { useState, type ReactNode } from 'react'
 import { Sidebar } from '@/components/layout/Sidebar'
 import { MenuIcon, TrophyIcon } from '@/components/icons'
+import { useOrg } from '@/context/OrgContext'
 
 export function AppShell({ children }: { children: ReactNode }) {
   const [mobileNavOpen, setMobileNavOpen] = useState(false)
+  const { currentOrg } = useOrg()
 
   return (
     <div className="min-h-screen bg-surface">
       <div className="flex items-center justify-between border-b border-[oklch(92%_0.005_90)] bg-white px-4 py-3 md:hidden">
-        <div className="flex items-center gap-2">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-navy">
+        <div className="flex min-w-0 items-center gap-2">
+          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-navy">
             <TrophyIcon size={16} className="text-brand-amber" />
           </div>
-          <span className="text-sm font-bold text-navy">Elite Sports &amp; Fitness</span>
+          <span className="truncate text-sm font-bold text-navy">{currentOrg.name}</span>
         </div>
         <button
           type="button"
