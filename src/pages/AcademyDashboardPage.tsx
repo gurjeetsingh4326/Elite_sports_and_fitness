@@ -1,8 +1,10 @@
+import { useState } from 'react'
 import { Link, useParams, Navigate } from 'react-router-dom'
 import { AppShell } from '@/components/layout/AppShell'
 import { Tile } from '@/components/ui/Tile'
 import { CategoryBadge } from '@/components/ui/Badge'
 import { CoachMiniCard } from '@/components/coaches/CoachMiniCard'
+import { CheckIcon } from '@/components/icons'
 import { academyRows } from '@/data/mockDashboard'
 import { programs } from '@/data/mockPrograms'
 import { coaches } from '@/data/mockCoaches'
@@ -11,12 +13,23 @@ import { athletes } from '@/data/mockAthletes'
 export default function AcademyDashboardPage() {
   const { academyId } = useParams()
   const academy = academyRows.find((a) => a.id === academyId)
+  const [showInvite, setShowInvite] = useState(false)
+  const [selectedCoach, setSelectedCoach] = useState('')
+  const [invited, setInvited] = useState<string[]>([])
 
   if (!academy) return <Navigate to="/dashboard/academies" replace />
 
   const academyPrograms = programs.filter((p) => p.academyId === academyId)
   const academyCoaches = coaches.filter((c) => c.academyId === academyId)
   const academyAthletes = athletes.filter((a) => a.academyId === academyId).slice(0, 4)
+  const independentCoaches = coaches.filter((c) => c.isIndependent && !invited.includes(c.id))
+
+  function sendInvite() {
+    if (!selectedCoach) return
+    setInvited((prev) => [...prev, selectedCoach])
+    setSelectedCoach('')
+    setShowInvite(false)
+  }
 
   return (
     <AppShell>
@@ -97,7 +110,45 @@ export default function AcademyDashboardPage() {
           </div>
 
           <div>
-            <h2 className="mb-3 text-sm font-bold text-navy">Coaches</h2>
+            <div className="mb-3 flex items-center justify-between">
+              <h2 className="text-sm font-bold text-navy">Coaches</h2>
+              <button type="button" onClick={() => setShowInvite((v) => !v)} className="text-xs font-semibold text-brand-blue">
+                {showInvite ? 'Cancel' : '+ Invite coach'}
+              </button>
+            </div>
+
+            {showInvite && (
+              <Tile className="mb-3 flex flex-col gap-2.5 bg-white p-4">
+                <select
+                  value={selectedCoach}
+                  onChange={(e) => setSelectedCoach(e.target.value)}
+                  className="rounded-xl border border-[oklch(90%_0.005_90)] bg-white px-3 py-2 text-xs text-navy outline-none focus:border-brand-blue"
+                >
+                  <option value="">Select an independent coach</option>
+                  {independentCoaches.map((c) => (
+                    <option key={c.id} value={c.id}>
+                      {c.name} — {c.specialty}
+                    </option>
+                  ))}
+                </select>
+                <button
+                  type="button"
+                  disabled={!selectedCoach}
+                  onClick={sendInvite}
+                  className="rounded-full bg-navy py-2 text-xs font-semibold text-white hover:bg-navy-light disabled:cursor-not-allowed disabled:opacity-40"
+                >
+                  Send invite
+                </button>
+              </Tile>
+            )}
+
+            {invited.length > 0 && (
+              <div className="mb-3 flex items-center gap-2 rounded-xl bg-[oklch(90%_0.06_145)] px-3 py-2 text-xs font-semibold text-[oklch(38%_0.1_145)]">
+                <CheckIcon size={14} />
+                {invited.length} invite{invited.length > 1 ? 's' : ''} sent
+              </div>
+            )}
+
             <div className="flex flex-col gap-2.5">
               {academyCoaches.map((coach) => (
                 <CoachMiniCard key={coach.id} coach={coach} />
