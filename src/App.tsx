@@ -21,6 +21,8 @@ import ReelsDiscoverPage from '@/pages/ReelsDiscoverPage'
 import ReelDetailPage from '@/pages/ReelDetailPage'
 import ReelsStudioPage from '@/pages/ReelsStudioPage'
 import ModerationQueuePage from '@/pages/ModerationQueuePage'
+import PhysicianPortalPage from '@/pages/PhysicianPortalPage'
+import TransfersPage from '@/pages/TransfersPage'
 
 export default function App() {
   return (
@@ -47,6 +49,8 @@ export default function App() {
       <Route path="/dashboard/practice-levels" element={<PracticeLevelsPage />} />
       <Route path="/dashboard/reels-studio" element={<ReelsStudioPage />} />
       <Route path="/dashboard/moderation" element={<ModerationQueuePage />} />
+      <Route path="/dashboard/physician" element={<PhysicianPortalPage />} />
+      <Route path="/dashboard/transfers" element={<TransfersPage />} />
     </Routes>
   )
 }
