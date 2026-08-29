@@ -27,15 +27,15 @@ export function PublicHeader() {
       </nav>
 
       <div className="flex items-center gap-3">
-        <button type="button" className="text-sm font-semibold text-navy">
+        <Link to="/login" className="text-sm font-semibold text-navy">
           Log in
-        </button>
-        <button
-          type="button"
+        </Link>
+        <Link
+          to="/register"
           className="rounded-full bg-navy px-5 py-2.5 text-sm font-semibold text-white hover:bg-navy-light"
         >
           Register
-        </button>
+        </Link>
       </div>
     </header>
   )

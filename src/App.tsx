@@ -1,6 +1,9 @@
 import { Routes, Route } from 'react-router-dom'
 import HomePage from '@/pages/HomePage'
 import ProgramsPage from '@/pages/ProgramsPage'
+import LoginPage from '@/pages/LoginPage'
+import RegisterPage from '@/pages/RegisterPage'
+import RegisterCoachPage from '@/pages/RegisterCoachPage'
 import DashboardPage from '@/pages/DashboardPage'
 
 export default function App() {
@@ -8,6 +11,9 @@ export default function App() {
     <Routes>
       <Route path="/" element={<HomePage />} />
       <Route path="/programs" element={<ProgramsPage />} />
+      <Route path="/login" element={<LoginPage />} />
+      <Route path="/register" element={<RegisterPage />} />
+      <Route path="/register-coach" element={<RegisterCoachPage />} />
       <Route path="/dashboard" element={<DashboardPage />} />
     </Routes>
   )
