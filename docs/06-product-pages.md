@@ -12,15 +12,23 @@
 ## Recommended Pages
 
 **Public:** Home, Programs, Program Details, Coaches, Facilities, Memberships, Registration, Login,
-Reels / Discover, Coach Directory, Coach Public Profile, Register as Independent Coach
+Reels / Discover, Coach Directory, Coach Public Profile, Register as Independent Coach,
+[Register Organization](02-architecture.md#organization-registration)
 
 The Programs page and Academy Directory should be filterable by
-[academy category](02-architecture.md#academy-category) (Football, Cricket, Multi-Sport, etc.)
-so visitors can browse straight to the sport they're interested in.
+[academy category](02-architecture.md#academy-category) (Football, Cricket, Multi-Sport, etc.),
+which now supports selecting more than one, so visitors can browse straight to the sport they're
+interested in.
 
 **Authenticated:**
 - Organization Dashboard
+- Academy Management (list + create academy, with a multi-category picker and photo upload)
+- Academy Map (org's academies plotted by location)
 - Academy Dashboard
+- Academy Classes + Class Detail (create a class, assign/remove students — see
+  [Academy Class](05-data-model.md#academy-class))
+- Users (org-wide Athlete/Coach directory + "add user" — see
+  [Data Model](05-data-model.md#coach-profile-sections))
 - Athlete Directory
 - Athlete 360 Profile
 - Coach Dashboard

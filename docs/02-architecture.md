@@ -1,5 +1,14 @@
 # 2. Architecture
 
+## Multi-Tenancy: Organizations Register Too
+
+The platform hosts **many** organizations, not one. Any business can self-register (see
+[Organization Registration](#organization-registration) below) and gets its own isolated set of
+academies, athletes, coaches, and data. A Super Admin/Owner belongs to one organization; nothing
+they see or manage crosses into another org's data. The build ships two example organizations
+(Elite Sports & Fitness, Apex Youth Sports) precisely to prove this isolation is real, not just a
+relabeled screen.
+
 ## Core Hierarchy
 
 ```mermaid
@@ -7,48 +16,64 @@ flowchart TD
     Org[Organization] --> Academy[Academies / Branches]
     Academy --> Dept[Sports / Departments]
     Dept --> Program[Programs]
-    Program --> Batch[Batches]
-    Batch --> Coach[Coaches / Trainers]
-    Batch --> Athlete[Athletes / Members]
+    Program --> Class["Classes\n(Batches)"]
+    Class --> Coach[Coach]
+    Class --> Timing[Timing / Schedule]
+    Class --> Athlete[Assigned Athletes]
 ```
 
-`Organization → Academies / Branches → Sports / Departments → Programs → Batches →
-Coaches / Trainers + Athletes / Members`
+`Organization → Academies / Branches → Sports / Departments → Programs → Classes (Batches) →
+Coach + Timing + Assigned Athletes`
 
 One organization can operate multiple academies. Every entity below Organization is scoped to
-its parent, so data (attendance, performance, billing) always rolls up cleanly to an academy
-and ultimately to the organization.
+its parent, so data (attendance, performance, billing) always rolls up cleanly to an academy and
+ultimately to the organization. "Batch" and "Class" name the same thing — the product surface
+calls it a **Class** (Academy → Classes page), each with one coach, a timing string (e.g. "Mon /
+Wed / Fri · 4:00 – 5:30 PM"), and a roster of assigned athletes that an Academy Manager can grow
+over time.
+
+## Organization Registration
+
+A business owner fills in: organization name, one or more **categories** (multi-select, see
+below), owner name/email/password, and an optional logo. Submitting creates the Organization and
+signs the owner in as its Super Admin/Owner — see [Product Pages](06-product-pages.md) for the
+page list and [Data Model](05-data-model.md#organization) for the stored fields.
 
 ## Academy Category
 
-Each academy carries a **category** — a single classification attribute answering "what kind
-of academy is this?" (e.g. Football Academy, Cricket Academy). This is separate from the
-Sports/Departments layer in the hierarchy above:
+Both **Organizations** and **Academies** carry **categories: a multi-select list**, not a single
+value — an academy (or a whole organization) can genuinely run more than one sport, and its
+category list should say so directly instead of falling back to a vague "Multi-Sport" catch-all.
+This is separate from the Sports/Departments layer in the hierarchy above:
 
-- **Category** is the academy's primary classification, used for branding, search/filtering on
-  the public site (Academy Directory, Programs page), and reporting (e.g. revenue or athlete
-  count by category).
+- **Categories** are the classification used for branding, search/filtering on the public site
+  (Academy Directory, Programs page, Coaches directory), and reporting (e.g. athlete count by
+  category). Each carries its own icon, shown wherever the category appears (badges, filter
+  bars, the create-academy/register-organization multi-select).
 - **Sports/Departments** is the operational layer underneath the academy that actually defines
   which sports/programs it runs.
 
-For a single-sport academy the two line up (a "Cricket Academy" runs a Cricket department). For
-an academy that runs several sports, category is set to `Multi-Sport` while its
-Sports/Departments layer still lists each sport individually — no data is lost either way.
+For a single-sport academy the two line up (a "Cricket Academy" has just `Cricket` selected). For
+an academy that runs several sports, its category list holds each one directly (e.g.
+`[Basketball, Athletics, Fitness & Gym]`) — `Multi-Sport` remains available as its own category
+for a program/coach/athlete whose training is genuinely cross-sport rather than tied to one
+listed sport.
 
-| Example categories |
-|---|
-| Football Academy |
-| Cricket Academy |
-| Basketball Academy |
-| Tennis Academy |
-| Swimming Academy |
-| Athletics / Track & Field Academy |
-| Martial Arts Academy |
-| Fitness & Gym |
-| Multi-Sport Academy |
+| Category | Icon theme |
+|---|---|
+| Football | Ball with panel seams |
+| Cricket | Bat and ball |
+| Basketball | Ball with seam lines |
+| Tennis | Racket |
+| Swimming | Waves |
+| Athletics | Track lanes |
+| Martial Arts | Belt |
+| Fitness & Gym | Dumbbell |
+| Multi-Sport | Overlapping circles |
 
-Category is set when an academy is created and can be changed by an Academy Manager or Super
-Admin; it does not affect existing athlete, program, or batch data.
+Categories are set when an organization or academy is created (multi-select, at least one
+required) and can be changed later by an Academy Manager or Super Admin; changing them does not
+affect existing athlete, program, or class data.
 
 ## Identity & Membership Model
 
@@ -83,7 +108,7 @@ generalizes the existing "athlete is never duplicated on transfer" rule to ident
 
 | Role | Scope |
 |------|-------|
-| Super Admin / Owner | Organization-wide control |
+| Super Admin / Owner | Full control of the one organization they registered or were granted — never another org's data |
 | Academy Manager | Manages a single academy/branch |
 | Coach / Trainer | Runs batches: attendance, training, performance. Can also exist **independently**, with no Org Membership — see [Identity & Membership Model](#identity--membership-model) |
 | Physician | Medical sessions and clearance status |

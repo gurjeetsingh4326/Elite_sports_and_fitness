@@ -13,6 +13,8 @@ erDiagram
     PLATFORM_ACCOUNT ||--o| ATHLETE_PROFILE : "extends (if athlete)"
     PLATFORM_ACCOUNT ||--o| COACH_PROFILE : "extends (if coach)"
     ORGANIZATION ||--o{ ACADEMY : operates
+    ORGANIZATION ||--o{ ORGANIZATION_CATEGORY : "tagged with"
+    ACADEMY ||--o{ ACADEMY_CATEGORY : "tagged with"
     ACADEMY ||--o{ ORG_MEMBERSHIP : scopes
     ORG_MEMBERSHIP }o--|| ROLE : grants
 ```
@@ -20,13 +22,17 @@ erDiagram
 | Entity | Key fields |
 |--------|-----------|
 | `platform_account` | id, name, email, phone, password_hash, avatar_url, created_at |
-| `organization` | id, name, created_at |
-| `academy` | id, organization_id, name, category ([Academy Category](02-architecture.md#academy-category)), address, created_at |
+| `organization` | id, name, slug, logo_url, owner_platform_account_id, created_at — see [Organization Registration](02-architecture.md#organization-registration) |
+| `organization_category` | organization_id, category ([Academy Category](02-architecture.md#academy-category)) — join table, multi-select |
+| `academy` | id, organization_id, name, branch, image_url, lat, lng, created_at |
+| `academy_category` | academy_id, category ([Academy Category](02-architecture.md#academy-category)) — join table, multi-select (see [Academy](05-data-model.md#academy)) |
 | `org_membership` | id, platform_account_id, academy_id, role (`role` enum), status (Active/Invited/Removed), joined_at |
 | `role` | id, name (Super Admin, Academy Manager, Coach/Trainer, Physician, Nutritionist, Receptionist, Athlete/Member, Parent/Guardian) |
 
 An account with **zero** `org_membership` rows is an independent user (see
-[Identity & Membership Model](02-architecture.md#identity--membership-model)).
+[Identity & Membership Model](02-architecture.md#identity--membership-model)). Every `academy`
+row belongs to exactly one `organization` — that FK is the entire multi-tenant boundary; every
+query scoped "for this org" is a join through it.
 
 ## Sports Structure & Athlete Operations
 
@@ -54,7 +60,7 @@ erDiagram
 |--------|-----------|
 | `sport_department` | id, academy_id, name |
 | `program` | id, sport_department_id, name, description |
-| `batch` | id, program_id, name, schedule, coach_membership_id |
+| `batch` | id, program_id, name, schedule, coach_membership_id — called a **Class** in the product (Academy → Classes page); `schedule` is the free-text timing shown there |
 | `athlete_profile` | id, platform_account_id, guardian_name, guardian_contact, current_academy_id, current_program_id, current_batch_id, status |
 | `attendance` | id, batch_id, athlete_id, session_date, status (Present/Absent/Late/Excused), marked_by, created_at — see [Attendance Flow](flows/attendance-flow.md) |
 | `performance_assessment` | id, athlete_id, coach_membership_id, date, metrics (JSON: sport-specific skills + fitness), feedback, recommended_level_id, created_at — append-only, see [Performance Flow](flows/performance-flow.md) |
@@ -102,6 +108,13 @@ erDiagram
   never update rows in place, per [Product Rules](08-product-rules.md).
 - Medical fields (`physician_session`) need row-level access control restricted to Physician +
   explicitly authorized roles, not just application-layer hiding.
+- The M0–M9 UI build stores every `*_url` field (avatar, academy `image_url`, organization
+  `logo_url`) as an in-browser base64 data URI — there is no object storage yet. M11 should swap
+  these for real uploads to blob storage (S3-compatible) with the DB column holding the resulting
+  URL, not the image bytes.
+- `organization_category` / `academy_category` are genuine many-to-many join tables now that
+  organizations and academies both support multiple categories — don't collapse them back to a
+  single enum column.
 
 ---
 [← Milestones](10-milestones.md) · [Back to index](README.md)
