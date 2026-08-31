@@ -15,6 +15,7 @@ import {
   TrophyIcon,
   FlagIcon,
   BarChartIcon,
+  UserPlusIcon,
 } from '@/components/icons'
 import type { Role } from '@/types/role'
 
@@ -39,12 +40,14 @@ const ACHIEVEMENTS: NavItemDef = { key: 'achievements', label: 'Achievements', I
 const MODERATION: NavItemDef = { key: 'moderation', label: 'Moderation Queue', Icon: FlagIcon }
 const TOURNAMENTS: NavItemDef = { key: 'tournaments', label: 'Tournaments', Icon: TrophyIcon }
 const REPORTS: NavItemDef = { key: 'reports', label: 'Reports', Icon: BarChartIcon }
+const USERS: NavItemDef = { key: 'users', label: 'Users', Icon: UserPlusIcon }
 
 export const ROLE_NAV: Record<Role, NavItemDef[]> = {
   'Super Admin/Owner': [
     DASHBOARD,
     ACADEMIES,
     ATHLETES,
+    USERS,
     ATTENDANCE,
     PERFORMANCE,
     PRACTICE_LEVELS,
@@ -58,6 +61,7 @@ export const ROLE_NAV: Record<Role, NavItemDef[]> = {
   'Academy Manager': [
     DASHBOARD,
     ATHLETES,
+    USERS,
     ATTENDANCE,
     PERFORMANCE,
     PRACTICE_LEVELS,
@@ -70,7 +74,7 @@ export const ROLE_NAV: Record<Role, NavItemDef[]> = {
   'Coach/Trainer': [DASHBOARD, ATTENDANCE, PERFORMANCE, PRACTICE_LEVELS, REELS, TOURNAMENTS],
   Physician: [DASHBOARD, ATHLETES, MEDICAL, REELS],
   Nutritionist: [DASHBOARD, ATHLETES, NUTRITION],
-  Receptionist: [DASHBOARD, ATHLETES, ATTENDANCE, PAYMENTS],
+  Receptionist: [DASHBOARD, ATHLETES, USERS, ATTENDANCE, PAYMENTS],
   'Athlete/Member': [DASHBOARD, ATTENDANCE, PERFORMANCE, PRACTICE_LEVELS, REELS, TOURNAMENTS, PAYMENTS],
   'Parent/Guardian': [DASHBOARD, ATTENDANCE, PERFORMANCE, ACHIEVEMENTS, TOURNAMENTS],
 }

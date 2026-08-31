@@ -3,7 +3,8 @@ import { Link, useParams, Navigate } from 'react-router-dom'
 import { AppShell } from '@/components/layout/AppShell'
 import { Tile } from '@/components/ui/Tile'
 import { CategoryBadge } from '@/components/ui/Badge'
-import { athleteProfiles } from '@/data/mockAthleteProfiles'
+import { athleteProfiles as seedAthleteProfiles } from '@/data/mockAthleteProfiles'
+import { useDataStore } from '@/context/DataStoreContext'
 import { clsx } from '@/lib/clsx'
 
 const TABS = [
@@ -33,6 +34,8 @@ const ATTENDANCE_COLORS: Record<string, string> = {
 export default function AthleteProfilePage() {
   const { athleteId } = useParams()
   const [tab, setTab] = useState<Tab>('Overview')
+  const { extraAthleteProfiles } = useDataStore()
+  const athleteProfiles = { ...seedAthleteProfiles, ...extraAthleteProfiles }
   const athlete = athleteId ? athleteProfiles[athleteId] : undefined
 
   if (!athlete) return <Navigate to="/dashboard/athletes" replace />

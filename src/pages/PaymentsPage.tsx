@@ -2,9 +2,10 @@ import { Link } from 'react-router-dom'
 import { AppShell } from '@/components/layout/AppShell'
 import { Tile } from '@/components/ui/Tile'
 import { clsx } from '@/lib/clsx'
-import { athleteProfiles } from '@/data/mockAthleteProfiles'
+import { athleteProfiles as seedAthleteProfiles } from '@/data/mockAthleteProfiles'
 import { useAthletesForOrg } from '@/lib/orgScope'
 import { useOrg } from '@/context/OrgContext'
+import { useDataStore } from '@/context/DataStoreContext'
 
 const STATUS_CLASSES: Record<string, string> = {
   Paid: 'text-[oklch(45%_0.13_145)]',
@@ -14,6 +15,8 @@ const STATUS_CLASSES: Record<string, string> = {
 
 export default function PaymentsPage() {
   const { currentOrg } = useOrg()
+  const { extraAthleteProfiles } = useDataStore()
+  const athleteProfiles = { ...seedAthleteProfiles, ...extraAthleteProfiles }
   const orgAthleteIds = new Set(useAthletesForOrg(currentOrg.id).map((a) => a.id))
   const rows = Object.values(athleteProfiles)
     .filter((profile) => orgAthleteIds.has(profile.id))

@@ -4,14 +4,20 @@ import { AppShell } from '@/components/layout/AppShell'
 import { Tile } from '@/components/ui/Tile'
 import { CategoryBadgeList } from '@/components/ui/Badge'
 import { CoachMiniCard } from '@/components/coaches/CoachMiniCard'
-import { CheckIcon, ImagePlaceholderIcon, MapPinIcon } from '@/components/icons'
-import { academyRows } from '@/data/mockDashboard'
-import { programs } from '@/data/mockPrograms'
-import { coaches } from '@/data/mockCoaches'
-import { athletes } from '@/data/mockAthletes'
+import { CheckIcon, ImagePlaceholderIcon, MapPinIcon, ClockIcon } from '@/components/icons'
+import { useAcademiesForOrg, useProgramsForOrg, useCoachesForOrg, useAthletesForOrg } from '@/lib/orgScope'
+import { useOrg } from '@/context/OrgContext'
+import { useDataStore } from '@/context/DataStoreContext'
 
 export default function AcademyDashboardPage() {
   const { academyId } = useParams()
+  const { currentOrg } = useOrg()
+  const { classes } = useDataStore()
+  const academyRows = useAcademiesForOrg(currentOrg.id)
+  const programs = useProgramsForOrg(currentOrg.id)
+  const coaches = useCoachesForOrg(currentOrg.id)
+  const athletes = useAthletesForOrg(currentOrg.id)
+
   const academy = academyRows.find((a) => a.id === academyId)
   const [showInvite, setShowInvite] = useState(false)
   const [selectedCoach, setSelectedCoach] = useState('')
@@ -22,6 +28,7 @@ export default function AcademyDashboardPage() {
   const academyPrograms = programs.filter((p) => p.academyId === academyId)
   const academyCoaches = coaches.filter((c) => c.academyId === academyId)
   const academyAthletes = athletes.filter((a) => a.academyId === academyId).slice(0, 4)
+  const academyClasses = classes.filter((c) => c.academyId === academyId)
   const independentCoaches = coaches.filter((c) => c.isIndependent && !invited.includes(c.id))
 
   function sendInvite() {
@@ -34,31 +41,40 @@ export default function AcademyDashboardPage() {
   return (
     <AppShell>
       <div className="flex flex-col gap-6">
-        <div>
-          <Link to="/dashboard/academies" className="text-xs font-semibold text-muted hover:text-navy">
-            ← Back to Academies
-          </Link>
-          <div className="mt-3 flex items-center gap-4">
-            <div className="flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-surface">
-              {academy.imageUrl ? (
-                <img src={academy.imageUrl} alt="" className="h-full w-full object-cover" />
-              ) : (
-                <ImagePlaceholderIcon size={22} className="text-muted" />
-              )}
-            </div>
-            <div>
-              <div className="flex items-center gap-3">
-                <h1 className="text-xl font-bold text-navy">{academy.name}</h1>
+        <div className="flex flex-wrap items-start justify-between gap-4">
+          <div>
+            <Link to="/dashboard/academies" className="text-xs font-semibold text-muted hover:text-navy">
+              ← Back to Academies
+            </Link>
+            <div className="mt-3 flex items-center gap-4">
+              <div className="flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-surface">
+                {academy.imageUrl ? (
+                  <img src={academy.imageUrl} alt="" className="h-full w-full object-cover" />
+                ) : (
+                  <ImagePlaceholderIcon size={22} className="text-muted" />
+                )}
               </div>
-              <div className="mt-1 flex items-center gap-1.5 text-sm text-muted">
-                <MapPinIcon size={14} />
-                {academy.branch}
-              </div>
-              <div className="mt-2">
-                <CategoryBadgeList categories={academy.categories} />
+              <div>
+                <div className="flex items-center gap-3">
+                  <h1 className="text-xl font-bold text-navy">{academy.name}</h1>
+                </div>
+                <div className="mt-1 flex items-center gap-1.5 text-sm text-muted">
+                  <MapPinIcon size={14} />
+                  {academy.branch}
+                </div>
+                <div className="mt-2">
+                  <CategoryBadgeList categories={academy.categories} />
+                </div>
               </div>
             </div>
           </div>
+          <Link
+            to={`/dashboard/academies/${academyId}/classes`}
+            className="flex items-center gap-1.5 rounded-full border border-[oklch(90%_0.005_90)] bg-white px-4 py-2.5 text-sm font-semibold text-navy hover:bg-hover"
+          >
+            <ClockIcon size={15} />
+            Classes ({academyClasses.length})
+          </Link>
         </div>
 
         <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
@@ -97,6 +113,9 @@ export default function AcademyDashboardPage() {
                   </Tile>
                 </Link>
               ))}
+              {academyPrograms.length === 0 && (
+                <Tile className="bg-white p-4 text-center text-xs text-muted">No programs yet.</Tile>
+              )}
             </div>
 
             <div className="mb-3 mt-6 flex items-center justify-between">
@@ -122,6 +141,9 @@ export default function AcademyDashboardPage() {
                   </Tile>
                 </Link>
               ))}
+              {academyAthletes.length === 0 && (
+                <Tile className="bg-white p-4 text-center text-xs text-muted">No athletes yet.</Tile>
+              )}
             </div>
           </div>
 
@@ -170,6 +192,9 @@ export default function AcademyDashboardPage() {
               {academyCoaches.map((coach) => (
                 <CoachMiniCard key={coach.id} coach={coach} />
               ))}
+              {academyCoaches.length === 0 && (
+                <Tile className="bg-white p-4 text-center text-xs text-muted">No coaches yet.</Tile>
+              )}
             </div>
           </div>
         </div>

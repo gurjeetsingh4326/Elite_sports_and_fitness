@@ -11,8 +11,12 @@ export function AppShell({ children }: { children: ReactNode }) {
     <div className="min-h-screen bg-surface">
       <div className="flex items-center justify-between border-b border-[oklch(92%_0.005_90)] bg-white px-4 py-3 md:hidden">
         <div className="flex min-w-0 items-center gap-2">
-          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-navy">
-            <TrophyIcon size={16} className="text-brand-amber" />
+          <div className="flex h-8 w-8 shrink-0 items-center justify-center overflow-hidden rounded-lg bg-navy">
+            {currentOrg.logoUrl ? (
+              <img src={currentOrg.logoUrl} alt="" className="h-full w-full object-cover" />
+            ) : (
+              <TrophyIcon size={16} className="text-brand-amber" />
+            )}
           </div>
           <span className="truncate text-sm font-bold text-navy">{currentOrg.name}</span>
         </div>

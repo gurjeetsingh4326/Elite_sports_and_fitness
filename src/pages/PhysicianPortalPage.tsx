@@ -4,9 +4,10 @@ import { Tile } from '@/components/ui/Tile'
 import { Select } from '@/components/ui/Select'
 import { CheckIcon } from '@/components/icons'
 import { clsx } from '@/lib/clsx'
-import { athleteProfiles } from '@/data/mockAthleteProfiles'
+import { athleteProfiles as seedAthleteProfiles } from '@/data/mockAthleteProfiles'
 import { useAthletesForOrg } from '@/lib/orgScope'
 import { useOrg } from '@/context/OrgContext'
+import { useDataStore } from '@/context/DataStoreContext'
 
 type TrainingStatus = 'Cleared' | 'Restricted' | 'Temporarily Not Cleared'
 
@@ -18,6 +19,8 @@ const STATUS_CLASSES: Record<TrainingStatus, string> = {
 
 export default function PhysicianPortalPage() {
   const { currentOrg } = useOrg()
+  const { extraAthleteProfiles } = useDataStore()
+  const athleteProfiles = { ...seedAthleteProfiles, ...extraAthleteProfiles }
   const athletes = useAthletesForOrg(currentOrg.id)
   const [athleteId, setAthleteId] = useState('')
   const [overrides, setOverrides] = useState<Record<string, { status: TrainingStatus; notes: string; date: string }>>({})

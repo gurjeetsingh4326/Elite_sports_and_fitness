@@ -13,6 +13,9 @@ import RegisterOrganizationPage from '@/pages/RegisterOrganizationPage'
 import DashboardPage from '@/pages/DashboardPage'
 import AcademyManagementPage from '@/pages/AcademyManagementPage'
 import AcademyDashboardPage from '@/pages/AcademyDashboardPage'
+import AcademyMapPage from '@/pages/AcademyMapPage'
+import AcademyClassesPage from '@/pages/AcademyClassesPage'
+import ClassDetailPage from '@/pages/ClassDetailPage'
 import AthleteDirectoryPage from '@/pages/AthleteDirectoryPage'
 import AthleteProfilePage from '@/pages/AthleteProfilePage'
 import AttendancePage from '@/pages/AttendancePage'
@@ -27,6 +30,7 @@ import TransfersPage from '@/pages/TransfersPage'
 import TournamentsPage from '@/pages/TournamentsPage'
 import PaymentsPage from '@/pages/PaymentsPage'
 import ReportsPage from '@/pages/ReportsPage'
+import UsersPage from '@/pages/UsersPage'
 
 export default function App() {
   return (
@@ -46,7 +50,10 @@ export default function App() {
       <Route path="/register-organization" element={<RegisterOrganizationPage />} />
       <Route path="/dashboard" element={<DashboardPage />} />
       <Route path="/dashboard/academies" element={<AcademyManagementPage />} />
+      <Route path="/dashboard/academies/map" element={<AcademyMapPage />} />
       <Route path="/dashboard/academies/:academyId" element={<AcademyDashboardPage />} />
+      <Route path="/dashboard/academies/:academyId/classes" element={<AcademyClassesPage />} />
+      <Route path="/dashboard/academies/:academyId/classes/:classId" element={<ClassDetailPage />} />
       <Route path="/dashboard/athletes" element={<AthleteDirectoryPage />} />
       <Route path="/dashboard/athletes/:athleteId" element={<AthleteProfilePage />} />
       <Route path="/dashboard/attendance" element={<AttendancePage />} />
@@ -59,6 +66,7 @@ export default function App() {
       <Route path="/dashboard/tournaments" element={<TournamentsPage />} />
       <Route path="/dashboard/payments" element={<PaymentsPage />} />
       <Route path="/dashboard/reports" element={<ReportsPage />} />
+      <Route path="/dashboard/users" element={<UsersPage />} />
     </Routes>
   )
 }

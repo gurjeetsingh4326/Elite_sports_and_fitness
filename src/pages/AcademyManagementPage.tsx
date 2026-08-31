@@ -1,14 +1,61 @@
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { AppShell } from '@/components/layout/AppShell'
 import { Tile } from '@/components/ui/Tile'
+import { Field } from '@/components/ui/Field'
 import { CategoryBadgeList } from '@/components/ui/Badge'
-import { ImagePlaceholderIcon } from '@/components/icons'
+import { CategoryMultiSelect } from '@/components/ui/CategoryMultiSelect'
+import { ImageUploadField } from '@/components/ui/ImageUploadField'
+import { ImagePlaceholderIcon, MapPinIcon } from '@/components/icons'
 import { useAcademiesForOrg } from '@/lib/orgScope'
 import { useOrg } from '@/context/OrgContext'
+import { useDataStore } from '@/context/DataStoreContext'
+import type { AcademyCategory } from '@/types/dashboard'
 
 export default function AcademyManagementPage() {
   const { currentOrg } = useOrg()
+  const { addAcademy } = useDataStore()
   const academyRows = useAcademiesForOrg(currentOrg.id)
+
+  const [showForm, setShowForm] = useState(false)
+  const [name, setName] = useState('')
+  const [branch, setBranch] = useState('')
+  const [categories, setCategories] = useState<AcademyCategory[]>([])
+  const [imageUrl, setImageUrl] = useState<string | null>(null)
+  const [lat, setLat] = useState('')
+  const [lng, setLng] = useState('')
+
+  const defaultLat = academyRows[0]?.lat ?? 40.7128
+  const defaultLng = academyRows[0]?.lng ?? -74.006
+
+  function createAcademy() {
+    if (!name.trim() || !branch.trim() || categories.length === 0) return
+
+    const id = `${name.trim().toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')}-${academyRows.length}`
+
+    addAcademy({
+      id,
+      organizationId: currentOrg.id,
+      name: name.trim(),
+      branch: branch.trim(),
+      categories,
+      imageUrl,
+      lat: lat ? Number(lat) : defaultLat + (Math.random() - 0.5) * 0.05,
+      lng: lng ? Number(lng) : defaultLng + (Math.random() - 0.5) * 0.05,
+      athletes: 0,
+      attendancePct: 0,
+      coaches: 0,
+      batches: 0,
+    })
+
+    setShowForm(false)
+    setName('')
+    setBranch('')
+    setCategories([])
+    setImageUrl(null)
+    setLat('')
+    setLng('')
+  }
 
   return (
     <AppShell>
@@ -20,10 +67,58 @@ export default function AcademyManagementPage() {
               {academyRows.length} {academyRows.length === 1 ? 'academy' : 'academies'} at {currentOrg.name}
             </p>
           </div>
-          <button type="button" className="rounded-full bg-navy px-5 py-2.5 text-sm font-semibold text-white hover:bg-navy-light">
-            + Add academy
-          </button>
+          <div className="flex gap-2.5">
+            <Link
+              to="/dashboard/academies/map"
+              className="flex items-center gap-1.5 rounded-full border border-[oklch(90%_0.005_90)] bg-white px-4 py-2.5 text-sm font-semibold text-navy hover:bg-hover"
+            >
+              <MapPinIcon size={15} />
+              View map
+            </Link>
+            <button
+              type="button"
+              onClick={() => setShowForm((v) => !v)}
+              className="rounded-full bg-navy px-5 py-2.5 text-sm font-semibold text-white hover:bg-navy-light"
+            >
+              {showForm ? 'Cancel' : '+ Add academy'}
+            </button>
+          </div>
         </div>
+
+        {showForm && (
+          <Tile className="flex max-w-2xl flex-col gap-4 bg-white p-6">
+            <ImageUploadField label="Academy photo" value={imageUrl} onChange={setImageUrl} />
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+              <Field label="Academy name" value={name} onChange={(e) => setName(e.target.value)} placeholder="Riverside Tennis Academy" />
+              <Field label="Branch / location" value={branch} onChange={(e) => setBranch(e.target.value)} placeholder="Downtown" />
+            </div>
+            <CategoryMultiSelect label="Categories" selected={categories} onChange={setCategories} />
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+              <Field
+                label="Latitude (optional)"
+                type="number"
+                value={lat}
+                onChange={(e) => setLat(e.target.value)}
+                placeholder={String(defaultLat)}
+              />
+              <Field
+                label="Longitude (optional)"
+                type="number"
+                value={lng}
+                onChange={(e) => setLng(e.target.value)}
+                placeholder={String(defaultLng)}
+              />
+            </div>
+            <button
+              type="button"
+              onClick={createAcademy}
+              disabled={!name.trim() || !branch.trim() || categories.length === 0}
+              className="rounded-full bg-navy py-3 text-sm font-semibold text-white hover:bg-navy-light disabled:cursor-not-allowed disabled:opacity-40"
+            >
+              Create academy
+            </button>
+          </Tile>
+        )}
 
         {academyRows.length === 0 && (
           <Tile className="bg-white p-8 text-center text-sm text-muted">No academies yet — add your first one.</Tile>

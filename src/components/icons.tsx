@@ -179,6 +179,16 @@ export function MenuIcon(props: IconProps) {
   )
 }
 
+export function UserPlusIcon(props: IconProps) {
+  return (
+    <svg {...base(props)}>
+      <circle cx="8" cy="7" r="3" />
+      <path d="M2.5 16.5c.4-3 2.6-4.7 5.5-4.7s5.1 1.7 5.5 4.7" />
+      <path d="M15.5 5v6M12.5 8h6" />
+    </svg>
+  )
+}
+
 export function CheckIcon(props: IconProps) {
   return (
     <svg {...base(props)}>

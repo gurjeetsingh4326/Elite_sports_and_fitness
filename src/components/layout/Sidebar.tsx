@@ -26,6 +26,7 @@ const NAV_ROUTES: Record<string, string> = {
   tournaments: '/dashboard/tournaments',
   payments: '/dashboard/payments',
   reports: '/dashboard/reports',
+  users: '/dashboard/users',
 }
 
 function chunk<T>(items: T[], size: number): T[][] {
@@ -76,8 +77,12 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
       >
       <Tile className="bg-navy p-[18px] text-white">
         <div className="mb-5 flex items-center justify-between">
-          <div className="flex h-[34px] w-[34px] items-center justify-center rounded-[10px] bg-brand-amber">
-            <TrophyIcon size={18} className="text-navy" />
+          <div className="flex h-[34px] w-[34px] shrink-0 items-center justify-center overflow-hidden rounded-[10px] bg-brand-amber">
+            {currentOrg.logoUrl ? (
+              <img src={currentOrg.logoUrl} alt="" className="h-full w-full object-cover" />
+            ) : (
+              <TrophyIcon size={18} className="text-navy" />
+            )}
           </div>
           <div className="flex gap-2">
             <button

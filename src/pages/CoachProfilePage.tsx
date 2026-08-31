@@ -7,12 +7,16 @@ import { Select } from '@/components/ui/Select'
 import { CategoryBadge } from '@/components/ui/Badge'
 import { ReelThumb } from '@/components/reels/ReelThumb'
 import { ReelsIcon, CheckIcon } from '@/components/icons'
-import { coaches } from '@/data/mockCoaches'
+import { coaches as seedCoaches } from '@/data/mockCoaches'
 import { reels } from '@/data/mockReels'
-import { academyRows } from '@/data/mockDashboard'
+import { academyRows as seedAcademyRows } from '@/data/mockDashboard'
+import { useDataStore } from '@/context/DataStoreContext'
 
 export default function CoachProfilePage() {
   const { coachId } = useParams()
+  const { extraCoaches, extraAcademies } = useDataStore()
+  const coaches = [...seedCoaches, ...extraCoaches]
+  const academyRows = [...seedAcademyRows, ...extraAcademies]
   const coach = coaches.find((c) => c.id === coachId)
   const [selectedAcademy, setSelectedAcademy] = useState('')
   const [applied, setApplied] = useState(false)
