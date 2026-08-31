@@ -3,12 +3,12 @@ import { AppShell } from '@/components/layout/AppShell'
 import { Tile } from '@/components/ui/Tile'
 import { CategoryBadgeList } from '@/components/ui/Badge'
 import { ImagePlaceholderIcon } from '@/components/icons'
-import { academiesForOrg } from '@/lib/orgScope'
+import { useAcademiesForOrg } from '@/lib/orgScope'
 import { useOrg } from '@/context/OrgContext'
 
 export default function AcademyManagementPage() {
   const { currentOrg } = useOrg()
-  const academyRows = academiesForOrg(currentOrg.id)
+  const academyRows = useAcademiesForOrg(currentOrg.id)
 
   return (
     <AppShell>

@@ -5,7 +5,7 @@ import { Select } from '@/components/ui/Select'
 import { CheckIcon } from '@/components/icons'
 import { athleteProfiles } from '@/data/mockAthleteProfiles'
 import { PRACTICE_LEVELS, type PracticeLevel } from '@/types/athlete'
-import { athletesForOrg } from '@/lib/orgScope'
+import { useAthletesForOrg } from '@/lib/orgScope'
 import { useOrg } from '@/context/OrgContext'
 
 interface DraftMetrics {
@@ -22,7 +22,7 @@ const METRIC_LABELS: Record<keyof DraftMetrics, string> = {
 
 export default function PerformancePage() {
   const { currentOrg } = useOrg()
-  const athletes = athletesForOrg(currentOrg.id)
+  const athletes = useAthletesForOrg(currentOrg.id)
   const [athleteId, setAthleteId] = useState('')
   const [metrics, setMetrics] = useState<DraftMetrics>({ technical: 6, tactical: 6, fitness: 6 })
   const [feedback, setFeedback] = useState('')

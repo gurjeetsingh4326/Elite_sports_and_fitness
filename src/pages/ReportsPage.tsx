@@ -4,13 +4,13 @@ import { CategoryBadgeList } from '@/components/ui/Badge'
 import { TrendChartTile } from '@/components/dashboard/TrendChartTile'
 import { orgDashboardStatsByOrg, weekAttendance, peakDayLabel } from '@/data/mockDashboard'
 import { PRACTICE_LEVELS } from '@/types/athlete'
-import { academiesForOrg, athletesForOrg } from '@/lib/orgScope'
+import { useAcademiesForOrg, useAthletesForOrg } from '@/lib/orgScope'
 import { useOrg } from '@/context/OrgContext'
 
 export default function ReportsPage() {
   const { currentOrg } = useOrg()
-  const academyRows = academiesForOrg(currentOrg.id)
-  const athletes = athletesForOrg(currentOrg.id)
+  const academyRows = useAcademiesForOrg(currentOrg.id)
+  const athletes = useAthletesForOrg(currentOrg.id)
   const orgDashboardStats = orgDashboardStatsByOrg[currentOrg.id] ?? {
     academies: academyRows.length,
     totalAthletes: athletes.length,

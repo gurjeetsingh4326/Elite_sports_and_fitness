@@ -1,34 +1,52 @@
+import { useMemo } from 'react'
 import { academyRows } from '@/data/mockDashboard'
 import { programs } from '@/data/mockPrograms'
 import { coaches } from '@/data/mockCoaches'
 import { athletes } from '@/data/mockAthletes'
 import { transfers } from '@/data/mockTransfers'
+import { useDataStore } from '@/context/DataStoreContext'
 
-export function academiesForOrg(orgId: string) {
-  return academyRows.filter((a) => a.organizationId === orgId)
+export function useAcademiesForOrg(orgId: string) {
+  const { extraAcademies } = useDataStore()
+  return useMemo(
+    () => [...academyRows, ...extraAcademies].filter((a) => a.organizationId === orgId),
+    [extraAcademies, orgId],
+  )
 }
 
-export function academyIdsForOrg(orgId: string) {
-  return new Set(academiesForOrg(orgId).map((a) => a.id))
+export function useAcademyIdsForOrg(orgId: string) {
+  const rows = useAcademiesForOrg(orgId)
+  return useMemo(() => new Set(rows.map((a) => a.id)), [rows])
 }
 
-export function programsForOrg(orgId: string) {
-  const ids = academyIdsForOrg(orgId)
-  return programs.filter((p) => ids.has(p.academyId))
+export function useProgramsForOrg(orgId: string) {
+  const ids = useAcademyIdsForOrg(orgId)
+  return useMemo(() => programs.filter((p) => ids.has(p.academyId)), [ids])
 }
 
 /** Independent coaches have no academyId and are platform-wide, not org-scoped. */
-export function coachesForOrg(orgId: string) {
-  const ids = academyIdsForOrg(orgId)
-  return coaches.filter((c) => c.academyId && ids.has(c.academyId))
+export function useCoachesForOrg(orgId: string) {
+  const { extraCoaches } = useDataStore()
+  const ids = useAcademyIdsForOrg(orgId)
+  return useMemo(
+    () => [...coaches, ...extraCoaches].filter((c) => c.academyId && ids.has(c.academyId)),
+    [extraCoaches, ids],
+  )
 }
 
-export function athletesForOrg(orgId: string) {
-  const ids = academyIdsForOrg(orgId)
-  return athletes.filter((a) => ids.has(a.academyId))
+export function useAthletesForOrg(orgId: string) {
+  const { extraAthletes } = useDataStore()
+  const ids = useAcademyIdsForOrg(orgId)
+  return useMemo(
+    () => [...athletes, ...extraAthletes].filter((a) => ids.has(a.academyId)),
+    [extraAthletes, ids],
+  )
 }
 
-export function transfersForOrg(orgId: string) {
-  const athleteIds = new Set(athletesForOrg(orgId).map((a) => a.id))
-  return transfers.filter((t) => athleteIds.has(t.athleteId))
+export function useTransfersForOrg(orgId: string) {
+  const athleteRows = useAthletesForOrg(orgId)
+  return useMemo(() => {
+    const athleteIds = new Set(athleteRows.map((a) => a.id))
+    return transfers.filter((t) => athleteIds.has(t.athleteId))
+  }, [athleteRows])
 }

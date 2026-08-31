@@ -8,12 +8,12 @@ import { TrendChartTile } from '@/components/dashboard/TrendChartTile'
 import { Tile } from '@/components/ui/Tile'
 import { AcademiesIcon, AthletesIcon, PaymentsIcon } from '@/components/icons'
 import { orgDashboardStatsByOrg, weekAttendance, peakDayLabel } from '@/data/mockDashboard'
-import { academiesForOrg } from '@/lib/orgScope'
+import { useAcademiesForOrg } from '@/lib/orgScope'
 import { useOrg } from '@/context/OrgContext'
 
 export default function DashboardPage() {
   const { currentOrg } = useOrg()
-  const orgAcademies = academiesForOrg(currentOrg.id)
+  const orgAcademies = useAcademiesForOrg(currentOrg.id)
   const stats = orgDashboardStatsByOrg[currentOrg.id] ?? {
     academies: orgAcademies.length,
     academiesDeltaLabel: 'New',

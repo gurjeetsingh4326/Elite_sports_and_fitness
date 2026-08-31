@@ -3,7 +3,7 @@ import { AppShell } from '@/components/layout/AppShell'
 import { Tile } from '@/components/ui/Tile'
 import { clsx } from '@/lib/clsx'
 import { athleteProfiles } from '@/data/mockAthleteProfiles'
-import { athletesForOrg } from '@/lib/orgScope'
+import { useAthletesForOrg } from '@/lib/orgScope'
 import { useOrg } from '@/context/OrgContext'
 
 const STATUS_CLASSES: Record<string, string> = {
@@ -14,7 +14,7 @@ const STATUS_CLASSES: Record<string, string> = {
 
 export default function PaymentsPage() {
   const { currentOrg } = useOrg()
-  const orgAthleteIds = new Set(athletesForOrg(currentOrg.id).map((a) => a.id))
+  const orgAthleteIds = new Set(useAthletesForOrg(currentOrg.id).map((a) => a.id))
   const rows = Object.values(athleteProfiles)
     .filter((profile) => orgAthleteIds.has(profile.id))
     .flatMap((profile) =>

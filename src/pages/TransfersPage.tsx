@@ -1,21 +1,24 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { AppShell } from '@/components/layout/AppShell'
 import { Tile } from '@/components/ui/Tile'
 import { Select } from '@/components/ui/Select'
 import { clsx } from '@/lib/clsx'
-import { academiesForOrg, athletesForOrg, transfersForOrg } from '@/lib/orgScope'
+import { useAcademiesForOrg, useAthletesForOrg, useTransfersForOrg } from '@/lib/orgScope'
 import { useOrg } from '@/context/OrgContext'
 import type { TransferRecord } from '@/types/transfer'
 
 export default function TransfersPage() {
   const { currentOrg } = useOrg()
-  const athletes = athletesForOrg(currentOrg.id)
-  const academyRows = academiesForOrg(currentOrg.id)
-  const [transfers, setTransfers] = useState(() => transfersForOrg(currentOrg.id))
+  const athletes = useAthletesForOrg(currentOrg.id)
+  const academyRows = useAcademiesForOrg(currentOrg.id)
+  const scopedTransfers = useTransfersForOrg(currentOrg.id)
 
-  useEffect(() => {
-    setTransfers(transfersForOrg(currentOrg.id))
-  }, [currentOrg.id])
+  const [localTransfers, setLocalTransfers] = useState<(TransferRecord & { organizationId: string })[]>([])
+  const [statusOverrides, setStatusOverrides] = useState<Record<string, TransferRecord['status']>>({})
+
+  const transfers = [...localTransfers.filter((t) => t.organizationId === currentOrg.id), ...scopedTransfers].map(
+    (t) => ({ ...t, status: statusOverrides[t.id] ?? t.status }),
+  )
 
   const [showForm, setShowForm] = useState(false)
   const [athleteId, setAthleteId] = useState('')
@@ -30,8 +33,8 @@ export default function TransfersPage() {
     const destination = academyRows.find((a) => a.id === destinationId)
     if (!destination) return
 
-    const record: TransferRecord = {
-      id: `local-${transfers.length}`,
+    const record: TransferRecord & { organizationId: string } = {
+      id: `local-${localTransfers.length}`,
       athleteId: athlete.id,
       athleteName: athlete.name,
       fromAcademy: athlete.academyName,
@@ -39,8 +42,9 @@ export default function TransfersPage() {
       date,
       reason,
       status: 'Pending',
+      organizationId: currentOrg.id,
     }
-    setTransfers((prev) => [record, ...prev])
+    setLocalTransfers((prev) => [record, ...prev])
     setShowForm(false)
     setAthleteId('')
     setDestinationId('')
@@ -49,7 +53,7 @@ export default function TransfersPage() {
   }
 
   function approve(id: string) {
-    setTransfers((prev) => prev.map((t) => (t.id === id ? { ...t, status: 'Approved' } : t)))
+    setStatusOverrides((prev) => ({ ...prev, [id]: 'Approved' }))
   }
 
   return (
