@@ -1,6 +1,6 @@
 import { AppShell } from '@/components/layout/AppShell'
 import { Tile } from '@/components/ui/Tile'
-import { CategoryBadge } from '@/components/ui/Badge'
+import { CategoryBadgeList } from '@/components/ui/Badge'
 import { TrendChartTile } from '@/components/dashboard/TrendChartTile'
 import { orgDashboardStatsByOrg, weekAttendance, peakDayLabel } from '@/data/mockDashboard'
 import { PRACTICE_LEVELS } from '@/types/athlete'
@@ -88,7 +88,7 @@ export default function ReportsPage() {
               {academyRows.map((a) => (
                 <div key={a.id} className="grid grid-cols-[1.8fr_1fr_0.8fr_0.8fr_0.8fr_0.9fr] items-center gap-3 rounded-xl px-4 py-2.5">
                   <span className="text-sm font-semibold text-navy">{a.name}</span>
-                  <CategoryBadge category={a.category} />
+                  <CategoryBadgeList categories={a.categories} max={1} />
                   <span className="text-xs text-muted">{a.athletes}</span>
                   <span className="text-xs text-muted">{a.coaches}</span>
                   <span className="text-xs text-muted">{a.batches}</span>

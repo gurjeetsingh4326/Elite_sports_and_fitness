@@ -1,7 +1,8 @@
 import { Link } from 'react-router-dom'
 import { AppShell } from '@/components/layout/AppShell'
 import { Tile } from '@/components/ui/Tile'
-import { CategoryBadge } from '@/components/ui/Badge'
+import { CategoryBadgeList } from '@/components/ui/Badge'
+import { ImagePlaceholderIcon } from '@/components/icons'
 import { academiesForOrg } from '@/lib/orgScope'
 import { useOrg } from '@/context/OrgContext'
 
@@ -32,12 +33,21 @@ export default function AcademyManagementPage() {
           {academyRows.map((academy) => (
             <Link key={academy.id} to={`/dashboard/academies/${academy.id}`}>
               <Tile className="flex flex-col gap-4 bg-white p-6 transition-shadow hover:shadow-[0_8px_24px_-8px_oklch(50%_0.05_40_/_15%)]">
-                <div className="flex items-start justify-between gap-3">
-                  <div>
+                <div className="flex items-start gap-3">
+                  <div className="flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-surface">
+                    {academy.imageUrl ? (
+                      <img src={academy.imageUrl} alt="" className="h-full w-full object-cover" />
+                    ) : (
+                      <ImagePlaceholderIcon size={18} className="text-muted" />
+                    )}
+                  </div>
+                  <div className="min-w-0 flex-1">
                     <div className="text-base font-bold text-navy">{academy.name}</div>
                     <div className="mt-1 text-xs font-semibold text-muted">{academy.branch}</div>
+                    <div className="mt-2">
+                      <CategoryBadgeList categories={academy.categories} />
+                    </div>
                   </div>
-                  <CategoryBadge category={academy.category} />
                 </div>
                 <div className="grid grid-cols-2 gap-3 border-t border-[oklch(93%_0.005_90)] pt-4 sm:grid-cols-4">
                   <div>

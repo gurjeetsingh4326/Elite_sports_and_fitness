@@ -2,21 +2,25 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { AuthLayout } from '@/components/layout/AuthLayout'
 import { Field } from '@/components/ui/Field'
+import { CategoryMultiSelect } from '@/components/ui/CategoryMultiSelect'
+import { ImageUploadField } from '@/components/ui/ImageUploadField'
 import { useOrg } from '@/context/OrgContext'
+import type { AcademyCategory } from '@/types/dashboard'
 
 export default function RegisterOrganizationPage() {
   const navigate = useNavigate()
   const { organizations, addOrganization } = useOrg()
 
   const [orgName, setOrgName] = useState('')
-  const [category, setCategory] = useState('')
+  const [categories, setCategories] = useState<AcademyCategory[]>([])
+  const [logoUrl, setLogoUrl] = useState<string | null>(null)
   const [ownerName, setOwnerName] = useState('')
   const [ownerEmail, setOwnerEmail] = useState('')
   const [error, setError] = useState('')
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
-    if (!orgName.trim() || !ownerName.trim() || !ownerEmail.trim()) return
+    if (!orgName.trim() || !ownerName.trim() || !ownerEmail.trim() || categories.length === 0) return
 
     const slug = orgName
       .trim()
@@ -33,7 +37,8 @@ export default function RegisterOrganizationPage() {
       id: slug,
       name: orgName.trim(),
       slug,
-      category: category.trim() || 'Multi-Sport Group',
+      categories,
+      logoUrl,
       ownerName: ownerName.trim(),
       ownerEmail: ownerEmail.trim(),
       createdAt: new Date().toISOString().slice(0, 10),
@@ -49,6 +54,8 @@ export default function RegisterOrganizationPage() {
       footer={<>Registering as an athlete or coach instead? Use the links in the header.</>}
     >
       <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
+        <ImageUploadField label="Organization logo" value={logoUrl} onChange={setLogoUrl} shape="circle" />
+
         <Field
           label="Organization name"
           type="text"
@@ -56,13 +63,9 @@ export default function RegisterOrganizationPage() {
           onChange={(e) => setOrgName(e.target.value)}
           placeholder="Apex Youth Sports"
         />
-        <Field
-          label="Primary focus (optional)"
-          type="text"
-          value={category}
-          onChange={(e) => setCategory(e.target.value)}
-          placeholder="e.g. Football Academy Group"
-        />
+
+        <CategoryMultiSelect label="Sports offered" selected={categories} onChange={setCategories} />
+
         <Field
           label="Your name"
           type="text"
@@ -85,7 +88,8 @@ export default function RegisterOrganizationPage() {
 
         <button
           type="submit"
-          className="mt-2 rounded-full bg-navy py-3 text-sm font-semibold text-white hover:bg-navy-light"
+          disabled={categories.length === 0}
+          className="mt-2 rounded-full bg-navy py-3 text-sm font-semibold text-white hover:bg-navy-light disabled:cursor-not-allowed disabled:opacity-40"
         >
           Create organization
         </button>

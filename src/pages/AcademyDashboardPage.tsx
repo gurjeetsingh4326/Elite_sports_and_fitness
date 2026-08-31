@@ -2,9 +2,9 @@ import { useState } from 'react'
 import { Link, useParams, Navigate } from 'react-router-dom'
 import { AppShell } from '@/components/layout/AppShell'
 import { Tile } from '@/components/ui/Tile'
-import { CategoryBadge } from '@/components/ui/Badge'
+import { CategoryBadgeList } from '@/components/ui/Badge'
 import { CoachMiniCard } from '@/components/coaches/CoachMiniCard'
-import { CheckIcon } from '@/components/icons'
+import { CheckIcon, ImagePlaceholderIcon, MapPinIcon } from '@/components/icons'
 import { academyRows } from '@/data/mockDashboard'
 import { programs } from '@/data/mockPrograms'
 import { coaches } from '@/data/mockCoaches'
@@ -38,11 +38,27 @@ export default function AcademyDashboardPage() {
           <Link to="/dashboard/academies" className="text-xs font-semibold text-muted hover:text-navy">
             ← Back to Academies
           </Link>
-          <div className="mt-3 flex items-center gap-3">
-            <h1 className="text-xl font-bold text-navy">{academy.name}</h1>
-            <CategoryBadge category={academy.category} />
+          <div className="mt-3 flex items-center gap-4">
+            <div className="flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-surface">
+              {academy.imageUrl ? (
+                <img src={academy.imageUrl} alt="" className="h-full w-full object-cover" />
+              ) : (
+                <ImagePlaceholderIcon size={22} className="text-muted" />
+              )}
+            </div>
+            <div>
+              <div className="flex items-center gap-3">
+                <h1 className="text-xl font-bold text-navy">{academy.name}</h1>
+              </div>
+              <div className="mt-1 flex items-center gap-1.5 text-sm text-muted">
+                <MapPinIcon size={14} />
+                {academy.branch}
+              </div>
+              <div className="mt-2">
+                <CategoryBadgeList categories={academy.categories} />
+              </div>
+            </div>
           </div>
-          <p className="mt-1 text-sm text-muted">{academy.branch}</p>
         </div>
 
         <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">

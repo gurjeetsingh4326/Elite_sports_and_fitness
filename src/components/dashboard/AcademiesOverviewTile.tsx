@@ -1,5 +1,5 @@
 import { Tile } from '@/components/ui/Tile'
-import { CategoryBadge } from '@/components/ui/Badge'
+import { CategoryBadgeList } from '@/components/ui/Badge'
 import type { AcademyRow } from '@/types/dashboard'
 
 export function AcademiesOverviewTile({ rows }: { rows: AcademyRow[] }) {
@@ -27,7 +27,7 @@ export function AcademiesOverviewTile({ rows }: { rows: AcademyRow[] }) {
               <span className="text-sm font-semibold text-navy">
                 {row.name} — {row.branch}
               </span>
-              <CategoryBadge category={row.category} />
+              <CategoryBadgeList categories={row.categories} max={1} />
               <span className="text-[13px] text-[oklch(35%_0.008_90)]">{row.athletes}</span>
               <span
                 className={`text-[13px] font-bold ${
