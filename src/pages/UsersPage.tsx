@@ -6,9 +6,11 @@ import { Field } from '@/components/ui/Field'
 import { Select } from '@/components/ui/Select'
 import { ImageUploadField } from '@/components/ui/ImageUploadField'
 import { CategoryBadge } from '@/components/ui/Badge'
+import { SkeletonTable } from '@/components/ui/SkeletonBlocks'
 import { useAcademiesForOrg, useAthletesForOrg, useCoachesForOrg, useProgramsForOrg } from '@/lib/orgScope'
 import { useOrg } from '@/context/OrgContext'
 import { useDataStore } from '@/context/DataStoreContext'
+import { useSimulatedLoading } from '@/lib/useSimulatedLoading'
 import { buildDefaultAthleteProfile, initialsFromName } from '@/lib/createAthleteProfile'
 import type { AcademyCategory } from '@/types/dashboard'
 import type { AthleteRow } from '@/types/athlete'
@@ -23,6 +25,7 @@ export default function UsersPage() {
   const athletes = useAthletesForOrg(currentOrg.id)
   const coaches = useCoachesForOrg(currentOrg.id)
   const programs = useProgramsForOrg(currentOrg.id)
+  const loading = useSimulatedLoading(400, [currentOrg.id])
 
   const [showForm, setShowForm] = useState(false)
   const [role, setRole] = useState<Role>('Athlete')
@@ -116,21 +119,21 @@ export default function UsersPage() {
           <button
             type="button"
             onClick={() => setShowForm((v) => !v)}
-            className="rounded-full bg-navy px-5 py-2.5 text-sm font-semibold text-white hover:bg-navy-light"
+            className="rounded-full bg-navy px-5 py-2.5 text-sm font-semibold text-white transition-all duration-200 hover:scale-[1.03] hover:bg-navy-light active:scale-[0.98]"
           >
             {showForm ? 'Cancel' : '+ Add user'}
           </button>
         </div>
 
         {showForm && (
-          <Tile className="flex max-w-2xl flex-col gap-4 bg-white p-6">
+          <Tile className="flex max-w-2xl animate-fade-in-scale flex-col gap-4 bg-white p-6">
             <div className="flex gap-2">
               {(['Athlete', 'Coach'] as Role[]).map((r) => (
                 <button
                   key={r}
                   type="button"
                   onClick={() => setRole(r)}
-                  className={`rounded-full px-4 py-2 text-xs font-semibold ${
+                  className={`rounded-full px-4 py-2 text-xs font-semibold transition-all duration-150 ${
                     role === r ? 'bg-navy text-white' : 'bg-surface text-muted hover:bg-hover'
                   }`}
                 >
@@ -180,28 +183,32 @@ export default function UsersPage() {
               type="button"
               onClick={createUser}
               disabled={!name.trim() || !academy}
-              className="rounded-full bg-navy py-3 text-sm font-semibold text-white hover:bg-navy-light disabled:cursor-not-allowed disabled:opacity-40"
+              className="rounded-full bg-navy py-3 text-sm font-semibold text-white transition-all duration-200 hover:scale-[1.01] hover:bg-navy-light disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:scale-100"
             >
               Create {role.toLowerCase()}
             </button>
           </Tile>
         )}
 
-        <Tile className="bg-white p-2">
+        {loading ? (
+          <SkeletonTable rows={6} columns={4} />
+        ) : (
+        <Tile className="animate-fade-in bg-white p-2">
           <div className="grid grid-cols-[2fr_1fr_1.4fr_1.2fr] gap-3 px-4 py-3 text-[10.5px] font-bold uppercase tracking-wide text-muted">
             <span>Name</span>
             <span>Role</span>
             <span>Academy</span>
             <span>Category</span>
           </div>
-          {rows.map((row) => (
+          {rows.map((row, i) => (
             <Link
               key={`${row.kind}-${row.id}`}
               to={row.kind === 'Athlete' ? `/dashboard/athletes/${row.id}` : `/coaches/${row.id}`}
-              className="grid grid-cols-[2fr_1fr_1.4fr_1.2fr] items-center gap-3 rounded-xl px-4 py-3 hover:bg-hover"
+              className="group grid animate-fade-in grid-cols-[2fr_1fr_1.4fr_1.2fr] items-center gap-3 rounded-xl px-4 py-3 transition-colors hover:bg-hover"
+              style={{ animationDelay: `${Math.min(i, 10) * 30}ms` }}
             >
               <div className="flex items-center gap-2.5">
-                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-navy text-[11px] font-bold text-brand-amber">
+                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-navy text-[11px] font-bold text-brand-amber transition-transform duration-200 group-hover:scale-110">
                   {row.initials}
                 </div>
                 <span className="text-sm font-semibold text-navy">{row.name}</span>
@@ -213,6 +220,7 @@ export default function UsersPage() {
           ))}
           {rows.length === 0 && <p className="py-10 text-center text-sm text-muted">No users yet.</p>}
         </Tile>
+        )}
       </div>
     </AppShell>
   )
