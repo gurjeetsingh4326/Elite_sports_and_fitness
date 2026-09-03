@@ -15,8 +15,8 @@ export function StatsStrip() {
   return (
     <section className="mx-auto max-w-6xl px-6 pb-20">
       <div className="grid grid-cols-2 gap-6 rounded-panel bg-navy px-8 py-10 text-white md:grid-cols-4">
-        {STATS.map((stat) => (
-          <div key={stat.label}>
+        {STATS.map((stat, i) => (
+          <div key={stat.label} className="animate-fade-in" style={{ animationDelay: `${i * 80}ms` }}>
             <div className="text-4xl font-bold">{stat.value}</div>
             <div className="mt-1.5 text-sm text-white/70">{stat.label}</div>
           </div>

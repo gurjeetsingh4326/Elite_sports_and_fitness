@@ -52,7 +52,7 @@ export function PublicFooter() {
               <ul className="mt-3 flex flex-col gap-2.5">
                 {col.links.map((link) => (
                   <li key={link.label}>
-                    <Link to={link.to} className="text-sm text-navy/80 hover:text-navy">
+                    <Link to={link.to} className="text-sm text-navy/80 transition-colors hover:text-navy">
                       {link.label}
                     </Link>
                   </li>

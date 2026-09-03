@@ -35,9 +35,13 @@ export function LifecycleSteps() {
       </div>
       <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
         {STEPS.map((step, i) => (
-          <Tile key={step.title} className="bg-white p-6">
+          <Tile
+            key={step.title}
+            className="animate-fade-in bg-white p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_12px_28px_-10px_oklch(50%_0.05_40_/_18%)]"
+            style={{ animationDelay: `${i * 90}ms` }}
+          >
             <div className="mb-4 flex items-center justify-between">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-surface">
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-surface transition-colors duration-300">
                 <step.icon size={19} className="text-navy" />
               </div>
               <span className="text-xs font-bold text-muted">0{i + 1}</span>

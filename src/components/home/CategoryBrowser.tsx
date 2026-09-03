@@ -23,12 +23,16 @@ export function CategoryBrowser() {
         </Link>
       </div>
       <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
-        {FEATURED_CATEGORIES.map((category) => {
+        {FEATURED_CATEGORIES.map((category, i) => {
           const { Icon } = CATEGORY_META[category]
           const matching = academyRows.filter((r) => r.categories.includes(category))
           const totalAthletes = matching.reduce((sum, r) => sum + r.athletes, 0)
           return (
-            <Tile key={category} className={`flex flex-col justify-between p-6 ${CATEGORY_BG_CLASSES[category]}`}>
+            <Tile
+              key={category}
+              className={`animate-fade-in flex cursor-default flex-col justify-between p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_12px_28px_-10px_oklch(30%_0.05_260_/_25%)] ${CATEGORY_BG_CLASSES[category]}`}
+              style={{ animationDelay: `${i * 90}ms` }}
+            >
               <Icon size={24} />
               <div>
                 <div className="mt-6 text-base font-bold">{category}</div>

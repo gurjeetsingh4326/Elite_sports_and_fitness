@@ -19,7 +19,7 @@ export function CoachCta() {
         </div>
         <Link
           to="/register-coach"
-          className="flex shrink-0 items-center gap-2 rounded-full bg-white px-6 py-3.5 text-sm font-semibold text-navy"
+          className="flex shrink-0 items-center gap-2 rounded-full bg-white px-6 py-3.5 text-sm font-semibold text-navy transition-all duration-200 hover:scale-[1.03] hover:shadow-lg active:scale-[0.98]"
         >
           Register as a coach
           <ArrowRightIcon size={16} />

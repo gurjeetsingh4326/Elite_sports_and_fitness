@@ -38,6 +38,35 @@ export default {
         panel: '24px',
         row: '20px',
       },
+      keyframes: {
+        'fade-in': {
+          '0%': { opacity: '0', transform: 'translateY(8px)' },
+          '100%': { opacity: '1', transform: 'translateY(0)' },
+        },
+        'fade-in-scale': {
+          '0%': { opacity: '0', transform: 'scale(0.96)' },
+          '100%': { opacity: '1', transform: 'scale(1)' },
+        },
+        'pop-in': {
+          '0%': { opacity: '0', transform: 'scale(0.9)' },
+          '100%': { opacity: '1', transform: 'scale(1)' },
+        },
+        shimmer: {
+          '0%': { transform: 'translateX(-100%)' },
+          '100%': { transform: 'translateX(100%)' },
+        },
+        'pulse-ring': {
+          '0%': { boxShadow: '0 0 0 0 oklch(64% 0.17 255 / 45%)' },
+          '100%': { boxShadow: '0 0 0 8px oklch(64% 0.17 255 / 0%)' },
+        },
+      },
+      animation: {
+        'fade-in': 'fade-in 0.45s cubic-bezier(0.16,1,0.3,1) both',
+        'fade-in-scale': 'fade-in-scale 0.3s cubic-bezier(0.16,1,0.3,1) both',
+        'pop-in': 'pop-in 0.2s cubic-bezier(0.16,1,0.3,1) both',
+        shimmer: 'shimmer 1.5s ease-in-out infinite',
+        'pulse-ring': 'pulse-ring 1.6s cubic-bezier(0.4,0,0.6,1) infinite',
+      },
     },
   },
   plugins: [],

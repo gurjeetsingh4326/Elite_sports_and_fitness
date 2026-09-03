@@ -12,8 +12,8 @@ interface AuthLayoutProps {
 export function AuthLayout({ title, subtitle, children, footer }: AuthLayoutProps) {
   return (
     <div className="flex min-h-screen items-center justify-center bg-surface px-6 py-12">
-      <div className="w-full max-w-md">
-        <Link to="/" className="mb-8 flex items-center justify-center gap-2.5">
+      <div className="w-full max-w-md animate-fade-in-scale">
+        <Link to="/" className="mb-8 flex items-center justify-center gap-2.5 transition-opacity hover:opacity-80">
           <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-navy">
             <TrophyIcon size={19} className="text-brand-amber" />
           </div>

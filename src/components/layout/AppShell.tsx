@@ -32,7 +32,7 @@ export function AppShell({ children }: { children: ReactNode }) {
 
       <div className="flex gap-4 p-4 md:p-5">
         <Sidebar mobileOpen={mobileNavOpen} onCloseMobile={() => setMobileNavOpen(false)} />
-        <main className="min-w-0 flex-1">{children}</main>
+        <main className="min-w-0 flex-1 animate-fade-in">{children}</main>
       </div>
     </div>
   )
