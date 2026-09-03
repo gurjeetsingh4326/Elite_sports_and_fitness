@@ -5,9 +5,11 @@ import { Tile } from '@/components/ui/Tile'
 import { Field } from '@/components/ui/Field'
 import { CategoryBadge } from '@/components/ui/Badge'
 import { EditIcon, CheckIcon } from '@/components/icons'
+import { Skeleton } from '@/components/ui/Skeleton'
 import { athleteProfiles as seedAthleteProfiles } from '@/data/mockAthleteProfiles'
 import { useDataStore } from '@/context/DataStoreContext'
 import { useIdentity } from '@/context/IdentityContext'
+import { useSimulatedLoading } from '@/lib/useSimulatedLoading'
 import { initialsFromName } from '@/lib/createAthleteProfile'
 import { clsx } from '@/lib/clsx'
 
@@ -42,6 +44,7 @@ export default function AthleteProfilePage() {
   const { role } = useIdentity()
   const athleteProfiles = { ...seedAthleteProfiles, ...extraAthleteProfiles }
   const athlete = athleteId ? athleteProfiles[athleteId] : undefined
+  const loading = useSimulatedLoading(400, [athleteId])
 
   const canEdit = role !== 'Parent/Guardian'
   const [showEdit, setShowEdit] = useState(false)
@@ -86,13 +89,22 @@ export default function AthleteProfilePage() {
     <AppShell>
       <div className="flex flex-col gap-6">
         <div>
-          <Link to="/dashboard/athletes" className="text-xs font-semibold text-muted hover:text-navy">
+          <Link to="/dashboard/athletes" className="text-xs font-semibold text-muted transition-colors hover:text-navy">
             ← Back to Athletes
           </Link>
 
-          <div className="mt-4 flex flex-wrap items-center justify-between gap-4">
+          {loading ? (
+            <div className="mt-4 flex items-center gap-4">
+              <Skeleton className="h-16 w-16 shrink-0 rounded-full" />
+              <div>
+                <Skeleton className="h-5 w-40 rounded-lg" />
+                <Skeleton className="mt-2.5 h-3.5 w-64 rounded" />
+              </div>
+            </div>
+          ) : (
+          <div className="mt-4 flex animate-fade-in flex-wrap items-center justify-between gap-4">
             <div className="flex items-center gap-4">
-              <div className="flex h-16 w-16 items-center justify-center rounded-full bg-navy text-xl font-bold text-brand-amber">
+              <div className="flex h-16 w-16 items-center justify-center rounded-full bg-navy text-xl font-bold text-brand-amber transition-transform duration-300 hover:scale-105">
                 {athlete.initials}
               </div>
               <div>
@@ -107,16 +119,17 @@ export default function AthleteProfilePage() {
               </div>
             </div>
             <div className="flex gap-3">
-              <Tile className="bg-surface px-4 py-3 text-center">
+              <Tile className="bg-surface px-4 py-3 text-center transition-transform duration-200 hover:-translate-y-0.5">
                 <div className="text-lg font-bold text-navy">{athlete.practiceLevel.split(' · ')[0]}</div>
                 <div className="text-[10.5px] font-semibold text-muted">{athlete.practiceLevel.split(' · ')[1]}</div>
               </Tile>
-              <Tile className="bg-surface px-4 py-3 text-center">
+              <Tile className="bg-surface px-4 py-3 text-center transition-transform duration-200 hover:-translate-y-0.5">
                 <div className="text-lg font-bold text-[oklch(45%_0.13_145)]">{athlete.attendancePct}%</div>
                 <div className="text-[10.5px] font-semibold text-muted">Attendance</div>
               </Tile>
             </div>
           </div>
+          )}
         </div>
 
         <div className="flex flex-wrap gap-1.5 border-b border-[oklch(92%_0.005_90)] pb-3">
@@ -126,8 +139,8 @@ export default function AthleteProfilePage() {
               type="button"
               onClick={() => setTab(t)}
               className={clsx(
-                'rounded-full px-3.5 py-1.5 text-xs font-semibold transition-colors',
-                tab === t ? 'bg-navy text-white' : 'text-muted hover:bg-hover',
+                'rounded-full px-3.5 py-1.5 text-xs font-semibold transition-all duration-150',
+                tab === t ? 'bg-navy text-white' : 'text-muted hover:-translate-y-0.5 hover:bg-hover',
               )}
             >
               {t}
@@ -135,9 +148,10 @@ export default function AthleteProfilePage() {
           ))}
         </div>
 
+        <div key={tab} className="animate-fade-in">
         {tab === 'Overview' && (
           <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-            <Tile className="bg-white p-5">
+            <Tile className="bg-white p-5 transition-shadow hover:shadow-[0_8px_20px_-10px_oklch(50%_0.05_40_/_20%)]">
               <div className="text-xs font-bold uppercase tracking-wide text-muted">Membership</div>
               <div className="mt-1.5 text-sm font-semibold text-navy">{athlete.membership.planName}</div>
               <div className="mt-1 text-xs text-muted">{athlete.membership.status} · renews {athlete.membership.renewalDate}</div>
@@ -161,7 +175,7 @@ export default function AthleteProfilePage() {
               <button
                 type="button"
                 onClick={() => (showEdit ? setShowEdit(false) : openEdit())}
-                className="flex w-fit items-center gap-1.5 rounded-full border border-[oklch(90%_0.005_90)] bg-white px-4 py-2 text-xs font-semibold text-navy hover:bg-hover"
+                className="flex w-fit items-center gap-1.5 rounded-full border border-[oklch(90%_0.005_90)] bg-white px-4 py-2 text-xs font-semibold text-navy transition-all duration-200 hover:-translate-y-0.5 hover:bg-hover"
               >
                 <EditIcon size={14} />
                 {showEdit ? 'Cancel edit' : 'Edit personal info'}
@@ -169,7 +183,7 @@ export default function AthleteProfilePage() {
             )}
 
             {showEdit && (
-              <Tile className="flex flex-col gap-4 bg-white p-6">
+              <Tile className="flex animate-fade-in-scale flex-col gap-4 bg-white p-6">
                 <Field label="Full name" value={editName} onChange={(e) => setEditName(e.target.value)} />
                 <Field label="Date of birth" value={editDob} onChange={(e) => setEditDob(e.target.value)} placeholder="YYYY-MM-DD" />
                 <div className="grid grid-cols-2 gap-4">
@@ -182,7 +196,7 @@ export default function AthleteProfilePage() {
                   type="button"
                   onClick={saveEdit}
                   disabled={!editName.trim()}
-                  className="flex items-center justify-center gap-2 rounded-full bg-navy py-2.5 text-sm font-semibold text-white hover:bg-navy-light disabled:cursor-not-allowed disabled:opacity-40"
+                  className="flex items-center justify-center gap-2 rounded-full bg-navy py-2.5 text-sm font-semibold text-white transition-all duration-200 hover:scale-[1.02] hover:bg-navy-light disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:scale-100"
                 >
                   <CheckIcon size={15} />
                   Save changes
@@ -392,6 +406,7 @@ export default function AthleteProfilePage() {
             </Tile>
           </div>
         )}
+        </div>
       </div>
     </AppShell>
   )
