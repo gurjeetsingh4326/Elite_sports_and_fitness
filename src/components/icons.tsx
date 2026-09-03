@@ -372,3 +372,20 @@ export function ImagePlaceholderIcon(props: IconProps) {
     </svg>
   )
 }
+
+export function EditIcon(props: IconProps) {
+  return (
+    <svg {...base(props)}>
+      <path d="M12.5 3.5 16.5 7.5 7 17H3v-4L12.5 3.5Z" />
+      <path d="M10.5 5.5 14.5 9.5" />
+    </svg>
+  )
+}
+
+export function TrashIcon(props: IconProps) {
+  return (
+    <svg {...base(props)}>
+      <path d="M4 6h12M8 6V4.5A1.5 1.5 0 0 1 9.5 3h1A1.5 1.5 0 0 1 12 4.5V6M6 6l.7 9.3A1.5 1.5 0 0 0 8.2 16.7h3.6a1.5 1.5 0 0 0 1.5-1.4L14 6" />
+    </svg>
+  )
+}

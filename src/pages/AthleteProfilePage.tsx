@@ -2,9 +2,13 @@ import { useState } from 'react'
 import { Link, useParams, Navigate } from 'react-router-dom'
 import { AppShell } from '@/components/layout/AppShell'
 import { Tile } from '@/components/ui/Tile'
+import { Field } from '@/components/ui/Field'
 import { CategoryBadge } from '@/components/ui/Badge'
+import { EditIcon, CheckIcon } from '@/components/icons'
 import { athleteProfiles as seedAthleteProfiles } from '@/data/mockAthleteProfiles'
 import { useDataStore } from '@/context/DataStoreContext'
+import { useIdentity } from '@/context/IdentityContext'
+import { initialsFromName } from '@/lib/createAthleteProfile'
 import { clsx } from '@/lib/clsx'
 
 const TABS = [
@@ -34,11 +38,49 @@ const ATTENDANCE_COLORS: Record<string, string> = {
 export default function AthleteProfilePage() {
   const { athleteId } = useParams()
   const [tab, setTab] = useState<Tab>('Overview')
-  const { extraAthleteProfiles } = useDataStore()
+  const { extraAthleteProfiles, updateAthlete, updateAthleteProfile } = useDataStore()
+  const { role } = useIdentity()
   const athleteProfiles = { ...seedAthleteProfiles, ...extraAthleteProfiles }
   const athlete = athleteId ? athleteProfiles[athleteId] : undefined
 
+  const canEdit = role !== 'Parent/Guardian'
+  const [showEdit, setShowEdit] = useState(false)
+  const [editName, setEditName] = useState('')
+  const [editDob, setEditDob] = useState('')
+  const [editGuardianName, setEditGuardianName] = useState('')
+  const [editGuardianRelation, setEditGuardianRelation] = useState('')
+  const [editGuardianPhone, setEditGuardianPhone] = useState('')
+  const [editGuardianEmail, setEditGuardianEmail] = useState('')
+
   if (!athlete) return <Navigate to="/dashboard/athletes" replace />
+
+  function openEdit() {
+    setEditName(athlete!.name)
+    setEditDob(athlete!.dob)
+    setEditGuardianName(athlete!.guardian.name)
+    setEditGuardianRelation(athlete!.guardian.relation)
+    setEditGuardianPhone(athlete!.guardian.phone)
+    setEditGuardianEmail(athlete!.guardian.email)
+    setShowEdit(true)
+  }
+
+  function saveEdit() {
+    if (!editName.trim() || !athleteId) return
+    const initials = initialsFromName(editName)
+    updateAthlete(athleteId, { name: editName.trim(), initials })
+    updateAthleteProfile(athleteId, {
+      name: editName.trim(),
+      initials,
+      dob: editDob.trim() || '—',
+      guardian: {
+        name: editGuardianName.trim() || '—',
+        relation: editGuardianRelation.trim() || '—',
+        phone: editGuardianPhone.trim() || '—',
+        email: editGuardianEmail.trim() || '—',
+      },
+    })
+    setShowEdit(false)
+  }
 
   return (
     <AppShell>
@@ -114,29 +156,64 @@ export default function AthleteProfilePage() {
         )}
 
         {tab === 'Personal Info' && (
-          <Tile className="max-w-lg bg-white p-6">
-            <div className="grid grid-cols-2 gap-5">
-              <div>
-                <div className="text-xs font-bold uppercase tracking-wide text-muted">Date of birth</div>
-                <div className="mt-1 text-sm font-semibold text-navy">{athlete.dob}</div>
-              </div>
-              <div>
-                <div className="text-xs font-bold uppercase tracking-wide text-muted">Member since</div>
-                <div className="mt-1 text-sm font-semibold text-navy">{athlete.memberSince}</div>
-              </div>
-              <div>
-                <div className="text-xs font-bold uppercase tracking-wide text-muted">Guardian</div>
-                <div className="mt-1 text-sm font-semibold text-navy">
-                  {athlete.guardian.name} ({athlete.guardian.relation})
+          <div className="flex max-w-lg flex-col gap-4">
+            {canEdit && (
+              <button
+                type="button"
+                onClick={() => (showEdit ? setShowEdit(false) : openEdit())}
+                className="flex w-fit items-center gap-1.5 rounded-full border border-[oklch(90%_0.005_90)] bg-white px-4 py-2 text-xs font-semibold text-navy hover:bg-hover"
+              >
+                <EditIcon size={14} />
+                {showEdit ? 'Cancel edit' : 'Edit personal info'}
+              </button>
+            )}
+
+            {showEdit && (
+              <Tile className="flex flex-col gap-4 bg-white p-6">
+                <Field label="Full name" value={editName} onChange={(e) => setEditName(e.target.value)} />
+                <Field label="Date of birth" value={editDob} onChange={(e) => setEditDob(e.target.value)} placeholder="YYYY-MM-DD" />
+                <div className="grid grid-cols-2 gap-4">
+                  <Field label="Guardian name" value={editGuardianName} onChange={(e) => setEditGuardianName(e.target.value)} />
+                  <Field label="Relation" value={editGuardianRelation} onChange={(e) => setEditGuardianRelation(e.target.value)} placeholder="Mother" />
+                  <Field label="Guardian phone" value={editGuardianPhone} onChange={(e) => setEditGuardianPhone(e.target.value)} />
+                  <Field label="Guardian email" value={editGuardianEmail} onChange={(e) => setEditGuardianEmail(e.target.value)} />
+                </div>
+                <button
+                  type="button"
+                  onClick={saveEdit}
+                  disabled={!editName.trim()}
+                  className="flex items-center justify-center gap-2 rounded-full bg-navy py-2.5 text-sm font-semibold text-white hover:bg-navy-light disabled:cursor-not-allowed disabled:opacity-40"
+                >
+                  <CheckIcon size={15} />
+                  Save changes
+                </button>
+              </Tile>
+            )}
+
+            <Tile className="bg-white p-6">
+              <div className="grid grid-cols-2 gap-5">
+                <div>
+                  <div className="text-xs font-bold uppercase tracking-wide text-muted">Date of birth</div>
+                  <div className="mt-1 text-sm font-semibold text-navy">{athlete.dob}</div>
+                </div>
+                <div>
+                  <div className="text-xs font-bold uppercase tracking-wide text-muted">Member since</div>
+                  <div className="mt-1 text-sm font-semibold text-navy">{athlete.memberSince}</div>
+                </div>
+                <div>
+                  <div className="text-xs font-bold uppercase tracking-wide text-muted">Guardian</div>
+                  <div className="mt-1 text-sm font-semibold text-navy">
+                    {athlete.guardian.name} ({athlete.guardian.relation})
+                  </div>
+                </div>
+                <div>
+                  <div className="text-xs font-bold uppercase tracking-wide text-muted">Guardian contact</div>
+                  <div className="mt-1 text-sm font-semibold text-navy">{athlete.guardian.phone}</div>
+                  <div className="text-xs text-muted">{athlete.guardian.email}</div>
                 </div>
               </div>
-              <div>
-                <div className="text-xs font-bold uppercase tracking-wide text-muted">Guardian contact</div>
-                <div className="mt-1 text-sm font-semibold text-navy">{athlete.guardian.phone}</div>
-                <div className="text-xs text-muted">{athlete.guardian.email}</div>
-              </div>
-            </div>
-          </Tile>
+            </Tile>
+          </div>
         )}
 
         {tab === 'Attendance' && (
