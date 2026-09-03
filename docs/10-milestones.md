@@ -41,6 +41,25 @@ holds anything created at runtime; nothing survives a reload):
 | My Classes / My Athletes / Gallery | New role-aware pages: `/dashboard/my-classes` (coach: taught; athlete: enrolled, with a "Today" section), `/dashboard/my-results` (coach's roster + latest assessments), `/dashboard/gallery` (current persona's own Reels) |
 | Persona-aware notifications | `mockNotifications.ts` entries can target a specific `forPersonId`, so switching coach/athlete persona shows relevant items instead of one global list |
 
+## Post-M9: Bug Fixes & CRUD Completion
+
+A follow-up pass closing every remaining gap between the UI and a "real" app: broken forms, missing
+edit/create flows, and role coverage that fell short of the nav.
+
+| Area | What shipped |
+|---|---|
+| Auth forms | Login/Register/Register-as-Coach now actually submit — Register creates a real athlete (with org + academy pickers), Register-as-Coach creates a real independent coach; both set the previewed identity and route into the dashboard |
+| Data-source bugs | Attendance and Users now read athletes/programs through the org-scoped hooks instead of stale static imports, so newly-created records show up everywhere |
+| Class ↔ batch sync | `assignStudentToClass` / `removeStudentFromClass` on `DataStoreContext` keep an athlete's `batch`/`coachName` in sync with their class roster (`ClassDetailPage`) |
+| Edit UI | Academy (name/branch/categories/photo), Athlete personal info (name/dob/guardian — hidden in the read-only Parent/Guardian view), and Coach profile (name/bio/certifications) are all editable in place, backed by the `update*` functions on `DataStoreContext` |
+| Create Program / Create Facility | Inline forms on the Academy Dashboard, backed by `addProgram`/`addFacility`; `Facility` gained an `academyId` so facilities scope like everything else |
+| Organization settings | `OrgContext` gained `updateOrganization`; a new role-aware **My Profile** page (`/dashboard/settings`) edits org settings (Super Admin/Academy Manager), the coach's own profile (Coach), or the athlete's own info (Athlete) |
+| Notifications page | Notifications moved fully into `DataStoreContext` (was a static import in the Sidebar); a full `/dashboard/notifications` page backs the dropdown's "View all," with mark-one/mark-all-read |
+| Nutrition Plans | New `/dashboard/nutrition` page for the Nutritionist role, editing each athlete's plan via `updateAthleteProfile` |
+| Parent/Guardian scoping | Nav trimmed to Dashboard / My Child / Tournaments; the persona picker lets you choose "which child," and My Child routes to that child's (read-only) Athlete 360 Profile |
+| Real sidebar search | The sidebar search box looks up academies/athletes/coaches by name within the current org and links to the match, replacing the decorative icon |
+| Platform-wide public pages | Programs, Program Details, Facilities, Coaches Directory, and the home Category Browser now read through `useAllPrograms`/`useAllFacilities`/`useAllCoaches`/`useAllAcademies` so anything created at runtime is visible cross-org, not just within the creating org |
+
 ## Backend Milestones (after M9)
 
 | # | Milestone | Scope |

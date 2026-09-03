@@ -40,6 +40,19 @@ creates one per group of athletes that trains together:
 Academy → Class → Coach → Timing → Assigned Students is the full chain a coach or Academy
 Manager works with day to day; Attendance and Performance both key off a class's roster.
 
+## Program & Facility
+
+Both belong to exactly one Academy (`academyId`) and are created inline from the Academy
+Dashboard:
+
+| Entity | Field | Notes |
+|--------|-------|-------|
+| Program | Name, Category, Levels, Description | A sport offering within the academy, e.g. "Youth Football Development" |
+| Facility | Name, Category, Capacity, Description | A physical space at the academy, e.g. "Main Pitch" |
+
+Both are also readable platform-wide (not just within the creating org) on the public Programs,
+Program Details, and Facilities pages and the home Category Browser.
+
 ## Athlete Profile Sections
 
 The Athlete 360 Profile is the single continuous record for an athlete, organized into:
