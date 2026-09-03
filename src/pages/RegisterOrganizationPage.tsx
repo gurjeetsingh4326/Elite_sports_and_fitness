@@ -89,7 +89,7 @@ export default function RegisterOrganizationPage() {
         <button
           type="submit"
           disabled={categories.length === 0}
-          className="mt-2 rounded-full bg-navy py-3 text-sm font-semibold text-white hover:bg-navy-light disabled:cursor-not-allowed disabled:opacity-40"
+          className="mt-2 rounded-full bg-navy py-3 text-sm font-semibold text-white transition-all duration-200 hover:scale-[1.01] hover:bg-navy-light disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:scale-100"
         >
           Create organization
         </button>

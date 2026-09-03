@@ -14,7 +14,7 @@ export function CategoryFilterBar({ active, onChange }: CategoryFilterBarProps) 
         type="button"
         onClick={() => onChange('All')}
         className={clsx(
-          'rounded-full px-4 py-2 text-sm font-semibold transition-colors',
+          'rounded-full px-4 py-2 text-sm font-semibold transition-all duration-150 hover:scale-105',
           active === 'All' ? 'bg-navy text-white' : 'bg-surface text-muted hover:bg-hover',
         )}
       >
@@ -28,7 +28,7 @@ export function CategoryFilterBar({ active, onChange }: CategoryFilterBarProps) 
             type="button"
             onClick={() => onChange(category)}
             className={clsx(
-              'flex items-center gap-1.5 rounded-full px-4 py-2 text-sm font-semibold transition-colors',
+              'flex items-center gap-1.5 rounded-full px-4 py-2 text-sm font-semibold transition-all duration-150 hover:scale-105',
               active === category ? 'bg-navy text-white' : 'bg-surface text-muted hover:bg-hover',
             )}
           >

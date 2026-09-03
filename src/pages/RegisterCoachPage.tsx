@@ -95,7 +95,7 @@ export default function RegisterCoachPage() {
 
         <button
           type="submit"
-          className="mt-2 rounded-full bg-navy py-3 text-sm font-semibold text-white hover:bg-navy-light"
+          className="mt-2 rounded-full bg-navy py-3 text-sm font-semibold text-white transition-all duration-200 hover:scale-[1.01] hover:bg-navy-light active:scale-[0.99]"
         >
           Create coach profile
         </button>

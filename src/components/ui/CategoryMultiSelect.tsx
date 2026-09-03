@@ -31,7 +31,7 @@ export function CategoryMultiSelect({ selected, onChange, label = 'Categories' }
               onClick={() => toggle(category)}
               aria-pressed={active}
               className={clsx(
-                'flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-semibold transition-colors',
+                'flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-semibold transition-all duration-150 hover:scale-105',
                 active
                   ? 'border-navy bg-navy text-white'
                   : 'border-[oklch(90%_0.005_90)] bg-white text-muted hover:bg-hover',
