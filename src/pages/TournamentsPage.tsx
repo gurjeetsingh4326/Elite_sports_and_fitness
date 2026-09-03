@@ -23,8 +23,12 @@ export default function TournamentsPage() {
         <CategoryFilterBar active={category} onChange={setCategory} />
 
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-          {visible.map((t) => (
-            <Tile key={t.id} className="flex flex-col gap-4 bg-white p-6">
+          {visible.map((t, i) => (
+            <Tile
+              key={t.id}
+              className="flex animate-fade-in flex-col gap-4 bg-white p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_12px_28px_-10px_oklch(50%_0.05_40_/_20%)]"
+              style={{ animationDelay: `${Math.min(i, 8) * 50}ms` }}
+            >
               <div className="flex items-start justify-between gap-3">
                 <div>
                   <div className="text-base font-bold text-navy">{t.name}</div>
@@ -48,7 +52,7 @@ export default function TournamentsPage() {
                 <span className="text-xs font-semibold text-muted">{t.participants} participants</span>
               </div>
               {t.winner && (
-                <div className="flex items-center gap-2 rounded-xl bg-brand-amber-tile px-3 py-2">
+                <div className="flex items-center gap-2 rounded-xl bg-brand-amber-tile px-3 py-2 transition-transform duration-200 hover:scale-[1.02]">
                   <TrophyIcon size={16} className="text-brand-amber-ink" />
                   <span className="text-xs font-bold text-brand-amber-ink">{t.winner}</span>
                 </div>

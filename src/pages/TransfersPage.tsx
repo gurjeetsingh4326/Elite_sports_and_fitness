@@ -67,14 +67,14 @@ export default function TransfersPage() {
           <button
             type="button"
             onClick={() => setShowForm((v) => !v)}
-            className="rounded-full bg-navy px-5 py-2.5 text-sm font-semibold text-white hover:bg-navy-light"
+            className="rounded-full bg-navy px-5 py-2.5 text-sm font-semibold text-white transition-all duration-200 hover:scale-[1.03] hover:bg-navy-light active:scale-[0.98]"
           >
             {showForm ? 'Cancel' : '+ Start transfer'}
           </button>
         </div>
 
         {showForm && (
-          <Tile className="grid max-w-3xl grid-cols-1 gap-4 bg-white p-6 sm:grid-cols-2">
+          <Tile className="grid max-w-3xl animate-fade-in-scale grid-cols-1 gap-4 bg-white p-6 sm:grid-cols-2">
             <Select label="Athlete" value={athleteId} onChange={(e) => setAthleteId(e.target.value)}>
               <option value="">Select athlete</option>
               {athletes.map((a) => (
@@ -127,7 +127,7 @@ export default function TransfersPage() {
             <button
               type="button"
               onClick={startTransfer}
-              className="rounded-full bg-navy py-3 text-sm font-semibold text-white hover:bg-navy-light sm:col-span-2"
+              className="rounded-full bg-navy py-3 text-sm font-semibold text-white transition-all duration-200 hover:scale-[1.01] hover:bg-navy-light sm:col-span-2"
             >
               Submit for review
             </button>
@@ -145,22 +145,26 @@ export default function TransfersPage() {
                 <span>Status</span>
                 <span></span>
               </div>
-              {transfers.map((t) => (
-                <div key={t.id} className="grid grid-cols-[1.4fr_1.6fr_1.6fr_1fr_0.9fr_0.9fr] items-center gap-3 rounded-xl px-4 py-3 hover:bg-hover">
+              {transfers.map((t, i) => (
+                <div
+                  key={t.id}
+                  className="grid animate-fade-in grid-cols-[1.4fr_1.6fr_1.6fr_1fr_0.9fr_0.9fr] items-center gap-3 rounded-xl px-4 py-3 transition-colors hover:bg-hover"
+                  style={{ animationDelay: `${Math.min(i, 10) * 30}ms` }}
+                >
                   <span className="text-sm font-semibold text-navy">{t.athleteName}</span>
                   <span className="truncate text-xs text-muted">{t.fromAcademy}</span>
                   <span className="truncate text-xs text-muted">{t.toAcademy}</span>
                   <span className="text-xs text-muted">{t.date}</span>
                   <span
                     className={clsx(
-                      'w-fit rounded-full px-2.5 py-0.5 text-[11px] font-bold',
+                      'w-fit rounded-full px-2.5 py-0.5 text-[11px] font-bold transition-colors',
                       t.status === 'Approved' ? 'bg-[oklch(90%_0.06_145)] text-[oklch(38%_0.1_145)]' : 'bg-[oklch(92%_0.06_70)] text-[oklch(45%_0.13_70)]',
                     )}
                   >
                     {t.status}
                   </span>
                   {t.status === 'Pending' ? (
-                    <button type="button" onClick={() => approve(t.id)} className="text-xs font-bold text-brand-blue">
+                    <button type="button" onClick={() => approve(t.id)} className="text-xs font-bold text-brand-blue transition-opacity hover:opacity-70">
                       Approve
                     </button>
                   ) : (

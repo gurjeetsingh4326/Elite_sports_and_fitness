@@ -70,7 +70,7 @@ export default function PhysicianPortalPage() {
                     type="button"
                     onClick={() => selectAthlete(a.id)}
                     className={clsx(
-                      'flex items-center justify-between rounded-xl px-3 py-2.5 text-left hover:bg-hover',
+                      'flex items-center justify-between rounded-xl px-3 py-2.5 text-left transition-colors hover:bg-hover',
                       athleteId === a.id && 'bg-hover',
                     )}
                   >
@@ -88,7 +88,7 @@ export default function PhysicianPortalPage() {
           </Tile>
 
           {athlete && profile && current && (
-            <div className="flex flex-col gap-4 md:col-span-2">
+            <div className="flex animate-fade-in flex-col gap-4 md:col-span-2">
               <Tile className="bg-white p-6">
                 <div className="mb-4 flex items-center justify-between">
                   <h2 className="text-sm font-bold text-navy">{athlete.name} — Current Status</h2>
@@ -128,9 +128,9 @@ export default function PhysicianPortalPage() {
                     type="button"
                     onClick={save}
                     disabled={!notes.trim()}
-                    className="flex items-center justify-center gap-2 rounded-full bg-navy py-3 text-sm font-semibold text-white hover:bg-navy-light disabled:cursor-not-allowed disabled:opacity-40"
+                    className="flex items-center justify-center gap-2 rounded-full bg-navy py-3 text-sm font-semibold text-white transition-all duration-200 hover:scale-[1.01] hover:bg-navy-light disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:scale-100"
                   >
-                    {saved && <CheckIcon size={16} />}
+                    {saved && <CheckIcon size={16} className="animate-pop-in" />}
                     {saved ? 'Saved' : 'Save session'}
                   </button>
                 </div>
