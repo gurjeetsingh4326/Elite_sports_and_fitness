@@ -3,13 +3,11 @@ import { PublicHeader } from '@/components/layout/PublicHeader'
 import { PublicFooter } from '@/components/layout/PublicFooter'
 import { CategoryFilterBar } from '@/components/programs/CategoryFilterBar'
 import { CoachCard } from '@/components/coaches/CoachCard'
-import { coaches as seedCoaches } from '@/data/mockCoaches'
-import { useDataStore } from '@/context/DataStoreContext'
+import { useAllCoaches } from '@/lib/orgScope'
 import type { AcademyCategory } from '@/types/dashboard'
 
 export default function CoachesDirectoryPage() {
-  const { extraCoaches } = useDataStore()
-  const coaches = [...seedCoaches, ...extraCoaches]
+  const coaches = useAllCoaches()
   const [category, setCategory] = useState<AcademyCategory | 'All'>('All')
   const visible = category === 'All' ? coaches : coaches.filter((c) => c.specialty === category)
 

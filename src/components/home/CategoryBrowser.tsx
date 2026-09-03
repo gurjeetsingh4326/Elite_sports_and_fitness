@@ -1,12 +1,14 @@
 import { Link } from 'react-router-dom'
 import { Tile } from '@/components/ui/Tile'
-import { academyRows } from '@/data/mockDashboard'
+import { useAllAcademies } from '@/lib/orgScope'
 import { CATEGORY_META, CATEGORY_BG_CLASSES } from '@/data/categoryMeta'
 import type { AcademyCategory } from '@/types/dashboard'
 
 const FEATURED_CATEGORIES: AcademyCategory[] = ['Football', 'Cricket', 'Multi-Sport', 'Swimming']
 
 export function CategoryBrowser() {
+  const academyRows = useAllAcademies()
+
   return (
     <section id="programs" className="mx-auto max-w-6xl px-6 pb-20">
       <div className="mb-8 flex items-end justify-between">

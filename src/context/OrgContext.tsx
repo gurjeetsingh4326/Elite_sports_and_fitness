@@ -7,6 +7,7 @@ interface OrgContextValue {
   setCurrentOrgId: (id: string) => void
   organizations: Organization[]
   addOrganization: (org: Organization) => void
+  updateOrganization: (id: string, patch: Partial<Organization>) => void
 }
 
 const OrgContext = createContext<OrgContextValue | null>(null)
@@ -22,8 +23,12 @@ export function OrgProvider({ children }: { children: ReactNode }) {
     setCurrentOrgId(org.id)
   }
 
+  function updateOrganization(id: string, patch: Partial<Organization>) {
+    setOrganizations((prev) => prev.map((o) => (o.id === id ? { ...o, ...patch } : o)))
+  }
+
   return (
-    <OrgContext.Provider value={{ currentOrg, setCurrentOrgId, organizations, addOrganization }}>
+    <OrgContext.Provider value={{ currentOrg, setCurrentOrgId, organizations, addOrganization, updateOrganization }}>
       {children}
     </OrgContext.Provider>
   )

@@ -5,11 +5,12 @@ import { Tile } from '@/components/ui/Tile'
 import { CategoryBadge } from '@/components/ui/Badge'
 import { CoachMiniCard } from '@/components/coaches/CoachMiniCard'
 import { ArrowRightIcon } from '@/components/icons'
-import { programs } from '@/data/mockPrograms'
-import { coaches } from '@/data/mockCoaches'
+import { useAllPrograms, useAllCoaches } from '@/lib/orgScope'
 
 export default function ProgramDetailsPage() {
   const { programId } = useParams()
+  const programs = useAllPrograms()
+  const coaches = useAllCoaches()
   const program = programs.find((p) => p.id === programId)
 
   if (!program) return <Navigate to="/programs" replace />

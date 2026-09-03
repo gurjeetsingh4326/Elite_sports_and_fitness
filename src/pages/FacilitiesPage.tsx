@@ -3,11 +3,12 @@ import { PublicHeader } from '@/components/layout/PublicHeader'
 import { PublicFooter } from '@/components/layout/PublicFooter'
 import { CategoryFilterBar } from '@/components/programs/CategoryFilterBar'
 import { FacilityCard } from '@/components/facilities/FacilityCard'
-import { facilities } from '@/data/mockFacilities'
+import { useAllFacilities } from '@/lib/orgScope'
 import type { AcademyCategory } from '@/types/dashboard'
 
 export default function FacilitiesPage() {
   const [category, setCategory] = useState<AcademyCategory | 'All'>('All')
+  const facilities = useAllFacilities()
   const visible = category === 'All' ? facilities : facilities.filter((f) => f.category === category)
 
   return (

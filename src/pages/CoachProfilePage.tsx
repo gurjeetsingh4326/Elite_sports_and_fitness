@@ -8,17 +8,16 @@ import { Select } from '@/components/ui/Select'
 import { CategoryBadge } from '@/components/ui/Badge'
 import { ReelThumb } from '@/components/reels/ReelThumb'
 import { ReelsIcon, CheckIcon, EditIcon } from '@/components/icons'
-import { academyRows as seedAcademyRows } from '@/data/mockDashboard'
 import { useDataStore } from '@/context/DataStoreContext'
 import { useCurrentPersona } from '@/lib/useCurrentPersona'
-import { useAllCoaches } from '@/lib/orgScope'
+import { useAllCoaches, useAllAcademies } from '@/lib/orgScope'
 import { initialsFromName } from '@/lib/createAthleteProfile'
 
 export default function CoachProfilePage() {
   const { coachId } = useParams()
-  const { extraAcademies, reels, updateCoach } = useDataStore()
+  const { reels, updateCoach } = useDataStore()
   const coaches = useAllCoaches()
-  const academyRows = [...seedAcademyRows, ...extraAcademies]
+  const academyRows = useAllAcademies()
   const coach = coaches.find((c) => c.id === coachId)
   const persona = useCurrentPersona()
   const [selectedAcademy, setSelectedAcademy] = useState('')

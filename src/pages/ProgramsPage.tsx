@@ -3,11 +3,12 @@ import { PublicHeader } from '@/components/layout/PublicHeader'
 import { PublicFooter } from '@/components/layout/PublicFooter'
 import { CategoryFilterBar } from '@/components/programs/CategoryFilterBar'
 import { ProgramCard } from '@/components/programs/ProgramCard'
-import { programs } from '@/data/mockPrograms'
+import { useAllPrograms } from '@/lib/orgScope'
 import type { AcademyCategory } from '@/types/dashboard'
 
 export default function ProgramsPage() {
   const [category, setCategory] = useState<AcademyCategory | 'All'>('All')
+  const programs = useAllPrograms()
   const visible = category === 'All' ? programs : programs.filter((p) => p.category === category)
 
   return (

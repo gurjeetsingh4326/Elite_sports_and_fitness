@@ -9,6 +9,14 @@ import { athleteProfiles } from '@/data/mockAthleteProfiles'
 import { useDataStore } from '@/context/DataStoreContext'
 
 /** Platform-wide (not org-scoped) — for public, cross-org pages like Programs/Facilities/Coaches Directory. */
+export function useAllAcademies() {
+  const { extraAcademies, academyOverrides } = useDataStore()
+  return useMemo(
+    () => [...academyRows, ...extraAcademies].map((a) => ({ ...a, ...academyOverrides[a.id] })),
+    [extraAcademies, academyOverrides],
+  )
+}
+
 export function useAllPrograms() {
   const { extraPrograms } = useDataStore()
   return useMemo(() => [...programs, ...extraPrograms], [extraPrograms])

@@ -36,6 +36,7 @@ import MyResultsPage from '@/pages/MyResultsPage'
 import GalleryPage from '@/pages/GalleryPage'
 import NotificationsPage from '@/pages/NotificationsPage'
 import NutritionPlansPage from '@/pages/NutritionPlansPage'
+import SettingsPage from '@/pages/SettingsPage'
 
 export default function App() {
   return (
@@ -77,6 +78,7 @@ export default function App() {
       <Route path="/dashboard/gallery" element={<GalleryPage />} />
       <Route path="/dashboard/notifications" element={<NotificationsPage />} />
       <Route path="/dashboard/nutrition" element={<NutritionPlansPage />} />
+      <Route path="/dashboard/settings" element={<SettingsPage />} />
     </Routes>
   )
 }

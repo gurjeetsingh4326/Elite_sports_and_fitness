@@ -6,10 +6,9 @@ import { Field } from '@/components/ui/Field'
 import { Select } from '@/components/ui/Select'
 import { ImageUploadField } from '@/components/ui/ImageUploadField'
 import { CategoryBadge } from '@/components/ui/Badge'
-import { useAcademiesForOrg, useAthletesForOrg, useCoachesForOrg } from '@/lib/orgScope'
+import { useAcademiesForOrg, useAthletesForOrg, useCoachesForOrg, useProgramsForOrg } from '@/lib/orgScope'
 import { useOrg } from '@/context/OrgContext'
 import { useDataStore } from '@/context/DataStoreContext'
-import { programs } from '@/data/mockPrograms'
 import { buildDefaultAthleteProfile, initialsFromName } from '@/lib/createAthleteProfile'
 import type { AcademyCategory } from '@/types/dashboard'
 import type { AthleteRow } from '@/types/athlete'
@@ -23,6 +22,7 @@ export default function UsersPage() {
   const academyRows = useAcademiesForOrg(currentOrg.id)
   const athletes = useAthletesForOrg(currentOrg.id)
   const coaches = useCoachesForOrg(currentOrg.id)
+  const programs = useProgramsForOrg(currentOrg.id)
 
   const [showForm, setShowForm] = useState(false)
   const [role, setRole] = useState<Role>('Athlete')

@@ -3,7 +3,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { Tile } from '@/components/ui/Tile'
 import { NavRow } from '@/components/layout/NavRow'
 import { DropdownPanel } from '@/components/ui/DropdownPanel'
-import { BellIcon, TrophyIcon, CheckIcon, LogoutIcon } from '@/components/icons'
+import { BellIcon, TrophyIcon, CheckIcon, LogoutIcon, EditIcon } from '@/components/icons'
 import { ROLE_NAV } from '@/data/roleNav'
 import { ROLES } from '@/types/role'
 import { clsx } from '@/lib/clsx'
@@ -274,6 +274,14 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
               + Register new organization
             </Link>
             <div className="my-1.5 h-px bg-[oklch(93%_0.005_90)]" />
+            <Link
+              to="/dashboard/settings"
+              onClick={() => setProfileOpen(false)}
+              className="flex items-center gap-2 rounded-lg px-2 py-1.5 text-xs font-medium text-navy hover:bg-hover"
+            >
+              <EditIcon size={14} />
+              My Profile
+            </Link>
             <Link
               to="/"
               onClick={() => setProfileOpen(false)}
