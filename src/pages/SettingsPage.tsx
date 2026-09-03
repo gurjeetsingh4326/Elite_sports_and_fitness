@@ -16,7 +16,7 @@ import type { AcademyCategory } from '@/types/dashboard'
 
 function SavedBadge() {
   return (
-    <div className="flex items-center gap-1.5 text-xs font-semibold text-[oklch(45%_0.13_145)]">
+    <div className="flex animate-pop-in items-center gap-1.5 text-xs font-semibold text-[oklch(45%_0.13_145)]">
       <CheckIcon size={15} />
       Saved
     </div>
@@ -45,7 +45,7 @@ function OrganizationSettings() {
   }
 
   return (
-    <Tile className="flex max-w-xl flex-col gap-4 bg-white p-6">
+    <Tile className="flex max-w-xl animate-fade-in-scale flex-col gap-4 bg-white p-6">
       <h2 className="text-sm font-bold text-navy">Organization settings</h2>
       <ImageUploadField label="Organization logo" value={logoUrl} onChange={setLogoUrl} shape="circle" />
       <Field label="Organization name" value={name} onChange={(e) => { setName(e.target.value); setSaved(false) }} />
@@ -59,7 +59,7 @@ function OrganizationSettings() {
           type="button"
           onClick={save}
           disabled={!name.trim() || !ownerName.trim() || !ownerEmail.trim() || categories.length === 0}
-          className="rounded-full bg-navy px-6 py-2.5 text-sm font-semibold text-white hover:bg-navy-light disabled:cursor-not-allowed disabled:opacity-40"
+          className="rounded-full bg-navy px-6 py-2.5 text-sm font-semibold text-white transition-all duration-200 hover:scale-[1.02] hover:bg-navy-light disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:scale-100"
         >
           Save changes
         </button>
@@ -93,7 +93,7 @@ function CoachSettings() {
   }
 
   return (
-    <Tile className="flex max-w-xl flex-col gap-4 bg-white p-6">
+    <Tile className="flex max-w-xl animate-fade-in-scale flex-col gap-4 bg-white p-6">
       <h2 className="text-sm font-bold text-navy">My coach profile</h2>
       <Field label="Full name" value={name} onChange={(e) => { setName(e.target.value); setSaved(false) }} />
       <div>
@@ -114,7 +114,7 @@ function CoachSettings() {
           type="button"
           onClick={save}
           disabled={!name.trim()}
-          className="rounded-full bg-navy px-6 py-2.5 text-sm font-semibold text-white hover:bg-navy-light disabled:cursor-not-allowed disabled:opacity-40"
+          className="rounded-full bg-navy px-6 py-2.5 text-sm font-semibold text-white transition-all duration-200 hover:scale-[1.02] hover:bg-navy-light disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:scale-100"
         >
           Save changes
         </button>
@@ -149,7 +149,7 @@ function AthleteSettings() {
   }
 
   return (
-    <Tile className="flex max-w-xl flex-col gap-4 bg-white p-6">
+    <Tile className="flex max-w-xl animate-fade-in-scale flex-col gap-4 bg-white p-6">
       <h2 className="text-sm font-bold text-navy">My profile</h2>
       <Field label="Full name" value={name} onChange={(e) => { setName(e.target.value); setSaved(false) }} />
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -164,7 +164,7 @@ function AthleteSettings() {
           type="button"
           onClick={save}
           disabled={!name.trim()}
-          className="rounded-full bg-navy px-6 py-2.5 text-sm font-semibold text-white hover:bg-navy-light disabled:cursor-not-allowed disabled:opacity-40"
+          className="rounded-full bg-navy px-6 py-2.5 text-sm font-semibold text-white transition-all duration-200 hover:scale-[1.02] hover:bg-navy-light disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:scale-100"
         >
           Save changes
         </button>

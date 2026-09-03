@@ -35,17 +35,18 @@ export default function MyResultsPage() {
                 <span>Attend.</span>
                 <span>Latest assessment</span>
               </div>
-              {myAthletes.map((athlete) => {
+              {myAthletes.map((athlete, i) => {
                 const profile = athleteProfiles[athlete.id]
                 const latest = profile?.performanceAssessments[0]
                 return (
                   <Link
                     key={athlete.id}
                     to={`/dashboard/athletes/${athlete.id}`}
-                    className="grid grid-cols-[1.6fr_1.2fr_0.9fr_1.6fr] items-center gap-3 rounded-xl px-4 py-3 hover:bg-hover"
+                    className="group grid animate-fade-in grid-cols-[1.6fr_1.2fr_0.9fr_1.6fr] items-center gap-3 rounded-xl px-4 py-3 transition-colors hover:bg-hover"
+                    style={{ animationDelay: `${Math.min(i, 10) * 30}ms` }}
                   >
                     <div className="flex items-center gap-2.5">
-                      <div className="flex h-8 w-8 items-center justify-center rounded-full bg-navy text-[11px] font-bold text-brand-amber">
+                      <div className="flex h-8 w-8 items-center justify-center rounded-full bg-navy text-[11px] font-bold text-brand-amber transition-transform duration-200 group-hover:scale-110">
                         {athlete.initials}
                       </div>
                       <span className="text-sm font-semibold text-navy">{athlete.name}</span>
