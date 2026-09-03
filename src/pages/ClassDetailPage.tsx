@@ -11,7 +11,7 @@ import { useDataStore } from '@/context/DataStoreContext'
 export default function ClassDetailPage() {
   const { academyId, classId } = useParams()
   const { currentOrg } = useOrg()
-  const { classes, setClassStudents } = useDataStore()
+  const { classes, assignStudentToClass, removeStudentFromClass } = useDataStore()
   const athletes = useAthletesForOrg(currentOrg.id)
   const [showAssign, setShowAssign] = useState(false)
   const [selectedAthleteId, setSelectedAthleteId] = useState('')
@@ -24,13 +24,13 @@ export default function ClassDetailPage() {
 
   function assign() {
     if (!selectedAthleteId) return
-    setClassStudents(cls!.id, [...cls!.studentIds, selectedAthleteId])
+    assignStudentToClass(cls!.id, selectedAthleteId)
     setSelectedAthleteId('')
     setShowAssign(false)
   }
 
   function remove(athleteId: string) {
-    setClassStudents(cls!.id, cls!.studentIds.filter((id) => id !== athleteId))
+    removeStudentFromClass(cls!.id, athleteId)
   }
 
   return (

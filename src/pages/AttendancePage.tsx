@@ -4,9 +4,7 @@ import { Tile } from '@/components/ui/Tile'
 import { Select } from '@/components/ui/Select'
 import { CheckIcon } from '@/components/icons'
 import { clsx } from '@/lib/clsx'
-import { programs } from '@/data/mockPrograms'
-import { athletes } from '@/data/mockAthletes'
-import { useAcademiesForOrg } from '@/lib/orgScope'
+import { useAcademiesForOrg, useAthletesForOrg, useProgramsForOrg } from '@/lib/orgScope'
 import { useOrg } from '@/context/OrgContext'
 
 type Status = 'Present' | 'Absent' | 'Late' | 'Excused'
@@ -25,6 +23,8 @@ const SESSIONS = ['Today — Aug 30, 2026', 'Aug 28, 2026', 'Aug 26, 2026']
 export default function AttendancePage() {
   const { currentOrg } = useOrg()
   const academyRows = useAcademiesForOrg(currentOrg.id)
+  const programs = useProgramsForOrg(currentOrg.id)
+  const athletes = useAthletesForOrg(currentOrg.id)
   const [academyId, setAcademyId] = useState('')
   const [programId, setProgramId] = useState('')
   const [batch, setBatch] = useState('')
@@ -32,14 +32,14 @@ export default function AttendancePage() {
   const [statuses, setStatuses] = useState<Record<string, Status>>({})
   const [saved, setSaved] = useState(false)
 
-  const availablePrograms = useMemo(() => programs.filter((p) => p.academyId === academyId), [academyId])
+  const availablePrograms = useMemo(() => programs.filter((p) => p.academyId === academyId), [programs, academyId])
   const availableBatches = useMemo(
     () => Array.from(new Set(athletes.filter((a) => a.programId === programId).map((a) => a.batch))),
-    [programId],
+    [athletes, programId],
   )
   const roster = useMemo(
     () => athletes.filter((a) => a.academyId === academyId && a.programId === programId && a.batch === batch),
-    [academyId, programId, batch],
+    [athletes, academyId, programId, batch],
   )
 
   const ready = academyId && programId && batch && session

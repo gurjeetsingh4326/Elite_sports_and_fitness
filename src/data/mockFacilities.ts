@@ -2,6 +2,7 @@ import type { AcademyCategory } from '@/types/dashboard'
 
 export interface Facility {
   id: string
+  academyId: string
   name: string
   academyName: string
   branch: string
@@ -13,6 +14,7 @@ export interface Facility {
 export const facilities: Facility[] = [
   {
     id: 'downtown-main-pitch',
+    academyId: 'elite-football-downtown',
     name: 'Main Pitch',
     academyName: 'Elite Football Academy',
     branch: 'Downtown',
@@ -22,6 +24,7 @@ export const facilities: Facility[] = [
   },
   {
     id: 'downtown-indoor-arena',
+    academyId: 'elite-football-downtown',
     name: 'Indoor Training Arena',
     academyName: 'Elite Football Academy',
     branch: 'Downtown',
@@ -31,6 +34,7 @@ export const facilities: Facility[] = [
   },
   {
     id: 'riverside-nets',
+    academyId: 'elite-cricket-riverside',
     name: 'Practice Nets',
     academyName: 'Elite Cricket Academy',
     branch: 'Riverside',
@@ -40,6 +44,7 @@ export const facilities: Facility[] = [
   },
   {
     id: 'north-campus-gym',
+    academyId: 'elite-multi-sport-north',
     name: 'Strength & Conditioning Gym',
     academyName: 'Elite Multi-Sport Academy',
     branch: 'North Campus',
@@ -49,6 +54,7 @@ export const facilities: Facility[] = [
   },
   {
     id: 'north-campus-track',
+    academyId: 'elite-multi-sport-north',
     name: 'Outdoor Track',
     academyName: 'Elite Multi-Sport Academy',
     branch: 'North Campus',
@@ -58,6 +64,7 @@ export const facilities: Facility[] = [
   },
   {
     id: 'bayview-pool',
+    academyId: 'elite-swimming-bayview',
     name: 'Olympic Pool',
     academyName: 'Elite Swimming Academy',
     branch: 'Bayview',

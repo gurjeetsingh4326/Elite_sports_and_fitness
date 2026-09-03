@@ -1,10 +1,49 @@
-import { Link } from 'react-router-dom'
+import { useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 import { AuthLayout } from '@/components/layout/AuthLayout'
 import { Field } from '@/components/ui/Field'
-
-const SPECIALTIES = ['Football', 'Cricket', 'Basketball', 'Tennis', 'Swimming', 'Athletics', 'Martial Arts', 'Fitness & Gym']
+import { clsx } from '@/lib/clsx'
+import { useIdentity } from '@/context/IdentityContext'
+import { useDataStore } from '@/context/DataStoreContext'
+import { CATEGORY_META, ACADEMY_CATEGORIES } from '@/data/categoryMeta'
+import type { AcademyCategory } from '@/types/dashboard'
+import type { CoachSummary } from '@/types/coach'
+import { initialsFromName } from '@/lib/createAthleteProfile'
 
 export default function RegisterCoachPage() {
+  const navigate = useNavigate()
+  const { setRole, setCoachId } = useIdentity()
+  const { addCoach } = useDataStore()
+
+  const [name, setName] = useState('')
+  const [email, setEmail] = useState('')
+  const [phone, setPhone] = useState('')
+  const [specialty, setSpecialty] = useState<AcademyCategory>('Football')
+  const [error, setError] = useState('')
+
+  function handleSubmit(e: React.FormEvent) {
+    e.preventDefault()
+    if (!name.trim()) {
+      setError('Enter your full name to continue.')
+      return
+    }
+
+    const id = `${name.trim().toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')}-self`
+    const coach: CoachSummary = {
+      id,
+      name: name.trim(),
+      initials: initialsFromName(name),
+      specialty,
+      bio: 'New independent coach — bio not added yet.',
+      isIndependent: true,
+      certifications: [],
+    }
+    addCoach(coach)
+    setRole('Coach/Trainer')
+    setCoachId(id)
+    navigate(`/coaches/${id}`)
+  }
+
   return (
     <AuthLayout
       title="Register as an independent coach"
@@ -18,27 +57,41 @@ export default function RegisterCoachPage() {
         </>
       }
     >
-      <form className="flex flex-col gap-4">
-        <Field label="Full name" type="text" name="name" placeholder="Alex Coach" autoComplete="name" />
-        <Field label="Email" type="email" name="email" placeholder="you@example.com" autoComplete="email" />
-        <Field label="Phone" type="tel" name="phone" placeholder="+1 555 000 0000" autoComplete="tel" />
+      <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
+        <Field label="Full name" type="text" name="name" placeholder="Alex Coach" autoComplete="name" value={name} onChange={(e) => setName(e.target.value)} />
+        <Field label="Email" type="email" name="email" placeholder="you@example.com" autoComplete="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+        <Field label="Phone" type="tel" name="phone" placeholder="+1 555 000 0000" autoComplete="tel" value={phone} onChange={(e) => setPhone(e.target.value)} />
 
         <div className="flex flex-col gap-1.5">
-          <label htmlFor="specialty" className="text-xs font-semibold text-navy">
-            Primary sport specialty
-          </label>
-          <select
-            id="specialty"
-            name="specialty"
-            className="rounded-xl border border-[oklch(90%_0.005_90)] bg-white px-3.5 py-2.5 text-sm text-navy outline-none focus:border-brand-blue"
-          >
-            {SPECIALTIES.map((s) => (
-              <option key={s}>{s}</option>
-            ))}
-          </select>
+          <span className="text-xs font-semibold text-navy">Primary sport specialty</span>
+          <div className="flex flex-wrap gap-2">
+            {ACADEMY_CATEGORIES.map((category) => {
+              const { Icon } = CATEGORY_META[category]
+              const active = specialty === category
+              return (
+                <button
+                  key={category}
+                  type="button"
+                  onClick={() => setSpecialty(category)}
+                  aria-pressed={active}
+                  className={clsx(
+                    'flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-semibold transition-colors',
+                    active
+                      ? 'border-navy bg-navy text-white'
+                      : 'border-[oklch(90%_0.005_90)] bg-white text-muted hover:bg-hover',
+                  )}
+                >
+                  <Icon size={14} />
+                  {category}
+                </button>
+              )
+            })}
+          </div>
         </div>
 
         <Field label="Password" type="password" name="password" placeholder="••••••••" autoComplete="new-password" />
+
+        {error && <p className="text-xs font-semibold text-[oklch(55%_0.19_25)]">{error}</p>}
 
         <button
           type="submit"

@@ -1,8 +1,15 @@
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { AuthLayout } from '@/components/layout/AuthLayout'
 import { Field } from '@/components/ui/Field'
 
 export default function LoginPage() {
+  const navigate = useNavigate()
+
+  function handleSubmit(e: React.FormEvent) {
+    e.preventDefault()
+    navigate('/dashboard')
+  }
+
   return (
     <AuthLayout
       title="Welcome back"
@@ -16,7 +23,7 @@ export default function LoginPage() {
         </>
       }
     >
-      <form className="flex flex-col gap-4">
+      <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
         <Field label="Email" type="email" name="email" placeholder="you@example.com" autoComplete="email" />
         <Field label="Password" type="password" name="password" placeholder="••••••••" autoComplete="current-password" />
         <button
