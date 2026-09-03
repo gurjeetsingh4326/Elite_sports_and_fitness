@@ -37,7 +37,7 @@ export default function ClassDetailPage() {
     <AppShell>
       <div className="flex flex-col gap-6">
         <div>
-          <Link to={`/dashboard/academies/${academyId}/classes`} className="text-xs font-semibold text-muted hover:text-navy">
+          <Link to={`/dashboard/academies/${academyId}/classes`} className="text-xs font-semibold text-muted transition-colors hover:text-navy">
             ← Back to Classes
           </Link>
           <div className="mt-3 flex items-center gap-3">
@@ -65,7 +65,7 @@ export default function ClassDetailPage() {
         </div>
 
         {showAssign && (
-          <Tile className="flex max-w-md flex-col gap-3 bg-white p-4">
+          <Tile className="flex max-w-md animate-fade-in-scale flex-col gap-3 bg-white p-4">
             <select
               aria-label="Select a student to assign"
               value={selectedAthleteId}
@@ -94,10 +94,14 @@ export default function ClassDetailPage() {
         )}
 
         <div className="flex flex-col gap-2.5">
-          {roster.map((athlete) => (
-            <Tile key={athlete.id} className="flex items-center justify-between bg-white p-4">
+          {roster.map((athlete, i) => (
+            <Tile
+              key={athlete.id}
+              className="group flex animate-fade-in items-center justify-between bg-white p-4 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_10px_24px_-10px_oklch(50%_0.05_40_/_20%)]"
+              style={{ animationDelay: `${Math.min(i, 10) * 40}ms` }}
+            >
               <Link to={`/dashboard/athletes/${athlete.id}`} className="flex items-center gap-3">
-                <div className="flex h-9 w-9 items-center justify-center rounded-full bg-navy text-xs font-bold text-brand-amber">
+                <div className="flex h-9 w-9 items-center justify-center rounded-full bg-navy text-xs font-bold text-brand-amber transition-transform duration-200 group-hover:scale-110">
                   {athlete.initials}
                 </div>
                 <div>
@@ -109,14 +113,14 @@ export default function ClassDetailPage() {
                 type="button"
                 aria-label={`Remove ${athlete.name} from class`}
                 onClick={() => remove(athlete.id)}
-                className="flex h-7 w-7 items-center justify-center rounded-full text-muted hover:bg-hover"
+                className="flex h-7 w-7 items-center justify-center rounded-full text-muted transition-all duration-150 hover:scale-110 hover:bg-hover hover:text-[oklch(55%_0.19_25)]"
               >
                 <XIcon size={14} />
               </button>
             </Tile>
           ))}
           {roster.length === 0 && (
-            <Tile className="bg-white p-8 text-center text-sm text-muted">No students assigned yet.</Tile>
+            <Tile className="animate-fade-in bg-white p-8 text-center text-sm text-muted">No students assigned yet.</Tile>
           )}
         </div>
       </div>

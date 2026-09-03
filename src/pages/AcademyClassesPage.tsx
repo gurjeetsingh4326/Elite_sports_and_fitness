@@ -5,10 +5,12 @@ import { Tile } from '@/components/ui/Tile'
 import { Field } from '@/components/ui/Field'
 import { Select } from '@/components/ui/Select'
 import { CategoryBadge } from '@/components/ui/Badge'
+import { SkeletonCardGrid } from '@/components/ui/SkeletonBlocks'
 import { ClockIcon } from '@/components/icons'
 import { useAcademiesForOrg, useCoachesForOrg, useAthletesForOrg } from '@/lib/orgScope'
 import { useOrg } from '@/context/OrgContext'
 import { useDataStore } from '@/context/DataStoreContext'
+import { useSimulatedLoading } from '@/lib/useSimulatedLoading'
 import type { AcademyCategory } from '@/types/dashboard'
 import type { AcademyClass } from '@/types/academyClass'
 
@@ -19,6 +21,7 @@ export default function AcademyClassesPage() {
   const academyRows = useAcademiesForOrg(currentOrg.id)
   const coaches = useCoachesForOrg(currentOrg.id)
   const athletes = useAthletesForOrg(currentOrg.id)
+  const loading = useSimulatedLoading(400, [academyId])
 
   const academy = academyRows.find((a) => a.id === academyId)
 
@@ -61,7 +64,7 @@ export default function AcademyClassesPage() {
       <div className="flex flex-col gap-6">
         <div className="flex items-center justify-between">
           <div>
-            <Link to={`/dashboard/academies/${academyId}`} className="text-xs font-semibold text-muted hover:text-navy">
+            <Link to={`/dashboard/academies/${academyId}`} className="text-xs font-semibold text-muted transition-colors hover:text-navy">
               ← Back to {academy.name}
             </Link>
             <h1 className="mt-3 text-xl font-bold text-navy">Classes</h1>
@@ -70,14 +73,14 @@ export default function AcademyClassesPage() {
           <button
             type="button"
             onClick={() => setShowForm((v) => !v)}
-            className="rounded-full bg-navy px-5 py-2.5 text-sm font-semibold text-white hover:bg-navy-light"
+            className="rounded-full bg-navy px-5 py-2.5 text-sm font-semibold text-white transition-all duration-200 hover:scale-[1.03] hover:bg-navy-light active:scale-[0.98]"
           >
             {showForm ? 'Cancel' : '+ Create class'}
           </button>
         </div>
 
         {showForm && (
-          <Tile className="grid max-w-2xl grid-cols-1 gap-4 bg-white p-6 sm:grid-cols-2">
+          <Tile className="grid max-w-2xl animate-fade-in-scale grid-cols-1 gap-4 bg-white p-6 sm:grid-cols-2">
             <Field label="Class name" value={name} onChange={(e) => setName(e.target.value)} placeholder="U10 Boys — Batch A" />
             <Select label="Category" value={category} onChange={(e) => setCategory(e.target.value as AcademyCategory)}>
               <option value="">Select category</option>
@@ -105,7 +108,7 @@ export default function AcademyClassesPage() {
               type="button"
               onClick={createClass}
               disabled={!name.trim() || !category || !coachId || !timing.trim()}
-              className="rounded-full bg-navy py-3 text-sm font-semibold text-white hover:bg-navy-light disabled:cursor-not-allowed disabled:opacity-40 sm:col-span-2"
+              className="rounded-full bg-navy py-3 text-sm font-semibold text-white transition-all duration-200 hover:scale-[1.01] hover:bg-navy-light disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:scale-100 sm:col-span-2"
             >
               Create class
             </button>
@@ -117,41 +120,50 @@ export default function AcademyClassesPage() {
           </Tile>
         )}
 
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-          {academyClasses.map((cls) => {
-            const roster = athletes.filter((a) => cls.studentIds.includes(a.id))
-            return (
-              <Link key={cls.id} to={`/dashboard/academies/${academyId}/classes/${cls.id}`}>
-                <Tile className="flex flex-col gap-3 bg-white p-5 hover:shadow-[0_8px_24px_-8px_oklch(50%_0.05_40_/_15%)]">
-                  <div className="flex items-start justify-between gap-3">
-                    <div className="text-sm font-bold text-navy">{cls.name}</div>
-                    <CategoryBadge category={cls.category} />
-                  </div>
-                  <div className="text-xs text-muted">Coach {cls.coachName}</div>
-                  <div className="flex items-center gap-1.5 text-xs text-muted">
-                    <ClockIcon size={13} />
-                    {cls.timing}
-                  </div>
-                  <div className="flex items-center justify-between border-t border-[oklch(93%_0.005_90)] pt-3">
-                    <div className="flex -space-x-2">
-                      {roster.slice(0, 4).map((a) => (
-                        <div
-                          key={a.id}
-                          className="flex h-7 w-7 items-center justify-center rounded-full border-2 border-white bg-navy text-[9px] font-bold text-brand-amber"
-                        >
-                          {a.initials}
-                        </div>
-                      ))}
+        {loading ? (
+          <SkeletonCardGrid count={4} className="md:grid-cols-2 lg:grid-cols-2" />
+        ) : (
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+            {academyClasses.map((cls, i) => {
+              const roster = athletes.filter((a) => cls.studentIds.includes(a.id))
+              return (
+                <Link
+                  key={cls.id}
+                  to={`/dashboard/academies/${academyId}/classes/${cls.id}`}
+                  className="animate-fade-in"
+                  style={{ animationDelay: `${Math.min(i, 8) * 50}ms` }}
+                >
+                  <Tile className="flex flex-col gap-3 bg-white p-5 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_12px_28px_-10px_oklch(50%_0.05_40_/_20%)]">
+                    <div className="flex items-start justify-between gap-3">
+                      <div className="text-sm font-bold text-navy">{cls.name}</div>
+                      <CategoryBadge category={cls.category} />
                     </div>
-                    <span className="text-xs font-semibold text-muted">{cls.studentIds.length} students</span>
-                  </div>
-                </Tile>
-              </Link>
-            )
-          })}
-        </div>
-        {academyClasses.length === 0 && (
-          <Tile className="bg-white p-8 text-center text-sm text-muted">No classes yet — create the first one.</Tile>
+                    <div className="text-xs text-muted">Coach {cls.coachName}</div>
+                    <div className="flex items-center gap-1.5 text-xs text-muted">
+                      <ClockIcon size={13} />
+                      {cls.timing}
+                    </div>
+                    <div className="flex items-center justify-between border-t border-[oklch(93%_0.005_90)] pt-3">
+                      <div className="flex -space-x-2">
+                        {roster.slice(0, 4).map((a) => (
+                          <div
+                            key={a.id}
+                            className="flex h-7 w-7 items-center justify-center rounded-full border-2 border-white bg-navy text-[9px] font-bold text-brand-amber"
+                          >
+                            {a.initials}
+                          </div>
+                        ))}
+                      </div>
+                      <span className="text-xs font-semibold text-muted">{cls.studentIds.length} students</span>
+                    </div>
+                  </Tile>
+                </Link>
+              )
+            })}
+          </div>
+        )}
+        {!loading && academyClasses.length === 0 && (
+          <Tile className="animate-fade-in bg-white p-8 text-center text-sm text-muted">No classes yet — create the first one.</Tile>
         )}
       </div>
     </AppShell>
