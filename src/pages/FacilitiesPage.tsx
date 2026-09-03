@@ -3,16 +3,19 @@ import { PublicHeader } from '@/components/layout/PublicHeader'
 import { PublicFooter } from '@/components/layout/PublicFooter'
 import { CategoryFilterBar } from '@/components/programs/CategoryFilterBar'
 import { FacilityCard } from '@/components/facilities/FacilityCard'
+import { SkeletonCardGrid } from '@/components/ui/SkeletonBlocks'
 import { useAllFacilities } from '@/lib/orgScope'
+import { useSimulatedLoading } from '@/lib/useSimulatedLoading'
 import type { AcademyCategory } from '@/types/dashboard'
 
 export default function FacilitiesPage() {
   const [category, setCategory] = useState<AcademyCategory | 'All'>('All')
   const facilities = useAllFacilities()
   const visible = category === 'All' ? facilities : facilities.filter((f) => f.category === category)
+  const loading = useSimulatedLoading(400, [category])
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen animate-fade-in bg-white">
       <PublicHeader />
 
       <section className="mx-auto max-w-6xl px-6 pb-8 pt-6">
@@ -26,13 +29,19 @@ export default function FacilitiesPage() {
       </section>
 
       <section className="mx-auto max-w-6xl px-6 pb-24">
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-          {visible.map((facility) => (
-            <FacilityCard key={facility.id} facility={facility} />
-          ))}
-        </div>
-        {visible.length === 0 && (
-          <p className="py-16 text-center text-sm text-muted">No facilities in this category yet.</p>
+        {loading ? (
+          <SkeletonCardGrid count={6} />
+        ) : (
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+            {visible.map((facility, i) => (
+              <div key={facility.id} className="animate-fade-in" style={{ animationDelay: `${Math.min(i, 8) * 45}ms` }}>
+                <FacilityCard facility={facility} />
+              </div>
+            ))}
+          </div>
+        )}
+        {!loading && visible.length === 0 && (
+          <p className="animate-fade-in py-16 text-center text-sm text-muted">No facilities in this category yet.</p>
         )}
       </section>
 

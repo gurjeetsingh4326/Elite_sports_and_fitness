@@ -8,8 +8,10 @@ export function PlanCard({ plan }: { plan: MembershipPlan }) {
   return (
     <Tile
       className={clsx(
-        'flex flex-col gap-6 p-7',
-        plan.highlighted ? 'bg-navy text-white' : 'bg-white text-navy',
+        'flex flex-col gap-6 p-7 transition-all duration-300 hover:-translate-y-1',
+        plan.highlighted
+          ? 'bg-navy text-white shadow-[0_16px_36px_-14px_oklch(22%_0.035_260_/_50%)] hover:shadow-[0_20px_44px_-14px_oklch(22%_0.035_260_/_60%)]'
+          : 'bg-white text-navy hover:shadow-[0_12px_28px_-10px_oklch(50%_0.05_40_/_20%)]',
       )}
     >
       {plan.highlighted && (
@@ -42,8 +44,8 @@ export function PlanCard({ plan }: { plan: MembershipPlan }) {
       <Link
         to="/register"
         className={clsx(
-          'mt-auto rounded-full py-3 text-center text-sm font-semibold',
-          plan.highlighted ? 'bg-white text-navy' : 'bg-navy text-white hover:bg-navy-light',
+          'mt-auto rounded-full py-3 text-center text-sm font-semibold transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]',
+          plan.highlighted ? 'bg-white text-navy hover:bg-white/90' : 'bg-navy text-white hover:bg-navy-light',
         )}
       >
         Get started

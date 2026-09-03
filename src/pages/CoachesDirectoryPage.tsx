@@ -3,16 +3,19 @@ import { PublicHeader } from '@/components/layout/PublicHeader'
 import { PublicFooter } from '@/components/layout/PublicFooter'
 import { CategoryFilterBar } from '@/components/programs/CategoryFilterBar'
 import { CoachCard } from '@/components/coaches/CoachCard'
+import { SkeletonCardGrid } from '@/components/ui/SkeletonBlocks'
 import { useAllCoaches } from '@/lib/orgScope'
+import { useSimulatedLoading } from '@/lib/useSimulatedLoading'
 import type { AcademyCategory } from '@/types/dashboard'
 
 export default function CoachesDirectoryPage() {
   const coaches = useAllCoaches()
   const [category, setCategory] = useState<AcademyCategory | 'All'>('All')
   const visible = category === 'All' ? coaches : coaches.filter((c) => c.specialty === category)
+  const loading = useSimulatedLoading(400, [category])
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen animate-fade-in bg-white">
       <PublicHeader />
 
       <section className="mx-auto max-w-6xl px-6 pb-8 pt-6">
@@ -26,13 +29,19 @@ export default function CoachesDirectoryPage() {
       </section>
 
       <section className="mx-auto max-w-6xl px-6 pb-24">
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-          {visible.map((coach) => (
-            <CoachCard key={coach.id} coach={coach} />
-          ))}
-        </div>
-        {visible.length === 0 && (
-          <p className="py-16 text-center text-sm text-muted">No coaches in this category yet.</p>
+        {loading ? (
+          <SkeletonCardGrid count={6} />
+        ) : (
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+            {visible.map((coach, i) => (
+              <div key={coach.id} className="animate-fade-in" style={{ animationDelay: `${Math.min(i, 8) * 45}ms` }}>
+                <CoachCard coach={coach} />
+              </div>
+            ))}
+          </div>
+        )}
+        {!loading && visible.length === 0 && (
+          <p className="animate-fade-in py-16 text-center text-sm text-muted">No coaches in this category yet.</p>
         )}
       </section>
 

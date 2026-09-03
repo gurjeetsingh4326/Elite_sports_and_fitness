@@ -6,7 +6,7 @@ import type { ProgramSummary } from '@/data/mockPrograms'
 export function ProgramCard({ program }: { program: ProgramSummary }) {
   return (
     <Link to={`/programs/${program.id}`}>
-      <Tile className="flex h-full flex-col gap-4 bg-white p-6 transition-shadow hover:shadow-[0_8px_24px_-8px_oklch(50%_0.05_40_/_15%)]">
+      <Tile className="flex h-full flex-col gap-4 bg-white p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_12px_28px_-10px_oklch(50%_0.05_40_/_20%)]">
         <div className="flex items-start justify-between gap-3">
           <div>
             <div className="text-base font-bold text-navy">{program.programName}</div>

@@ -5,7 +5,7 @@ import { membershipPlans } from '@/data/mockMemberships'
 
 export default function MembershipsPage() {
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen animate-fade-in bg-white">
       <PublicHeader />
 
       <section className="mx-auto max-w-6xl px-6 pb-12 pt-6 text-center">
@@ -17,8 +17,10 @@ export default function MembershipsPage() {
 
       <section className="mx-auto max-w-6xl px-6 pb-24">
         <div className="grid grid-cols-1 gap-5 md:grid-cols-3">
-          {membershipPlans.map((plan) => (
-            <PlanCard key={plan.id} plan={plan} />
+          {membershipPlans.map((plan, i) => (
+            <div key={plan.id} className="animate-fade-in" style={{ animationDelay: `${i * 90}ms` }}>
+              <PlanCard plan={plan} />
+            </div>
           ))}
         </div>
       </section>

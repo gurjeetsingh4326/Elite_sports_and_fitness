@@ -8,9 +8,12 @@ import { Select } from '@/components/ui/Select'
 import { CategoryBadge } from '@/components/ui/Badge'
 import { ReelThumb } from '@/components/reels/ReelThumb'
 import { ReelsIcon, CheckIcon, EditIcon } from '@/components/icons'
+import { Skeleton } from '@/components/ui/Skeleton'
+import { SkeletonThumbGrid } from '@/components/ui/SkeletonBlocks'
 import { useDataStore } from '@/context/DataStoreContext'
 import { useCurrentPersona } from '@/lib/useCurrentPersona'
 import { useAllCoaches, useAllAcademies } from '@/lib/orgScope'
+import { useSimulatedLoading } from '@/lib/useSimulatedLoading'
 import { initialsFromName } from '@/lib/createAthleteProfile'
 
 export default function CoachProfilePage() {
@@ -20,6 +23,7 @@ export default function CoachProfilePage() {
   const academyRows = useAllAcademies()
   const coach = coaches.find((c) => c.id === coachId)
   const persona = useCurrentPersona()
+  const loading = useSimulatedLoading(400, [coachId])
   const [selectedAcademy, setSelectedAcademy] = useState('')
   const [applied, setApplied] = useState(false)
 
@@ -56,17 +60,26 @@ export default function CoachProfilePage() {
   const coachReels = reels.filter((r) => r.authorId === coach.id && r.status !== 'Removed')
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen animate-fade-in bg-white">
       <PublicHeader />
 
       <section className="mx-auto max-w-6xl px-6 pb-8 pt-6">
-        <Link to="/coaches" className="text-xs font-semibold text-muted hover:text-navy">
+        <Link to="/coaches" className="text-xs font-semibold text-muted transition-colors hover:text-navy">
           ← Back to Coaches
         </Link>
 
-        <div className="mt-4 flex flex-wrap items-center justify-between gap-4">
+        {loading ? (
+          <div className="mt-4 flex items-center gap-5">
+            <Skeleton className="h-20 w-20 shrink-0 rounded-full" />
+            <div>
+              <Skeleton className="h-6 w-48 rounded-lg" />
+              <Skeleton className="mt-2.5 h-3.5 w-40 rounded" />
+            </div>
+          </div>
+        ) : (
+        <div className="mt-4 flex animate-fade-in flex-wrap items-center justify-between gap-4">
           <div className="flex items-center gap-5">
-            <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-full bg-navy text-2xl font-bold text-brand-amber">
+            <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-full bg-navy text-2xl font-bold text-brand-amber transition-transform duration-300 hover:scale-105">
               {coach.initials}
             </div>
             <div>
@@ -83,16 +96,17 @@ export default function CoachProfilePage() {
             <button
               type="button"
               onClick={() => (showEdit ? setShowEdit(false) : openEdit())}
-              className="flex items-center gap-1.5 rounded-full border border-[oklch(90%_0.005_90)] bg-white px-4 py-2.5 text-sm font-semibold text-navy hover:bg-hover"
+              className="flex items-center gap-1.5 rounded-full border border-[oklch(90%_0.005_90)] bg-white px-4 py-2.5 text-sm font-semibold text-navy transition-colors hover:bg-hover"
             >
               <EditIcon size={15} />
               {showEdit ? 'Cancel edit' : 'Edit profile'}
             </button>
           )}
         </div>
+        )}
 
         {showEdit && (
-          <Tile className="mt-4 flex max-w-lg flex-col gap-4 bg-white p-6">
+          <Tile className="mt-4 flex max-w-lg animate-fade-in-scale flex-col gap-4 bg-white p-6">
             <Field label="Full name" value={editName} onChange={(e) => setEditName(e.target.value)} />
             <div>
               <label htmlFor="coach-bio" className="mb-1.5 block text-xs font-semibold text-navy">
@@ -116,7 +130,7 @@ export default function CoachProfilePage() {
               type="button"
               onClick={saveEdit}
               disabled={!editName.trim()}
-              className="flex items-center justify-center gap-2 rounded-full bg-navy py-2.5 text-sm font-semibold text-white hover:bg-navy-light disabled:cursor-not-allowed disabled:opacity-40"
+              className="flex items-center justify-center gap-2 rounded-full bg-navy py-2.5 text-sm font-semibold text-white transition-all duration-200 hover:scale-[1.02] hover:bg-navy-light disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:scale-100"
             >
               <CheckIcon size={15} />
               Save changes
@@ -126,7 +140,30 @@ export default function CoachProfilePage() {
       </section>
 
       <section className="mx-auto max-w-6xl px-6 pb-24">
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+        {loading ? (
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+            <div className="flex flex-col gap-6 md:col-span-2">
+              <Tile className="bg-white p-6">
+                <Skeleton className="h-3.5 w-24 rounded" />
+                <Skeleton className="mt-4 h-3 w-full rounded" />
+                <Skeleton className="mt-2 h-3 w-3/4 rounded" />
+              </Tile>
+              <Tile className="bg-white p-6">
+                <Skeleton className="mb-4 h-3.5 w-16 rounded" />
+                <SkeletonThumbGrid count={3} />
+              </Tile>
+            </div>
+            <div className="flex flex-col gap-4">
+              {Array.from({ length: 2 }).map((_, i) => (
+                <Tile key={i} className="bg-surface p-6">
+                  <Skeleton className="h-3 w-24 rounded" />
+                  <Skeleton className="mt-2.5 h-4 w-32 rounded" />
+                </Tile>
+              ))}
+            </div>
+          </div>
+        ) : (
+        <div className="grid animate-fade-in grid-cols-1 gap-6 md:grid-cols-3">
           <div className="flex flex-col gap-6 md:col-span-2">
             <Tile className="bg-white p-6">
               <h2 className="text-base font-bold text-navy">Overview</h2>
@@ -170,7 +207,7 @@ export default function CoachProfilePage() {
               <Tile className="bg-white p-6">
                 <div className="text-xs font-bold uppercase tracking-wide text-muted">Apply to an academy</div>
                 {applied ? (
-                  <div className="mt-3 flex items-center gap-2 text-sm font-semibold text-[oklch(45%_0.13_145)]">
+                  <div className="mt-3 flex animate-pop-in items-center gap-2 text-sm font-semibold text-[oklch(45%_0.13_145)]">
                     <CheckIcon size={16} />
                     Application sent — Org will review and respond.
                   </div>
@@ -188,7 +225,7 @@ export default function CoachProfilePage() {
                       type="button"
                       disabled={!selectedAcademy}
                       onClick={() => setApplied(true)}
-                      className="rounded-full bg-navy py-2.5 text-sm font-semibold text-white hover:bg-navy-light disabled:cursor-not-allowed disabled:opacity-40"
+                      className="rounded-full bg-navy py-2.5 text-sm font-semibold text-white transition-all duration-200 hover:scale-[1.02] hover:bg-navy-light disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:scale-100"
                     >
                       Send application
                     </button>
@@ -201,7 +238,7 @@ export default function CoachProfilePage() {
               <div className="mb-2 text-xs font-bold uppercase tracking-wide text-muted">Certifications</div>
               <div className="flex flex-wrap gap-1.5">
                 {coach.certifications.map((cert) => (
-                  <span key={cert} className="rounded-full bg-white px-2.5 py-1 text-[11px] font-semibold text-navy">
+                  <span key={cert} className="rounded-full bg-white px-2.5 py-1 text-[11px] font-semibold text-navy transition-colors hover:bg-hover">
                     {cert}
                   </span>
                 ))}
@@ -209,6 +246,7 @@ export default function CoachProfilePage() {
             </Tile>
           </div>
         </div>
+        )}
       </section>
 
       <PublicFooter />
