@@ -104,6 +104,13 @@ adds an Org Membership to their existing account rather than creating a second o
 generalizes the existing "athlete is never duplicated on transfer" rule to identity itself (see
 [Product Rules](08-product-rules.md)).
 
+**UI-build note (no auth yet):** since there's no real login, the M0–M9 build simulates "who you
+are" with a **persona preview** — the profile menu's role switcher additionally lets you pick
+*which* coach or athlete you're previewing as, not just the role label. Content authorship
+(Reels), "My Classes," and "My Athletes" all key off this persona. It's a stand-in for a real
+Org Membership session and should be replaced by real per-account auth at M10, not treated as the
+final identity model.
+
 ## User Roles
 
 | Role | Scope |

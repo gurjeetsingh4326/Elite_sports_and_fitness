@@ -36,6 +36,10 @@ holds anything created at runtime; nothing survives a reload):
 | Academy Classes | The `Academy → Class → Coach → Timing → Assigned Students` chain from [Academy Class](05-data-model.md#academy-class): list, create, assign/remove students |
 | Users | Org-wide Athlete/Coach directory with an "add user" flow that creates a real athlete or coach (including a full default Athlete 360 Profile) |
 | Images | Client-side upload with local preview (`ImageUploadField`) for org logos, academy photos, and user avatars — no object storage yet, see the note in [Database Schema](11-database-schema.md#notes-for-m11) |
+| Persona identity | `IdentityContext` + `useCurrentPersona` — the role-preview switcher now tracks *which* coach/athlete you're previewing as (see the [UI-build note](02-architecture.md#identity--membership-model)), so Reels authorship, My Classes, My Athletes, and Gallery are all genuinely "yours" rather than a hardcoded admin persona |
+| Reels persistence | Reels moved from page-local state into `DataStoreContext` — a post in Studio now actually shows up in Discover, Gallery, and the author's Coach Public Profile |
+| My Classes / My Athletes / Gallery | New role-aware pages: `/dashboard/my-classes` (coach: taught; athlete: enrolled, with a "Today" section), `/dashboard/my-results` (coach's roster + latest assessments), `/dashboard/gallery` (current persona's own Reels) |
+| Persona-aware notifications | `mockNotifications.ts` entries can target a specific `forPersonId`, so switching coach/athlete persona shows relevant items instead of one global list |
 
 ## Backend Milestones (after M9)
 

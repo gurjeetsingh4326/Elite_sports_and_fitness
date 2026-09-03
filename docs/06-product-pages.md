@@ -5,8 +5,8 @@
 | Audience | Shows |
 |----------|-------|
 | Organization | Academies, athletes, attendance, programs, revenue, transfers |
-| Coach | Batches, sessions, attendance, assessments |
-| Athlete | Schedule, attendance, level, performance, plans and achievements |
+| Coach | Their own classes (My Classes), their athletes' results (My Athletes), sessions, attendance, assessments, Gallery |
+| Athlete | Their own classes (My Classes, with a "Today" section), schedule, attendance, level, performance, plans, achievements, Gallery |
 | Independent Coach | Own Reels & engagement stats, public profile, academy invites/applications |
 
 ## Recommended Pages
@@ -40,7 +40,11 @@ interested in.
 - Tournaments
 - Payments
 - Reports
-- Reels Studio (create/manage own Reels, view engagement)
+- Reels Studio (create/manage own Reels, view engagement — posts as whichever persona you're
+  currently previewing, see [Identity & Membership Model](02-architecture.md#identity--membership-model))
+- Gallery (Coach/Athlete — the current persona's own posted Reels, as a visual grid)
+- My Classes (Coach/Athlete — role-aware: classes taught vs. classes enrolled in, with a "Today" section)
+- My Athletes (Coach only — roster + practice level + latest assessment across the coach's own classes)
 - Moderation Queue (Academy Manager / Super Admin)
 
 ---
