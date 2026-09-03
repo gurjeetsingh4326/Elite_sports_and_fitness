@@ -38,7 +38,6 @@ const TRANSFERS: NavItemDef = { key: 'transfers', label: 'Transfers', Icon: Tran
 const PAYMENTS: NavItemDef = { key: 'payments', label: 'Payments', Icon: PaymentsIcon }
 const MEDICAL: NavItemDef = { key: 'medical', label: 'Physician Sessions', Icon: MedicalIcon }
 const NUTRITION: NavItemDef = { key: 'nutrition', label: 'Nutrition Plans', Icon: NutritionIcon }
-const ACHIEVEMENTS: NavItemDef = { key: 'achievements', label: 'Achievements', Icon: TrophyIcon }
 const MODERATION: NavItemDef = { key: 'moderation', label: 'Moderation Queue', Icon: FlagIcon }
 const TOURNAMENTS: NavItemDef = { key: 'tournaments', label: 'Tournaments', Icon: TrophyIcon }
 const REPORTS: NavItemDef = { key: 'reports', label: 'Reports', Icon: BarChartIcon }
@@ -46,6 +45,7 @@ const USERS: NavItemDef = { key: 'users', label: 'Users', Icon: UserPlusIcon }
 const MY_CLASSES: NavItemDef = { key: 'my-classes', label: 'My Classes', Icon: ClockIcon }
 const MY_RESULTS: NavItemDef = { key: 'my-results', label: 'My Athletes', Icon: BarChartIcon }
 const GALLERY: NavItemDef = { key: 'gallery', label: 'Gallery', Icon: GalleryIcon }
+const MY_CHILD: NavItemDef = { key: 'my-child', label: 'My Child', Icon: AthletesIcon }
 
 export const ROLE_NAV: Record<Role, NavItemDef[]> = {
   'Super Admin/Owner': [
@@ -101,5 +101,5 @@ export const ROLE_NAV: Record<Role, NavItemDef[]> = {
     TOURNAMENTS,
     PAYMENTS,
   ],
-  'Parent/Guardian': [DASHBOARD, ATTENDANCE, PERFORMANCE, ACHIEVEMENTS, TOURNAMENTS],
+  'Parent/Guardian': [DASHBOARD, MY_CHILD, TOURNAMENTS],
 }

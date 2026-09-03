@@ -34,6 +34,8 @@ import UsersPage from '@/pages/UsersPage'
 import MyClassesPage from '@/pages/MyClassesPage'
 import MyResultsPage from '@/pages/MyResultsPage'
 import GalleryPage from '@/pages/GalleryPage'
+import NotificationsPage from '@/pages/NotificationsPage'
+import NutritionPlansPage from '@/pages/NutritionPlansPage'
 
 export default function App() {
   return (
@@ -73,6 +75,8 @@ export default function App() {
       <Route path="/dashboard/my-classes" element={<MyClassesPage />} />
       <Route path="/dashboard/my-results" element={<MyResultsPage />} />
       <Route path="/dashboard/gallery" element={<GalleryPage />} />
+      <Route path="/dashboard/notifications" element={<NotificationsPage />} />
+      <Route path="/dashboard/nutrition" element={<NutritionPlansPage />} />
     </Routes>
   )
 }

@@ -1,16 +1,17 @@
 import { useState } from 'react'
-import { Link, useLocation } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { Tile } from '@/components/ui/Tile'
 import { NavRow } from '@/components/layout/NavRow'
 import { DropdownPanel } from '@/components/ui/DropdownPanel'
-import { SearchIcon, BellIcon, TrophyIcon, CheckIcon, LogoutIcon } from '@/components/icons'
+import { BellIcon, TrophyIcon, CheckIcon, LogoutIcon } from '@/components/icons'
 import { ROLE_NAV } from '@/data/roleNav'
-import { notifications } from '@/data/mockNotifications'
 import { ROLES } from '@/types/role'
 import { clsx } from '@/lib/clsx'
 import { useOrg } from '@/context/OrgContext'
 import { useIdentity } from '@/context/IdentityContext'
+import { useDataStore } from '@/context/DataStoreContext'
 import { useAthletesForOrg, useCoachesForOrg } from '@/lib/orgScope'
+import { SidebarSearch } from '@/components/layout/SidebarSearch'
 
 const NAV_ROUTES: Record<string, string> = {
   dashboard: '/dashboard',
@@ -30,6 +31,7 @@ const NAV_ROUTES: Record<string, string> = {
   payments: '/dashboard/payments',
   reports: '/dashboard/reports',
   users: '/dashboard/users',
+  nutrition: '/dashboard/nutrition',
 }
 
 function chunk<T>(items: T[], size: number): T[][] {
@@ -45,9 +47,11 @@ interface SidebarProps {
 
 export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
   const { role, setRole, coachId, setCoachId, athleteId, setAthleteId } = useIdentity()
+  const { notifications, markAllNotificationsRead } = useDataStore()
   const [profileOpen, setProfileOpen] = useState(false)
   const [notificationsOpen, setNotificationsOpen] = useState(false)
   const location = useLocation()
+  const navigate = useNavigate()
   const { currentOrg, organizations, setCurrentOrgId } = useOrg()
   const orgCoaches = useCoachesForOrg(currentOrg.id)
   const orgAthletes = useAthletesForOrg(currentOrg.id)
@@ -68,8 +72,10 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
   const navGroups = chunk(ROLE_NAV[role], 4)
   const unreadCount = visibleNotifications.filter((n) => !n.read).length
 
+  const routeForKey = (key: string) => (key === 'my-child' ? (currentAthlete ? `/dashboard/athletes/${currentAthlete.id}` : undefined) : NAV_ROUTES[key])
+
   const isActive = (key: string) => {
-    const route = NAV_ROUTES[key]
+    const route = routeForKey(key)
     if (!route) return false
     if (route === '/dashboard') return location.pathname === '/dashboard'
     return location.pathname.startsWith(route)
@@ -103,13 +109,7 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
             )}
           </div>
           <div className="flex gap-2">
-            <button
-              type="button"
-              aria-label="Search"
-              className="flex h-[26px] w-[26px] items-center justify-center rounded-lg bg-navy-light"
-            >
-              <SearchIcon size={13} className="text-white/85" />
-            </button>
+            <SidebarSearch />
             <div className="relative">
               <button
                 type="button"
@@ -124,10 +124,21 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
                   </span>
                 )}
               </button>
-              <DropdownPanel open={notificationsOpen} onClose={() => setNotificationsOpen(false)} align="right">
-                <div className="px-2 py-1.5 text-xs font-bold text-navy">Notifications</div>
-                <div className="flex flex-col gap-0.5">
-                  {visibleNotifications.map((n) => (
+              <DropdownPanel open={notificationsOpen} onClose={() => setNotificationsOpen(false)} align="right" className="w-72">
+                <div className="flex items-center justify-between px-2 py-1.5">
+                  <span className="text-xs font-bold text-navy">Notifications</span>
+                  {unreadCount > 0 && (
+                    <button
+                      type="button"
+                      onClick={() => markAllNotificationsRead(personId)}
+                      className="text-[10.5px] font-semibold text-brand-blue hover:underline"
+                    >
+                      Mark all read
+                    </button>
+                  )}
+                </div>
+                <div className="flex max-h-72 flex-col gap-0.5 overflow-y-auto">
+                  {visibleNotifications.slice(0, 6).map((n) => (
                     <div key={n.id} className="flex items-start gap-2 rounded-lg px-2 py-2 hover:bg-hover">
                       <span
                         className={`mt-1 h-1.5 w-1.5 shrink-0 rounded-full ${n.read ? 'bg-transparent' : 'bg-brand-blue'}`}
@@ -142,6 +153,17 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
                     <div className="px-2 py-3 text-xs text-muted">Nothing new.</div>
                   )}
                 </div>
+                <div className="my-1.5 h-px bg-[oklch(93%_0.005_90)]" />
+                <button
+                  type="button"
+                  onClick={() => {
+                    setNotificationsOpen(false)
+                    navigate('/dashboard/notifications')
+                  }}
+                  className="flex w-full items-center justify-center rounded-lg px-2 py-1.5 text-xs font-semibold text-brand-blue hover:bg-hover"
+                >
+                  View all
+                </button>
               </DropdownPanel>
             </div>
           </div>
@@ -205,11 +227,11 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
               </>
             )}
 
-            {role === 'Athlete/Member' && orgAthletes.length > 0 && (
+            {(role === 'Athlete/Member' || role === 'Parent/Guardian') && orgAthletes.length > 0 && (
               <>
                 <div className="my-1.5 h-px bg-[oklch(93%_0.005_90)]" />
                 <div className="px-2 py-1.5 text-[10.5px] font-bold uppercase tracking-wide text-muted">
-                  As which athlete?
+                  {role === 'Parent/Guardian' ? 'Which child?' : 'As which athlete?'}
                 </div>
                 <div className="flex flex-col gap-0.5">
                   {orgAthletes.map((a) => (
@@ -268,7 +290,7 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
         <Tile key={i} className="flex flex-col gap-0.5 bg-white p-2.5">
           {group.map((item) => {
             const row = <NavRow icon={<item.Icon size={17} />} label={item.label} active={isActive(item.key)} />
-            const route = NAV_ROUTES[item.key]
+            const route = routeForKey(item.key)
             return route ? (
               <Link key={item.key} to={route} onClick={onCloseMobile}>
                 {row}
