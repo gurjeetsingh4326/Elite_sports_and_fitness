@@ -1,11 +1,13 @@
 import { Link } from 'react-router-dom'
 import { AppShell } from '@/components/layout/AppShell'
 import { Tile } from '@/components/ui/Tile'
+import { SkeletonStatGrid, SkeletonTable } from '@/components/ui/SkeletonBlocks'
 import { clsx } from '@/lib/clsx'
 import { athleteProfiles as seedAthleteProfiles } from '@/data/mockAthleteProfiles'
 import { useAthletesForOrg } from '@/lib/orgScope'
 import { useOrg } from '@/context/OrgContext'
 import { useDataStore } from '@/context/DataStoreContext'
+import { useSimulatedLoading } from '@/lib/useSimulatedLoading'
 
 const STATUS_CLASSES: Record<string, string> = {
   Paid: 'text-[oklch(45%_0.13_145)]',
@@ -18,6 +20,7 @@ export default function PaymentsPage() {
   const { extraAthleteProfiles } = useDataStore()
   const athleteProfiles = { ...seedAthleteProfiles, ...extraAthleteProfiles }
   const orgAthleteIds = new Set(useAthletesForOrg(currentOrg.id).map((a) => a.id))
+  const loading = useSimulatedLoading(420, [currentOrg.id])
   const rows = Object.values(athleteProfiles)
     .filter((profile) => orgAthleteIds.has(profile.id))
     .flatMap((profile) =>
@@ -42,22 +45,31 @@ export default function PaymentsPage() {
           <p className="mt-1 text-sm text-muted">Membership billing across all athletes at {currentOrg.name}.</p>
         </div>
 
-        <div className="grid max-w-xl grid-cols-1 gap-4 sm:grid-cols-3">
-          <Tile className="bg-white p-5">
+        {loading ? (
+          <>
+            <div className="max-w-xl">
+              <SkeletonStatGrid count={3} />
+            </div>
+            <SkeletonTable rows={6} columns={5} />
+          </>
+        ) : (
+          <>
+        <div className="grid max-w-xl animate-fade-in grid-cols-1 gap-4 sm:grid-cols-3">
+          <Tile className="bg-white p-5 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_12px_28px_-10px_oklch(50%_0.05_40_/_20%)]">
             <div className="text-2xl font-bold text-navy">${paidTotal.toFixed(2)}</div>
             <div className="mt-1 text-xs font-semibold text-muted">Collected</div>
           </Tile>
-          <Tile className="bg-white p-5">
+          <Tile className="bg-white p-5 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_12px_28px_-10px_oklch(50%_0.05_40_/_20%)]">
             <div className="text-2xl font-bold text-[oklch(58%_0.14_70)]">{pendingCount}</div>
             <div className="mt-1 text-xs font-semibold text-muted">Pending</div>
           </Tile>
-          <Tile className="bg-white p-5">
+          <Tile className="bg-white p-5 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_12px_28px_-10px_oklch(50%_0.05_40_/_20%)]">
             <div className="text-2xl font-bold text-navy">{rows.length}</div>
             <div className="mt-1 text-xs font-semibold text-muted">Total records</div>
           </Tile>
         </div>
 
-        <Tile className="bg-white p-2">
+        <Tile className="animate-fade-in bg-white p-2">
           <div className="overflow-x-auto">
             <div className="min-w-[560px]">
               <div className="grid grid-cols-[1.6fr_1.2fr_1fr_1fr_0.8fr] gap-3 px-4 py-3 text-[10.5px] font-bold uppercase tracking-wide text-muted">
@@ -71,7 +83,8 @@ export default function PaymentsPage() {
                 <Link
                   key={`${row.athleteId}-${i}`}
                   to={`/dashboard/athletes/${row.athleteId}`}
-                  className="grid grid-cols-[1.6fr_1.2fr_1fr_1fr_0.8fr] items-center gap-3 rounded-xl px-4 py-2.5 hover:bg-hover"
+                  className="grid animate-fade-in grid-cols-[1.6fr_1.2fr_1fr_1fr_0.8fr] items-center gap-3 rounded-xl px-4 py-2.5 transition-colors hover:bg-hover"
+                  style={{ animationDelay: `${Math.min(i, 10) * 30}ms` }}
                 >
                   <span className="text-sm font-semibold text-navy">{row.athleteName}</span>
                   <span className="text-xs text-muted">{row.planName}</span>
@@ -83,6 +96,8 @@ export default function PaymentsPage() {
             </div>
           </div>
         </Tile>
+          </>
+        )}
       </div>
     </AppShell>
   )

@@ -19,14 +19,18 @@ export default function ModerationQueuePage() {
         </div>
 
         {reported.length === 0 && (
-          <Tile className="max-w-md bg-white p-8 text-center">
+          <Tile className="max-w-md animate-fade-in-scale bg-white p-8 text-center">
             <p className="text-sm text-muted">Nothing in the queue right now.</p>
           </Tile>
         )}
 
         <div className="flex flex-col gap-3">
-          {reported.map((reel) => (
-            <Tile key={reel.id} className="flex items-center gap-4 bg-white p-4">
+          {reported.map((reel, i) => (
+            <Tile
+              key={reel.id}
+              className="flex animate-fade-in items-center gap-4 bg-white p-4 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_10px_24px_-10px_oklch(50%_0.05_40_/_20%)]"
+              style={{ animationDelay: `${Math.min(i, 8) * 50}ms` }}
+            >
               <div className="w-16 shrink-0">
                 <ReelThumb reel={reel} />
               </div>
@@ -42,14 +46,14 @@ export default function ModerationQueuePage() {
                 <button
                   type="button"
                   onClick={() => clearReelReport(reel.id)}
-                  className="rounded-full bg-surface px-4 py-2 text-xs font-semibold text-navy hover:bg-hover"
+                  className="rounded-full bg-surface px-4 py-2 text-xs font-semibold text-navy transition-all duration-150 hover:scale-105 hover:bg-hover"
                 >
                   Clear
                 </button>
                 <button
                   type="button"
                   onClick={() => removeReel(reel.id)}
-                  className="rounded-full bg-[oklch(55%_0.19_25)] px-4 py-2 text-xs font-semibold text-white"
+                  className="rounded-full bg-[oklch(55%_0.19_25)] px-4 py-2 text-xs font-semibold text-white transition-all duration-150 hover:scale-105 hover:brightness-110"
                 >
                   Remove
                 </button>
