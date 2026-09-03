@@ -7,10 +7,13 @@ import { CategoryBadgeList } from '@/components/ui/Badge'
 import { CategoryMultiSelect } from '@/components/ui/CategoryMultiSelect'
 import { ImageUploadField } from '@/components/ui/ImageUploadField'
 import { CoachMiniCard } from '@/components/coaches/CoachMiniCard'
+import { Skeleton } from '@/components/ui/Skeleton'
+import { SkeletonRowList, SkeletonStatGrid } from '@/components/ui/SkeletonBlocks'
 import { CheckIcon, ImagePlaceholderIcon, MapPinIcon, ClockIcon, EditIcon } from '@/components/icons'
 import { useAcademiesForOrg, useProgramsForOrg, useCoachesForOrg, useAthletesForOrg, useFacilitiesForOrg } from '@/lib/orgScope'
 import { useOrg } from '@/context/OrgContext'
 import { useDataStore } from '@/context/DataStoreContext'
+import { useSimulatedLoading } from '@/lib/useSimulatedLoading'
 import type { AcademyCategory } from '@/types/dashboard'
 
 export default function AcademyDashboardPage() {
@@ -22,6 +25,7 @@ export default function AcademyDashboardPage() {
   const coaches = useCoachesForOrg(currentOrg.id)
   const athletes = useAthletesForOrg(currentOrg.id)
   const facilities = useFacilitiesForOrg(currentOrg.id)
+  const loading = useSimulatedLoading(420, [academyId])
 
   const academy = academyRows.find((a) => a.id === academyId)
   const [showInvite, setShowInvite] = useState(false)
@@ -154,14 +158,14 @@ export default function AcademyDashboardPage() {
             <button
               type="button"
               onClick={() => (showEdit ? setShowEdit(false) : openEdit())}
-              className="flex items-center gap-1.5 rounded-full border border-[oklch(90%_0.005_90)] bg-white px-4 py-2.5 text-sm font-semibold text-navy hover:bg-hover"
+              className="flex items-center gap-1.5 rounded-full border border-[oklch(90%_0.005_90)] bg-white px-4 py-2.5 text-sm font-semibold text-navy transition-all duration-200 hover:-translate-y-0.5 hover:bg-hover"
             >
               <EditIcon size={15} />
               {showEdit ? 'Cancel edit' : 'Edit academy'}
             </button>
             <Link
               to={`/dashboard/academies/${academyId}/classes`}
-              className="flex items-center gap-1.5 rounded-full border border-[oklch(90%_0.005_90)] bg-white px-4 py-2.5 text-sm font-semibold text-navy hover:bg-hover"
+              className="flex items-center gap-1.5 rounded-full border border-[oklch(90%_0.005_90)] bg-white px-4 py-2.5 text-sm font-semibold text-navy transition-all duration-200 hover:-translate-y-0.5 hover:bg-hover"
             >
               <ClockIcon size={15} />
               Classes ({academyClasses.length})
@@ -170,7 +174,7 @@ export default function AcademyDashboardPage() {
         </div>
 
         {showEdit && (
-          <Tile className="flex max-w-2xl flex-col gap-4 bg-white p-6">
+          <Tile className="flex max-w-2xl animate-fade-in-scale flex-col gap-4 bg-white p-6">
             <ImageUploadField label="Academy photo" value={editImageUrl} onChange={setEditImageUrl} />
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               <Field label="Academy name" value={editName} onChange={(e) => setEditName(e.target.value)} />
@@ -188,7 +192,25 @@ export default function AcademyDashboardPage() {
           </Tile>
         )}
 
-        <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
+        {loading && (
+          <>
+            <SkeletonStatGrid />
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+              <div className="flex flex-col gap-3 md:col-span-2">
+                <Skeleton className="h-4 w-24 rounded" />
+                <SkeletonRowList count={3} />
+              </div>
+              <div className="flex flex-col gap-3">
+                <Skeleton className="h-4 w-24 rounded" />
+                <SkeletonRowList count={3} />
+              </div>
+            </div>
+          </>
+        )}
+
+        {!loading && (
+        <>
+        <div className="grid animate-fade-in grid-cols-2 gap-4 sm:grid-cols-4">
           <Tile className="bg-white p-5">
             <div className="text-2xl font-bold text-navy">{academy.athletes}</div>
             <div className="mt-1 text-xs font-semibold text-muted">Athletes</div>
@@ -217,7 +239,7 @@ export default function AcademyDashboardPage() {
             </div>
 
             {showAddProgram && (
-              <Tile className="mb-3 flex flex-col gap-3 bg-white p-4">
+              <Tile className="mb-3 flex animate-fade-in-scale flex-col gap-3 bg-white p-4">
                 <Field label="Program name" value={programName} onChange={(e) => setProgramName(e.target.value)} placeholder="Youth Development" />
                 <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                   <div className="flex flex-col gap-1.5">
@@ -251,7 +273,7 @@ export default function AcademyDashboardPage() {
             <div className="flex flex-col gap-2.5">
               {academyPrograms.map((program) => (
                 <Link key={program.id} to={`/programs/${program.id}`}>
-                  <Tile className="flex items-center justify-between bg-white p-4 hover:shadow-[0_8px_24px_-8px_oklch(50%_0.05_40_/_15%)]">
+                  <Tile className="flex items-center justify-between bg-white p-4 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_10px_24px_-10px_oklch(50%_0.05_40_/_20%)]">
                     <div>
                       <div className="text-sm font-bold text-navy">{program.programName}</div>
                       <div className="text-xs text-muted">{program.levels}</div>
@@ -273,7 +295,7 @@ export default function AcademyDashboardPage() {
             </div>
 
             {showAddFacility && (
-              <Tile className="mb-3 flex flex-col gap-3 bg-white p-4">
+              <Tile className="mb-3 flex animate-fade-in-scale flex-col gap-3 bg-white p-4">
                 <Field label="Facility name" value={facilityName} onChange={(e) => setFacilityName(e.target.value)} placeholder="Main Pitch" />
                 <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                   <div className="flex flex-col gap-1.5">
@@ -306,7 +328,7 @@ export default function AcademyDashboardPage() {
 
             <div className="flex flex-col gap-2.5">
               {academyFacilities.map((facility) => (
-                <Tile key={facility.id} className="flex items-center justify-between bg-white p-4">
+                <Tile key={facility.id} className="flex items-center justify-between bg-white p-4 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_10px_24px_-10px_oklch(50%_0.05_40_/_20%)]">
                   <div>
                     <div className="text-sm font-bold text-navy">{facility.name}</div>
                     <div className="text-xs text-muted">{facility.description}</div>
@@ -328,7 +350,7 @@ export default function AcademyDashboardPage() {
             <div className="flex flex-col gap-2.5">
               {academyAthletes.map((athlete) => (
                 <Link key={athlete.id} to={`/dashboard/athletes/${athlete.id}`}>
-                  <Tile className="flex items-center justify-between bg-white p-4 hover:shadow-[0_8px_24px_-8px_oklch(50%_0.05_40_/_15%)]">
+                  <Tile className="flex items-center justify-between bg-white p-4 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_10px_24px_-10px_oklch(50%_0.05_40_/_20%)]">
                     <div className="flex items-center gap-3">
                       <div className="flex h-9 w-9 items-center justify-center rounded-full bg-navy text-xs font-bold text-brand-amber">
                         {athlete.initials}
@@ -357,7 +379,7 @@ export default function AcademyDashboardPage() {
             </div>
 
             {showInvite && (
-              <Tile className="mb-3 flex flex-col gap-2.5 bg-white p-4">
+              <Tile className="mb-3 flex animate-fade-in-scale flex-col gap-2.5 bg-white p-4">
                 <select
                   aria-label="Select an independent coach to invite"
                   value={selectedCoach}
@@ -383,7 +405,7 @@ export default function AcademyDashboardPage() {
             )}
 
             {invited.length > 0 && (
-              <div className="mb-3 flex items-center gap-2 rounded-xl bg-[oklch(90%_0.06_145)] px-3 py-2 text-xs font-semibold text-[oklch(38%_0.1_145)]">
+              <div className="mb-3 flex animate-pop-in items-center gap-2 rounded-xl bg-[oklch(90%_0.06_145)] px-3 py-2 text-xs font-semibold text-[oklch(38%_0.1_145)]">
                 <CheckIcon size={14} />
                 {invited.length} invite{invited.length > 1 ? 's' : ''} sent
               </div>
@@ -399,6 +421,8 @@ export default function AcademyDashboardPage() {
             </div>
           </div>
         </div>
+        </>
+        )}
       </div>
     </AppShell>
   )
