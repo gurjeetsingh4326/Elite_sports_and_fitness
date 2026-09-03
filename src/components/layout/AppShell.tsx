@@ -24,7 +24,7 @@ export function AppShell({ children }: { children: ReactNode }) {
           type="button"
           aria-label="Open menu"
           onClick={() => setMobileNavOpen(true)}
-          className="flex h-9 w-9 items-center justify-center rounded-lg bg-surface"
+          className="flex h-9 w-9 items-center justify-center rounded-lg bg-surface transition-transform active:scale-90"
         >
           <MenuIcon size={18} className="text-navy" />
         </button>
