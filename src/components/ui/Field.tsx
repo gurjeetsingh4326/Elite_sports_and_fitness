@@ -13,7 +13,7 @@ export function Field({ label, id, ...props }: FieldProps) {
       </label>
       <input
         id={inputId}
-        className="rounded-xl border border-[oklch(90%_0.005_90)] bg-white px-3.5 py-2.5 text-sm text-navy outline-none focus:border-brand-blue"
+        className="rounded-xl border border-[oklch(90%_0.005_90)] bg-white px-3.5 py-2.5 text-sm text-navy outline-none transition-colors duration-150 focus:border-brand-blue"
         {...props}
       />
     </div>

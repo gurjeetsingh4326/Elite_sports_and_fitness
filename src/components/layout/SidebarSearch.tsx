@@ -39,7 +39,7 @@ export function SidebarSearch() {
         type="button"
         aria-label="Search"
         onClick={() => setOpen((v) => !v)}
-        className="flex h-[26px] w-[26px] items-center justify-center rounded-lg bg-navy-light"
+        className="flex h-[26px] w-[26px] items-center justify-center rounded-lg bg-navy-light transition-transform hover:scale-110 active:scale-95"
       >
         <SearchIcon size={13} className="text-white/85" />
       </button>

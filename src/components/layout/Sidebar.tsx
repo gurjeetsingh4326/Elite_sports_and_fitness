@@ -88,7 +88,7 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
           type="button"
           aria-label="Close menu"
           onClick={onCloseMobile}
-          className="fixed inset-0 z-40 bg-black/30 md:hidden"
+          className="fixed inset-0 z-40 animate-fade-in bg-black/30 md:hidden"
         />
       )}
       <div
@@ -115,11 +115,11 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
                 type="button"
                 aria-label="Notifications"
                 onClick={() => setNotificationsOpen((v) => !v)}
-                className="relative flex h-[26px] w-[26px] items-center justify-center rounded-lg bg-navy-light"
+                className="relative flex h-[26px] w-[26px] items-center justify-center rounded-lg bg-navy-light transition-transform hover:scale-110 active:scale-95"
               >
                 <BellIcon size={13} className="text-white/85" />
                 {unreadCount > 0 && (
-                  <span className="absolute -right-1 -top-1 flex h-3.5 w-3.5 items-center justify-center rounded-full bg-brand-amber text-[8px] font-bold text-navy">
+                  <span className="absolute -right-1 -top-1 flex h-3.5 w-3.5 animate-pulse-ring items-center justify-center rounded-full bg-brand-amber text-[8px] font-bold text-navy">
                     {unreadCount}
                   </span>
                 )}
@@ -176,9 +176,9 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
           <button
             type="button"
             onClick={() => setProfileOpen((v) => !v)}
-            className="flex w-full items-center gap-2.5 text-left"
+            className="group flex w-full items-center gap-2.5 rounded-lg text-left transition-colors hover:bg-white/5"
           >
-            <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-brand-amber text-[11px] font-bold text-navy">
+            <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-brand-amber text-[11px] font-bold text-navy transition-transform duration-200 group-hover:scale-110">
               {currentPerson.initials}
             </div>
             <div className="min-w-0 leading-tight">
