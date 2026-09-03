@@ -21,7 +21,13 @@ interface StatTileProps {
 export function StatTile({ tone, icon, value, label, className }: StatTileProps) {
   const t = TONE_CLASSES[tone]
   return (
-    <Tile className={clsx('flex flex-col justify-between p-5', t.bg, className)}>
+    <Tile
+      className={clsx(
+        'flex flex-col justify-between p-5 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_14px_30px_-12px_oklch(30%_0.05_260_/_30%)]',
+        t.bg,
+        className,
+      )}
+    >
       <div className={t.text}>{icon}</div>
       <div>
         <div className={clsx('text-[32px] font-bold leading-none', t.text)}>{value}</div>

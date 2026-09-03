@@ -1,13 +1,22 @@
+import { useEffect, useState } from 'react'
 import { Tile } from '@/components/ui/Tile'
 
 const RADIUS = 40
 const CIRCUMFERENCE = 2 * Math.PI * RADIUS
 
 export function AttendanceRingTile({ pct }: { pct: number }) {
-  const offset = CIRCUMFERENCE * (1 - pct / 100)
+  const [animatedPct, setAnimatedPct] = useState(0)
+
+  useEffect(() => {
+    setAnimatedPct(0)
+    const raf = requestAnimationFrame(() => setAnimatedPct(pct))
+    return () => cancelAnimationFrame(raf)
+  }, [pct])
+
+  const offset = CIRCUMFERENCE * (1 - animatedPct / 100)
 
   return (
-    <Tile className="flex flex-col items-center justify-center bg-brand-green p-[18px] text-white">
+    <Tile className="flex flex-col items-center justify-center bg-brand-green p-[18px] text-white transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_14px_30px_-12px_oklch(60%_0.16_150_/_40%)]">
       <svg width={82} height={82} viewBox="0 0 100 100" className="mb-1.5">
         <circle cx="50" cy="50" r={RADIUS} fill="none" stroke="oklch(100% 0 0 / 25%)" strokeWidth="10" />
         <circle
@@ -21,6 +30,7 @@ export function AttendanceRingTile({ pct }: { pct: number }) {
           strokeDasharray={CIRCUMFERENCE}
           strokeDashoffset={offset}
           transform="rotate(-90 50 50)"
+          style={{ transition: 'stroke-dashoffset 1s cubic-bezier(0.16,1,0.3,1)' }}
         />
         <text x="50" y="57" textAnchor="middle" fontFamily="Space Grotesk" fontSize="21" fontWeight="700" fill="white">
           {pct}%

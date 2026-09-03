@@ -3,7 +3,7 @@ import type { OrgDashboardStats } from '@/types/dashboard'
 
 export function HeroTile({ stats }: { stats: OrgDashboardStats }) {
   return (
-    <Tile className="flex flex-col justify-between bg-[linear-gradient(120deg,oklch(74%_0.19_25),oklch(68%_0.17_350)_55%,oklch(62%_0.18_320))] p-6 text-white">
+    <Tile className="flex flex-col justify-between bg-[linear-gradient(120deg,oklch(74%_0.19_25),oklch(68%_0.17_350)_55%,oklch(62%_0.18_320))] p-6 text-white transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_16px_36px_-14px_oklch(60%_0.15_330_/_40%)]">
       <div>
         <div className="text-[22px] font-bold">Good morning, Ravi</div>
         <div className="mt-1 text-[12.5px] text-white/85">

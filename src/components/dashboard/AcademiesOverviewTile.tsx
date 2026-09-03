@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import { Tile } from '@/components/ui/Tile'
 import { CategoryBadgeList } from '@/components/ui/Badge'
 import type { AcademyRow } from '@/types/dashboard'
@@ -7,7 +8,9 @@ export function AcademiesOverviewTile({ rows }: { rows: AcademyRow[] }) {
     <Tile className="bg-white p-5 sm:col-span-2 lg:col-span-2 lg:row-span-2">
       <div className="mb-4 flex items-center justify-between">
         <span className="text-base font-bold text-navy">Academies Overview</span>
-        <span className="cursor-pointer text-xs font-semibold text-brand-blue">View all →</span>
+        <Link to="/dashboard/academies" className="text-xs font-semibold text-brand-blue transition-opacity hover:opacity-70">
+          View all →
+        </Link>
       </div>
       <div className="overflow-x-auto">
         <div className="min-w-[420px]">
@@ -20,9 +23,10 @@ export function AcademiesOverviewTile({ rows }: { rows: AcademyRow[] }) {
           {rows.map((row, i) => (
             <div
               key={row.name}
-              className={`grid grid-cols-[2.1fr_1.1fr_0.8fr_0.9fr] items-center py-3.5 ${
+              className={`grid animate-fade-in grid-cols-[2.1fr_1.1fr_0.8fr_0.9fr] items-center rounded-lg py-3.5 transition-colors hover:bg-hover ${
                 i < rows.length - 1 ? 'border-b border-[oklch(95%_0.003_90)]' : ''
               }`}
+              style={{ animationDelay: `${Math.min(i, 6) * 50}ms` }}
             >
               <span className="text-sm font-semibold text-navy">
                 {row.name} — {row.branch}
