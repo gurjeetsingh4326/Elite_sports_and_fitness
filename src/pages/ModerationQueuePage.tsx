@@ -1,20 +1,11 @@
-import { useState } from 'react'
 import { AppShell } from '@/components/layout/AppShell'
 import { Tile } from '@/components/ui/Tile'
 import { ReelThumb } from '@/components/reels/ReelThumb'
-import { reels as initialReels } from '@/data/mockReels'
+import { useDataStore } from '@/context/DataStoreContext'
 
 export default function ModerationQueuePage() {
-  const [reels, setReels] = useState(initialReels)
+  const { reels, removeReel, clearReelReport } = useDataStore()
   const reported = reels.filter((r) => r.reported)
-
-  function remove(id: string) {
-    setReels((prev) => prev.map((r) => (r.id === id ? { ...r, status: 'Removed', reported: false } : r)))
-  }
-
-  function clear(id: string) {
-    setReels((prev) => prev.map((r) => (r.id === id ? { ...r, reported: false } : r)))
-  }
 
   return (
     <AppShell>
@@ -50,14 +41,14 @@ export default function ModerationQueuePage() {
               <div className="flex shrink-0 gap-2">
                 <button
                   type="button"
-                  onClick={() => clear(reel.id)}
+                  onClick={() => clearReelReport(reel.id)}
                   className="rounded-full bg-surface px-4 py-2 text-xs font-semibold text-navy hover:bg-hover"
                 >
                   Clear
                 </button>
                 <button
                   type="button"
-                  onClick={() => remove(reel.id)}
+                  onClick={() => removeReel(reel.id)}
                   className="rounded-full bg-[oklch(55%_0.19_25)] px-4 py-2 text-xs font-semibold text-white"
                 >
                   Remove

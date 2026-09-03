@@ -4,10 +4,12 @@ import { PublicHeader } from '@/components/layout/PublicHeader'
 import { PublicFooter } from '@/components/layout/PublicFooter'
 import { Tile } from '@/components/ui/Tile'
 import { ReelThumb } from '@/components/reels/ReelThumb'
-import { reels, reelComments } from '@/data/mockReels'
+import { reelComments } from '@/data/mockReels'
+import { useDataStore } from '@/context/DataStoreContext'
 
 export default function ReelDetailPage() {
   const { reelId } = useParams()
+  const { reels } = useDataStore()
   const reel = reels.find((r) => r.id === reelId)
   const [liked, setLiked] = useState(false)
   const [comments, setComments] = useState(() => reelComments.filter((c) => c.reelId === reelId))

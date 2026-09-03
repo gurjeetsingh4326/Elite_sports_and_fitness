@@ -2,9 +2,10 @@ import { Link } from 'react-router-dom'
 import { PublicHeader } from '@/components/layout/PublicHeader'
 import { PublicFooter } from '@/components/layout/PublicFooter'
 import { ReelThumb } from '@/components/reels/ReelThumb'
-import { reels } from '@/data/mockReels'
+import { useDataStore } from '@/context/DataStoreContext'
 
 export default function ReelsDiscoverPage() {
+  const { reels } = useDataStore()
   const visible = reels.filter((r) => r.status === 'Published' && r.visibility === 'Public')
 
   return (

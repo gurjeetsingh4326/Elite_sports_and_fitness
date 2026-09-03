@@ -6,11 +6,11 @@ import { DropdownPanel } from '@/components/ui/DropdownPanel'
 import { SearchIcon, BellIcon, TrophyIcon, CheckIcon, LogoutIcon } from '@/components/icons'
 import { ROLE_NAV } from '@/data/roleNav'
 import { notifications } from '@/data/mockNotifications'
-import { ROLES, type Role } from '@/types/role'
+import { ROLES } from '@/types/role'
 import { clsx } from '@/lib/clsx'
 import { useOrg } from '@/context/OrgContext'
-
-const CURRENT_USER = { initials: 'RS', name: 'Ravi Shastri' }
+import { useIdentity } from '@/context/IdentityContext'
+import { useAthletesForOrg, useCoachesForOrg } from '@/lib/orgScope'
 
 const NAV_ROUTES: Record<string, string> = {
   dashboard: '/dashboard',
@@ -20,6 +20,9 @@ const NAV_ROUTES: Record<string, string> = {
   performance: '/dashboard/performance',
   'practice-levels': '/dashboard/practice-levels',
   reels: '/dashboard/reels-studio',
+  gallery: '/dashboard/gallery',
+  'my-classes': '/dashboard/my-classes',
+  'my-results': '/dashboard/my-results',
   moderation: '/dashboard/moderation',
   medical: '/dashboard/physician',
   transfers: '/dashboard/transfers',
@@ -41,14 +44,29 @@ interface SidebarProps {
 }
 
 export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
-  const [role, setRole] = useState<Role>('Super Admin/Owner')
+  const { role, setRole, coachId, setCoachId, athleteId, setAthleteId } = useIdentity()
   const [profileOpen, setProfileOpen] = useState(false)
   const [notificationsOpen, setNotificationsOpen] = useState(false)
   const location = useLocation()
   const { currentOrg, organizations, setCurrentOrgId } = useOrg()
+  const orgCoaches = useCoachesForOrg(currentOrg.id)
+  const orgAthletes = useAthletesForOrg(currentOrg.id)
+
+  const currentCoach = orgCoaches.find((c) => c.id === coachId) ?? orgCoaches[0]
+  const currentAthlete = orgAthletes.find((a) => a.id === athleteId) ?? orgAthletes[0]
+
+  const currentPerson =
+    role === 'Coach/Trainer' && currentCoach
+      ? { name: currentCoach.name, initials: currentCoach.initials }
+      : role === 'Athlete/Member' && currentAthlete
+        ? { name: currentAthlete.name, initials: currentAthlete.initials }
+        : { name: 'Ravi Shastri', initials: 'RS' }
+
+  const personId = role === 'Coach/Trainer' ? currentCoach?.id : role === 'Athlete/Member' ? currentAthlete?.id : undefined
+  const visibleNotifications = notifications.filter((n) => !n.forPersonId || n.forPersonId === personId)
 
   const navGroups = chunk(ROLE_NAV[role], 4)
-  const unreadCount = notifications.filter((n) => !n.read).length
+  const unreadCount = visibleNotifications.filter((n) => !n.read).length
 
   const isActive = (key: string) => {
     const route = NAV_ROUTES[key]
@@ -109,7 +127,7 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
               <DropdownPanel open={notificationsOpen} onClose={() => setNotificationsOpen(false)} align="right">
                 <div className="px-2 py-1.5 text-xs font-bold text-navy">Notifications</div>
                 <div className="flex flex-col gap-0.5">
-                  {notifications.map((n) => (
+                  {visibleNotifications.map((n) => (
                     <div key={n.id} className="flex items-start gap-2 rounded-lg px-2 py-2 hover:bg-hover">
                       <span
                         className={`mt-1 h-1.5 w-1.5 shrink-0 rounded-full ${n.read ? 'bg-transparent' : 'bg-brand-blue'}`}
@@ -120,6 +138,9 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
                       </div>
                     </div>
                   ))}
+                  {visibleNotifications.length === 0 && (
+                    <div className="px-2 py-3 text-xs text-muted">Nothing new.</div>
+                  )}
                 </div>
               </DropdownPanel>
             </div>
@@ -136,10 +157,10 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
             className="flex w-full items-center gap-2.5 text-left"
           >
             <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-brand-amber text-[11px] font-bold text-navy">
-              {CURRENT_USER.initials}
+              {currentPerson.initials}
             </div>
             <div className="min-w-0 leading-tight">
-              <div className="text-xs font-semibold text-white/95">{CURRENT_USER.name}</div>
+              <div className="truncate text-xs font-semibold text-white/95">{currentPerson.name}</div>
               <div className="text-[10.5px] text-white/60">{role}</div>
             </div>
           </button>
@@ -153,10 +174,7 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
                 <button
                   key={r}
                   type="button"
-                  onClick={() => {
-                    setRole(r)
-                    setProfileOpen(false)
-                  }}
+                  onClick={() => setRole(r)}
                   className="flex items-center justify-between rounded-lg px-2 py-1.5 text-left text-xs font-medium text-navy hover:bg-hover"
                 >
                   {r}
@@ -164,6 +182,51 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
                 </button>
               ))}
             </div>
+
+            {role === 'Coach/Trainer' && orgCoaches.length > 0 && (
+              <>
+                <div className="my-1.5 h-px bg-[oklch(93%_0.005_90)]" />
+                <div className="px-2 py-1.5 text-[10.5px] font-bold uppercase tracking-wide text-muted">
+                  As which coach?
+                </div>
+                <div className="flex flex-col gap-0.5">
+                  {orgCoaches.map((c) => (
+                    <button
+                      key={c.id}
+                      type="button"
+                      onClick={() => setCoachId(c.id)}
+                      className="flex items-center justify-between rounded-lg px-2 py-1.5 text-left text-xs font-medium text-navy hover:bg-hover"
+                    >
+                      <span className="truncate">{c.name}</span>
+                      {c.id === currentCoach?.id && <CheckIcon size={14} className="shrink-0 text-brand-blue" />}
+                    </button>
+                  ))}
+                </div>
+              </>
+            )}
+
+            {role === 'Athlete/Member' && orgAthletes.length > 0 && (
+              <>
+                <div className="my-1.5 h-px bg-[oklch(93%_0.005_90)]" />
+                <div className="px-2 py-1.5 text-[10.5px] font-bold uppercase tracking-wide text-muted">
+                  As which athlete?
+                </div>
+                <div className="flex flex-col gap-0.5">
+                  {orgAthletes.map((a) => (
+                    <button
+                      key={a.id}
+                      type="button"
+                      onClick={() => setAthleteId(a.id)}
+                      className="flex items-center justify-between rounded-lg px-2 py-1.5 text-left text-xs font-medium text-navy hover:bg-hover"
+                    >
+                      <span className="truncate">{a.name}</span>
+                      {a.id === currentAthlete?.id && <CheckIcon size={14} className="shrink-0 text-brand-blue" />}
+                    </button>
+                  ))}
+                </div>
+              </>
+            )}
+
             <div className="my-1.5 h-px bg-[oklch(93%_0.005_90)]" />
             <div className="px-2 py-1.5 text-[10.5px] font-bold uppercase tracking-wide text-muted">
               Organization (demo preview)
@@ -173,10 +236,7 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
                 <button
                   key={org.id}
                   type="button"
-                  onClick={() => {
-                    setCurrentOrgId(org.id)
-                    setProfileOpen(false)
-                  }}
+                  onClick={() => setCurrentOrgId(org.id)}
                   className="flex items-center justify-between rounded-lg px-2 py-1.5 text-left text-xs font-medium text-navy hover:bg-hover"
                 >
                   <span className="truncate">{org.name}</span>

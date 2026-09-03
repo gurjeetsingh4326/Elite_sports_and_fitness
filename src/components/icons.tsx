@@ -189,6 +189,17 @@ export function UserPlusIcon(props: IconProps) {
   )
 }
 
+export function GalleryIcon(props: IconProps) {
+  return (
+    <svg {...base(props)}>
+      <rect x="2" y="5" width="12" height="12" rx="1.5" />
+      <circle cx="6.5" cy="9" r="1.2" />
+      <path d="M2 14.5l3.5-3 2.5 2 3-3.5 3 3" />
+      <path d="M17 5v9a1 1 0 0 1-1 1H7" />
+    </svg>
+  )
+}
+
 export function CheckIcon(props: IconProps) {
   return (
     <svg {...base(props)}>

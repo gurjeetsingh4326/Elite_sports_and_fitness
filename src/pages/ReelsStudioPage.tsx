@@ -5,7 +5,8 @@ import { Tile } from '@/components/ui/Tile'
 import { Field } from '@/components/ui/Field'
 import { Select } from '@/components/ui/Select'
 import { ReelThumb } from '@/components/reels/ReelThumb'
-import { reels as initialReels } from '@/data/mockReels'
+import { useDataStore } from '@/context/DataStoreContext'
+import { useCurrentPersona } from '@/lib/useCurrentPersona'
 import type { Reel, ReelVisibility } from '@/types/reel'
 
 const STATUS_CLASSES: Record<Reel['status'], string> = {
@@ -17,7 +18,10 @@ const STATUS_CLASSES: Record<Reel['status'], string> = {
 const THEMES: Reel['theme'][] = ['amber', 'blue', 'green', 'violet', 'navy']
 
 export default function ReelsStudioPage() {
-  const [reels, setReels] = useState(initialReels)
+  const { reels, addReel } = useDataStore()
+  const persona = useCurrentPersona()
+  const myReels = reels.filter((r) => r.authorId === persona.id)
+
   const [showForm, setShowForm] = useState(false)
   const [caption, setCaption] = useState('')
   const [tags, setTags] = useState('')
@@ -27,9 +31,11 @@ export default function ReelsStudioPage() {
     if (!caption.trim()) return
     const reel: Reel = {
       id: `local-${reels.length}`,
-      authorName: 'Ravi Shastri',
-      authorInitials: 'RS',
-      authorRole: 'Coach',
+      authorId: persona.id,
+      authorName: persona.name,
+      authorInitials: persona.initials,
+      authorRole: persona.reelRole,
+      academyName: persona.academyName,
       caption,
       tags: tags.split(',').map((t) => t.trim()).filter(Boolean),
       visibility,
@@ -40,7 +46,7 @@ export default function ReelsStudioPage() {
       createdDate: 'Just now',
       theme: THEMES[reels.length % THEMES.length],
     }
-    setReels((prev) => [reel, ...prev])
+    addReel(reel)
     setCaption('')
     setTags('')
     setVisibility('Public')
@@ -53,7 +59,10 @@ export default function ReelsStudioPage() {
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-xl font-bold text-navy">Reels Studio</h1>
-            <p className="mt-1 text-sm text-muted">Post and manage Reels, and see how they're performing.</p>
+            <p className="mt-1 text-sm text-muted">
+              Posting as <span className="font-semibold text-navy">{persona.name}</span> ({persona.reelRole}) —
+              switch persona from the profile menu.
+            </p>
           </div>
           <button
             type="button"
@@ -91,7 +100,7 @@ export default function ReelsStudioPage() {
         )}
 
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {reels.map((reel) => (
+          {myReels.map((reel) => (
             <Tile key={reel.id} className="flex gap-3 bg-white p-3">
               <Link to={`/reels/${reel.id}`} className="w-24 shrink-0">
                 <ReelThumb reel={reel} />
@@ -112,6 +121,11 @@ export default function ReelsStudioPage() {
             </Tile>
           ))}
         </div>
+        {myReels.length === 0 && (
+          <Tile className="bg-white p-8 text-center text-sm text-muted">
+            {persona.name} hasn&apos;t posted any Reels yet.
+          </Tile>
+        )}
       </div>
     </AppShell>
   )

@@ -8,13 +8,12 @@ import { CategoryBadge } from '@/components/ui/Badge'
 import { ReelThumb } from '@/components/reels/ReelThumb'
 import { ReelsIcon, CheckIcon } from '@/components/icons'
 import { coaches as seedCoaches } from '@/data/mockCoaches'
-import { reels } from '@/data/mockReels'
 import { academyRows as seedAcademyRows } from '@/data/mockDashboard'
 import { useDataStore } from '@/context/DataStoreContext'
 
 export default function CoachProfilePage() {
   const { coachId } = useParams()
-  const { extraCoaches, extraAcademies } = useDataStore()
+  const { extraCoaches, extraAcademies, reels } = useDataStore()
   const coaches = [...seedCoaches, ...extraCoaches]
   const academyRows = [...seedAcademyRows, ...extraAcademies]
   const coach = coaches.find((c) => c.id === coachId)
@@ -23,7 +22,7 @@ export default function CoachProfilePage() {
 
   if (!coach) return <Navigate to="/coaches" replace />
 
-  const coachReels = reels.filter((r) => r.authorId === coach.id)
+  const coachReels = reels.filter((r) => r.authorId === coach.id && r.status !== 'Removed')
 
   return (
     <div className="min-h-screen bg-white">

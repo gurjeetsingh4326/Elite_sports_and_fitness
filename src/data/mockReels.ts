@@ -87,6 +87,7 @@ export const reels: Reel[] = [
   },
   {
     id: 'reel-6',
+    authorId: 'dr-elena-voss',
     authorName: 'Dr. Elena Voss',
     authorInitials: 'EV',
     authorRole: 'Physician',

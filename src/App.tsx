@@ -31,6 +31,9 @@ import TournamentsPage from '@/pages/TournamentsPage'
 import PaymentsPage from '@/pages/PaymentsPage'
 import ReportsPage from '@/pages/ReportsPage'
 import UsersPage from '@/pages/UsersPage'
+import MyClassesPage from '@/pages/MyClassesPage'
+import MyResultsPage from '@/pages/MyResultsPage'
+import GalleryPage from '@/pages/GalleryPage'
 
 export default function App() {
   return (
@@ -67,6 +70,9 @@ export default function App() {
       <Route path="/dashboard/payments" element={<PaymentsPage />} />
       <Route path="/dashboard/reports" element={<ReportsPage />} />
       <Route path="/dashboard/users" element={<UsersPage />} />
+      <Route path="/dashboard/my-classes" element={<MyClassesPage />} />
+      <Route path="/dashboard/my-results" element={<MyResultsPage />} />
+      <Route path="/dashboard/gallery" element={<GalleryPage />} />
     </Routes>
   )
 }
