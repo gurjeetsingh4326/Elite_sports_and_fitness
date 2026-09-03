@@ -137,7 +137,7 @@ export default function AttendancePage() {
         </Tile>
 
         {ready && (
-          <>
+          <div className="animate-fade-in">
             <Tile className="bg-white p-2">
               <div className="overflow-x-auto">
                 <div className="min-w-[480px]">
@@ -146,10 +146,14 @@ export default function AttendancePage() {
                     <span>Status</span>
                   </div>
                   {roster.length === 0 && <p className="px-4 py-6 text-sm text-muted">No athletes in this batch yet.</p>}
-                  {roster.map((athlete) => {
+                  {roster.map((athlete, i) => {
                     const current = statuses[athlete.id] ?? 'Present'
                     return (
-                      <div key={athlete.id} className="grid grid-cols-[2fr_2fr] items-center gap-3 rounded-xl px-4 py-3">
+                      <div
+                        key={athlete.id}
+                        className="grid animate-fade-in grid-cols-[2fr_2fr] items-center gap-3 rounded-xl px-4 py-3 transition-colors hover:bg-hover"
+                        style={{ animationDelay: `${Math.min(i, 10) * 30}ms` }}
+                      >
                         <div className="flex items-center gap-2.5">
                           <div className="flex h-8 w-8 items-center justify-center rounded-full bg-navy text-[11px] font-bold text-brand-amber">
                             {athlete.initials}
@@ -163,7 +167,7 @@ export default function AttendancePage() {
                               type="button"
                               onClick={() => markStatus(athlete.id, status)}
                               className={clsx(
-                                'rounded-full px-3 py-1.5 text-xs font-semibold transition-opacity',
+                                'rounded-full px-3 py-1.5 text-xs font-semibold transition-all duration-150 hover:scale-105',
                                 current === status ? STATUS_CLASSES[status] : 'bg-surface text-muted opacity-60 hover:opacity-100',
                               )}
                             >
@@ -179,7 +183,7 @@ export default function AttendancePage() {
             </Tile>
 
             {roster.length > 0 && (
-              <div className="flex items-center justify-between">
+              <div className="mt-4 flex items-center justify-between">
                 <div className="flex gap-5">
                   {STATUSES.map((s) => (
                     <div key={s} className="text-xs font-semibold text-muted">
@@ -190,14 +194,14 @@ export default function AttendancePage() {
                 <button
                   type="button"
                   onClick={save}
-                  className="flex items-center gap-2 rounded-full bg-navy px-6 py-2.5 text-sm font-semibold text-white hover:bg-navy-light"
+                  className="flex items-center gap-2 rounded-full bg-navy px-6 py-2.5 text-sm font-semibold text-white transition-all duration-200 hover:scale-[1.03] hover:bg-navy-light active:scale-[0.98]"
                 >
-                  {saved && <CheckIcon size={16} />}
+                  {saved && <CheckIcon size={16} className="animate-pop-in" />}
                   {saved ? 'Saved' : 'Save attendance'}
                 </button>
               </div>
             )}
-          </>
+          </div>
         )}
       </div>
     </AppShell>

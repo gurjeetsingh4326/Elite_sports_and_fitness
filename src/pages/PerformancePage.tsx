@@ -67,7 +67,7 @@ export default function PerformancePage() {
         </Tile>
 
         {athlete && profile && (
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+          <div className="grid animate-fade-in grid-cols-1 gap-6 md:grid-cols-2">
             <Tile className="bg-white p-6">
               <div className="mb-4 flex items-center justify-between">
                 <h2 className="text-sm font-bold text-navy">New assessment</h2>
@@ -125,9 +125,9 @@ export default function PerformancePage() {
                   type="button"
                   onClick={save}
                   disabled={!feedback}
-                  className="mt-1 flex items-center justify-center gap-2 rounded-full bg-navy py-3 text-sm font-semibold text-white hover:bg-navy-light disabled:cursor-not-allowed disabled:opacity-40"
+                  className="mt-1 flex items-center justify-center gap-2 rounded-full bg-navy py-3 text-sm font-semibold text-white transition-all duration-200 hover:scale-[1.01] hover:bg-navy-light disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:scale-100"
                 >
-                  {savedCount > 0 && <CheckIcon size={16} />}
+                  {savedCount > 0 && <CheckIcon size={16} className="animate-pop-in" />}
                   {savedCount > 0 ? `Saved (${savedCount})` : 'Save assessment'}
                 </button>
               </div>
@@ -136,8 +136,12 @@ export default function PerformancePage() {
             <div>
               <h2 className="mb-3 text-sm font-bold text-navy">Assessment history</h2>
               <div className="flex flex-col gap-3">
-                {profile.performanceAssessments.map((a) => (
-                  <Tile key={a.date} className="bg-white p-5">
+                {profile.performanceAssessments.map((a, i) => (
+                  <Tile
+                    key={a.date}
+                    className="animate-fade-in bg-white p-5 transition-shadow hover:shadow-[0_8px_20px_-10px_oklch(50%_0.05_40_/_20%)]"
+                    style={{ animationDelay: `${Math.min(i, 8) * 50}ms` }}
+                  >
                     <div className="flex items-center justify-between">
                       <span className="text-sm font-bold text-navy">{a.date}</span>
                       {a.recommendedLevel && (

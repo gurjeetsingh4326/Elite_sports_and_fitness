@@ -4,8 +4,10 @@ import { divIcon } from 'leaflet'
 import 'leaflet/dist/leaflet.css'
 import { AppShell } from '@/components/layout/AppShell'
 import { CategoryBadgeList } from '@/components/ui/Badge'
+import { Skeleton } from '@/components/ui/Skeleton'
 import { useAcademiesForOrg } from '@/lib/orgScope'
 import { useOrg } from '@/context/OrgContext'
+import { useSimulatedLoading } from '@/lib/useSimulatedLoading'
 
 const pinIcon = divIcon({
   className: '',
@@ -18,6 +20,7 @@ const pinIcon = divIcon({
 export default function AcademyMapPage() {
   const { currentOrg } = useOrg()
   const academyRows = useAcademiesForOrg(currentOrg.id)
+  const loading = useSimulatedLoading(500, [currentOrg.id])
 
   const center: [number, number] =
     academyRows.length > 0
@@ -31,7 +34,7 @@ export default function AcademyMapPage() {
     <AppShell>
       <div className="flex flex-col gap-5">
         <div>
-          <Link to="/dashboard/academies" className="text-xs font-semibold text-muted hover:text-navy">
+          <Link to="/dashboard/academies" className="text-xs font-semibold text-muted transition-colors hover:text-navy">
             ← Back to Academies
           </Link>
           <h1 className="mt-3 text-xl font-bold text-navy">Academy Locations</h1>
@@ -40,10 +43,12 @@ export default function AcademyMapPage() {
           </p>
         </div>
 
-        {academyRows.length === 0 ? (
-          <div className="rounded-tile bg-white p-8 text-center text-sm text-muted">No academies to show yet.</div>
+        {loading ? (
+          <Skeleton className="h-[520px] rounded-tile" />
+        ) : academyRows.length === 0 ? (
+          <div className="animate-fade-in rounded-tile bg-white p-8 text-center text-sm text-muted">No academies to show yet.</div>
         ) : (
-          <div className="overflow-hidden rounded-tile border border-[oklch(91%_0.005_90)]" style={{ height: 520 }}>
+          <div className="animate-fade-in overflow-hidden rounded-tile border border-[oklch(91%_0.005_90)]" style={{ height: 520 }}>
             <MapContainer center={center} zoom={academyRows.length > 1 ? 10 : 12} style={{ height: '100%', width: '100%' }}>
               <TileLayer
                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -65,11 +70,12 @@ export default function AcademyMapPage() {
         )}
 
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-          {academyRows.map((academy) => (
+          {academyRows.map((academy, i) => (
             <Link
               key={academy.id}
               to={`/dashboard/academies/${academy.id}`}
-              className="flex items-center justify-between rounded-xl border border-[oklch(91%_0.005_90)] bg-white p-4 hover:bg-hover"
+              className="flex animate-fade-in items-center justify-between rounded-xl border border-[oklch(91%_0.005_90)] bg-white p-4 transition-all duration-200 hover:-translate-y-0.5 hover:bg-hover hover:shadow-[0_8px_20px_-10px_oklch(50%_0.05_40_/_20%)]"
+              style={{ animationDelay: `${Math.min(i, 8) * 40}ms` }}
             >
               <div>
                 <div className="text-sm font-bold text-navy">{academy.name}</div>

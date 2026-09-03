@@ -27,11 +27,11 @@ export default function PracticeLevelsPage() {
         <CategoryFilterBar active={category} onChange={setCategory} />
 
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-3 lg:grid-cols-5">
-          {PRACTICE_LEVELS.map((level) => {
+          {PRACTICE_LEVELS.map((level, li) => {
             const [num, name] = level.split(' · ')
             const inLevel = visible.filter((a) => a.practiceLevel === level)
             return (
-              <div key={level} className="flex flex-col gap-2.5">
+              <div key={level} className="flex animate-fade-in flex-col gap-2.5" style={{ animationDelay: `${li * 60}ms` }}>
                 <div className="flex items-center justify-between px-1">
                   <div>
                     <div className="text-xs font-bold text-navy">{num}</div>
@@ -44,7 +44,7 @@ export default function PracticeLevelsPage() {
                 <div className="flex min-h-[80px] flex-col gap-2">
                   {inLevel.map((athlete) => (
                     <Link key={athlete.id} to={`/dashboard/athletes/${athlete.id}`}>
-                      <Tile className="flex items-center gap-2.5 bg-white p-3 hover:shadow-[0_8px_24px_-8px_oklch(50%_0.05_40_/_15%)]">
+                      <Tile className="flex items-center gap-2.5 bg-white p-3 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_10px_24px_-10px_oklch(50%_0.05_40_/_20%)]">
                         <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-navy text-[10.5px] font-bold text-brand-amber">
                           {athlete.initials}
                         </div>
