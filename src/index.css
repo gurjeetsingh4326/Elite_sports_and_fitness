@@ -5,3 +5,35 @@
 body {
   @apply bg-surface text-navy antialiased;
 }
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: oklch(78% 0.01 90) transparent;
+}
+
+/* WebKit (Chrome, Edge, Safari) */
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: oklch(78% 0.01 90);
+  border-radius: 999px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+  transition: background-color 0.15s ease;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background-color: oklch(60% 0.02 260);
+}
+
+*::-webkit-scrollbar-corner {
+  background: transparent;
+}
