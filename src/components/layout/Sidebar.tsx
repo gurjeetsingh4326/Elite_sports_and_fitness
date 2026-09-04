@@ -93,13 +93,13 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
       )}
       <div
         className={clsx(
-          'flex w-56 min-w-[224px] flex-col gap-3.5 overflow-y-auto',
+          'flex w-56 min-w-[224px] flex-col gap-3.5',
           'fixed inset-y-0 left-0 z-50 bg-surface p-4 transition-transform duration-200 ease-out',
           'md:static md:z-auto md:h-full md:min-h-0 md:shrink-0 md:bg-transparent md:p-0 md:transition-none',
           mobileOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0',
         )}
       >
-      <Tile className="bg-navy p-[18px] text-white">
+      <Tile className="shrink-0 bg-navy p-[18px] text-white">
         <div className="mb-5 flex items-center justify-between">
           <div className="flex h-[34px] w-[34px] shrink-0 items-center justify-center overflow-hidden rounded-[10px] bg-brand-amber">
             {currentOrg.logoUrl ? (
@@ -294,28 +294,30 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
         </div>
       </Tile>
 
-      {navGroups.map((group, i) => (
-        <Tile key={i} className="flex flex-col gap-0.5 bg-white p-2.5">
-          {group.map((item) => {
-            const row = <NavRow icon={<item.Icon size={17} />} label={item.label} active={isActive(item.key)} />
-            const route = routeForKey(item.key)
-            return route ? (
-              <Link key={item.key} to={route} onClick={onCloseMobile}>
-                {row}
-              </Link>
-            ) : (
-              <div key={item.key}>{row}</div>
-            )
-          })}
-        </Tile>
-      ))}
+      <div className="flex flex-1 flex-col gap-3.5 overflow-y-auto md:min-h-0">
+        {navGroups.map((group, i) => (
+          <Tile key={i} className="flex shrink-0 flex-col gap-0.5 bg-white p-2.5">
+            {group.map((item) => {
+              const row = <NavRow icon={<item.Icon size={17} />} label={item.label} active={isActive(item.key)} />
+              const route = routeForKey(item.key)
+              return route ? (
+                <Link key={item.key} to={route} onClick={onCloseMobile}>
+                  {row}
+                </Link>
+              ) : (
+                <div key={item.key}>{row}</div>
+              )
+            })}
+          </Tile>
+        ))}
 
-      <Tile className="flex grow flex-col justify-end bg-gradient-to-br from-brand-amber to-[oklch(72%_0.19_25)] p-4">
-        <div className="mb-1 text-[11px] font-semibold uppercase tracking-wide text-brand-amber-ink/80">
-          Attendance Streak
-        </div>
-        <div className="text-2xl font-bold text-brand-amber-ink">12 days</div>
-      </Tile>
+        <Tile className="flex grow flex-col justify-end bg-gradient-to-br from-brand-amber to-[oklch(72%_0.19_25)] p-4">
+          <div className="mb-1 text-[11px] font-semibold uppercase tracking-wide text-brand-amber-ink/80">
+            Attendance Streak
+          </div>
+          <div className="text-2xl font-bold text-brand-amber-ink">12 days</div>
+        </Tile>
+      </div>
       </div>
     </>
   )
