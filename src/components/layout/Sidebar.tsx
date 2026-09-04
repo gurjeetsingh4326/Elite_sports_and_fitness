@@ -187,7 +187,12 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
             </div>
           </button>
 
-          <DropdownPanel open={profileOpen} onClose={() => setProfileOpen(false)} align="left" side="top">
+          <DropdownPanel
+            open={profileOpen}
+            onClose={() => setProfileOpen(false)}
+            align="left"
+            className="max-h-[75vh] overflow-y-auto"
+          >
             <div className="px-2 py-1.5 text-[10.5px] font-bold uppercase tracking-wide text-muted">
               Preview as role
             </div>
