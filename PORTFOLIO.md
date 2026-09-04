@@ -28,14 +28,14 @@ Developer (AI-Assisted)" all fit comfortably.
 
 _(600-character limit)_
 
-> Designed and built a multi-tenant SaaS platform for managing sports academies
-> end-to-end — from organization signup through academy, class, coach, and
-> athlete management. Includes role-based dashboards for 8 user types (owner,
-> manager, coach, athlete, parent, physician, staff), attendance and
-> performance tracking, a practice-level progression system, a short-video
-> content feed, live search, an academy-location map, and a fully responsive,
-> animated UI with skeleton loading throughout. Built with React, TypeScript,
-> Tailwind CSS, and Vite.
+Designed and built a multi-tenant SaaS platform for managing sports academies
+end-to-end — from organization signup through academy, class, coach, and
+athlete management. Includes role-based dashboards for 8 user types (owner,
+manager, coach, athlete, parent, physician, staff), attendance and
+performance tracking, a practice-level progression system, a short-video
+content feed, live search, an academy-location map, and a fully responsive,
+animated UI with skeleton loading throughout. Built with React, TypeScript,
+Tailwind CSS, and Asp.Net Core.
 
 542 characters.
 
