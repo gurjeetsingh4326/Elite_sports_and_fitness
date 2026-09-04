@@ -43,7 +43,7 @@ export function SidebarSearch() {
       >
         <SearchIcon size={13} className="text-white/85" />
       </button>
-      <DropdownPanel open={open} onClose={() => setOpen(false)} align="right" className="w-72">
+      <DropdownPanel open={open} onClose={() => setOpen(false)} align="left" className="w-72">
         <input
           autoFocus
           type="text"

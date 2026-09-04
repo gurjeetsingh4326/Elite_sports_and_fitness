@@ -124,7 +124,7 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
                   </span>
                 )}
               </button>
-              <DropdownPanel open={notificationsOpen} onClose={() => setNotificationsOpen(false)} align="right" className="w-72">
+              <DropdownPanel open={notificationsOpen} onClose={() => setNotificationsOpen(false)} align="left" className="w-72">
                 <div className="flex items-center justify-between px-2 py-1.5">
                   <span className="text-xs font-bold text-navy">Notifications</span>
                   {unreadCount > 0 && (
