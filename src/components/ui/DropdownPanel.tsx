@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react'
+import { useEffect, type ReactNode } from 'react'
 import { clsx } from '@/lib/clsx'
 
 interface DropdownPanelProps {
@@ -11,6 +11,15 @@ interface DropdownPanelProps {
 }
 
 export function DropdownPanel({ open, onClose, align = 'left', side = 'bottom', className, children }: DropdownPanelProps) {
+  useEffect(() => {
+    if (!open) return
+    function handleKeyDown(e: KeyboardEvent) {
+      if (e.key === 'Escape') onClose()
+    }
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [open, onClose])
+
   if (!open) return null
 
   return (

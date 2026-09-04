@@ -175,6 +175,7 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
         <div className="relative border-t border-white/10 pt-3">
           <button
             type="button"
+            aria-label="Switch role or organization"
             onClick={() => setProfileOpen((v) => !v)}
             className="group flex w-full items-center gap-2.5 rounded-lg text-left transition-colors hover:bg-white/5"
           >
@@ -299,7 +300,7 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
         </div>
       </Tile>
 
-      <div className="flex flex-1 flex-col gap-3.5 overflow-y-auto md:min-h-0">
+      <div data-capture="sidebar-scroll" className="flex flex-1 flex-col gap-3.5 overflow-y-auto md:min-h-0">
         {navGroups.map((group, i) => (
           <Tile key={i} className="flex shrink-0 flex-col gap-0.5 bg-white p-2.5">
             {group.map((item) => {
