@@ -95,7 +95,7 @@ export function Sidebar({ mobileOpen, onCloseMobile }: SidebarProps) {
         className={clsx(
           'flex w-56 min-w-[224px] flex-col gap-3.5 overflow-y-auto',
           'fixed inset-y-0 left-0 z-50 bg-surface p-4 transition-transform duration-200 ease-out',
-          'md:static md:z-auto md:h-full md:bg-transparent md:p-0 md:transition-none',
+          'md:static md:z-auto md:h-full md:min-h-0 md:shrink-0 md:bg-transparent md:p-0 md:transition-none',
           mobileOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0',
         )}
       >
