@@ -10,7 +10,7 @@ import './index.css'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <BrowserRouter basename={import.meta.env.BASE_URL}>
+    <BrowserRouter basename="/Elite_sports_and_fitness">
       <OrgProvider>
         <DataStoreProvider>
           <IdentityProvider>
